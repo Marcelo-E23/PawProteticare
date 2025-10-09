@@ -30,4 +30,11 @@ public class AdminController {
 
     }
 
+    /*@GetMapping("/loginadmin")
+    public ResponseEntity<Admin> loginAdm(@PathVariable String email){
+        return .(email)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }*/
+
 }
