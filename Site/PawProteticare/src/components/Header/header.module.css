@@ -1,0 +1,45 @@
+.header{
+    width: 100%;
+    flex-grow: 1;
+    height: 20%;
+    padding: 1vh;
+    background-color: rgba(0, 0, 0, 0.192);
+    color: var(--Cyan);
+    display: flex;
+    align-items:center;
+    justify-content: space-around;
+}
+
+
+
+.logo{
+    width: 7%;
+    height: auto;
+}
+
+
+
+.titulo{
+    font-size: 300%;
+    font-family: "Cherry Bomb One", system-ui;
+    font-weight: bold;
+    color: var(--Cyan);
+
+}
+
+
+
+.header a{
+    font-size: 200%;
+    text-decoration: none;
+    color: var(--Cyan);
+    padding-right: 2rem;
+    transition: all 0.4s;
+}
+
+
+
+.header a:hover{
+    color: var(--White);
+    font-size: 1.75rem;
+}

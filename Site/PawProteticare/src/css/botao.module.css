@@ -1,0 +1,51 @@
+.bgreen{
+    font-size: 5vh;
+    border-radius: 1.5rem;
+    padding: 0.5rem 2rem 0.5rem 2rem;
+    margin: 2rem;
+    color:var(--White);
+    font-weight: bold;
+    background-color: var(--Green);
+    transition: all 0.5s;
+}
+
+.bgreen:hover{
+    color: var(--Green);
+    background-color: var(--White);
+  }
+
+.bblue{
+    font-size: 5vh;
+    border-radius: 1.5rem;
+    padding: 0.5rem 2rem 0.5rem 2rem;
+    margin: 2rem;
+    color:var(--White);
+    font-weight: bold;
+    background-color: var(--Blue);
+    transition: all 0.5s;
+}
+
+.bblue:hover{
+    color: var(--Blue);
+    background-color: var(--White);
+}
+
+.bred{
+    font-size: 5vh;
+    border-radius: 1.5rem;
+    padding: 0.5rem 2rem 0.5rem 2rem;
+    margin: 2rem;
+    color:var(--White);
+    font-weight: bold;
+    background-color: var(--Red);
+    transition: all 0.5s;
+}
+
+.bred:hover{
+    color: var(--Red);
+    background-color: var(--White);
+}
+
+
+
+

@@ -1,0 +1,13 @@
+.voltar{
+    font-size: 5vh;
+    margin: 5%;
+    margin-left: 90%;
+    color: var(--Green);
+    transition: all 0.5s;
+  }
+    
+  
+  
+  .voltar:hover{
+    color: var(--White);
+  }

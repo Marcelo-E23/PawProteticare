@@ -1,0 +1,131 @@
+.login{
+    display: flex;
+    flex-flow: row column;
+    align-items: center;
+    justify-content: start;
+    background-color: var(--DarkBlue);
+    flex-grow: 1;
+    width: 100vh;
+    height: 80vh;
+    border-radius: 5vh;
+    margin: 0 auto;
+    margin-top: 2%; 
+    padding: 5%;
+}
+
+.login label{
+    color: var(--Cyan);
+    font-size: 5vh;
+    flex-grow: 1;
+    display: block;
+}
+
+.login input{
+    width: 80vh;
+    padding: 1vh;
+    flex-grow: 1;
+    color: var(--Black);
+    font-weight: bold;
+    margin: 0 auto;
+    border: 0.5vh solid;
+    border-radius: 1vh;
+    font-size: 4vh;
+    background-color: var(--Grey);
+    display: block;
+}
+
+
+.login input::placeholder{
+    color: var(--Grey);
+    font-weight: bold;
+    font-size: 2vh;
+}
+
+
+
+.login  input:placeholder-shown {
+    border-color: var(--Red);
+  }
+
+
+
+.login input:not(:placeholder-shown) {
+    border-color: var(--Green);
+  }
+
+
+.erro{
+    color:var(--Red);
+    font-size: 2.3rem;
+}
+
+/*
+
+.login{
+    
+    display: flex;
+    flex-flow: row column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    min-width: 1200px;
+    max-width: 2100px;
+    height: 80% ;
+    border-radius: 2rem;
+    margin: auto auto;
+    margin-top: 5%;
+    padding: 8rem;
+    background-color: var(--DarkBlue);
+    font-family: "Noto Sans", sans-serif;
+}
+
+
+
+.login label{
+    color: var(--Cyan);
+    font-size: 3.75rem;
+    margin: 1rem;
+    width: 100%;
+    display: block;
+}
+
+
+
+.login input{
+    width: 70rem;
+    color: var(--Black);
+    font-weight: bold;
+    border: 2px solid;
+    border-radius: 1rem;
+    font-size: 1.875rem;
+    padding: 0.5rem;
+    background-color: var(--Grey);
+    transition: all 0.5s;
+    display: block;
+}
+
+
+
+.login input::placeholder{
+    color: var(--Grey);
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+
+
+.login  input:placeholder-shown {
+    border-color: var(--Red);
+  }
+
+
+
+.login input:not(:placeholder-shown) {
+    border-color: var(--Green);
+  }
+
+
+.erro{
+    color:var(--Red);
+    font-size: 2.3rem;
+}*/ 

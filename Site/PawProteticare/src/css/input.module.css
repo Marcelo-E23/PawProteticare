@@ -1,0 +1,40 @@
+
+.input input{
+  width: 97vh;
+  border: 0.25vh solid;
+  font-size: 100%;
+  padding: 0.75rem;
+  transition: all 0.5s;
+  display: block;
+  }
+  
+  .input select{
+  width: 97vh;
+  border: 0.25vh solid;
+  font-size: 100%;
+  padding: 0.75rem;
+  transition: all 0.5s;
+  display: block;
+  }
+  
+  .input textarea{
+  border: 0.25vh solid;
+  height: 10rem;
+  font-size: 100%;
+  padding: 0.75rem;
+  transition: all 0.5s;
+  display: block;
+  }
+  
+  .input{
+    border-radius: 1vh;
+    width: 100vh;
+    font-weight: bold;
+    border: 2px solid;
+  font-size: 100%;
+    padding: 0.75rem;
+    background-color: var(--Grey);
+    transition: all 0.5s;
+    display: block;
+    margin: 3vh;
+  }

@@ -1,0 +1,30 @@
+:root {
+  font-family: 'Fira Sans', monospace ;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --White:rgb(255, 255, 255);
+  --LightBlue:rgb(37, 137, 219);
+  --Blue:rgb(28, 62, 124);
+  --DarkBlue:rgb(23, 40, 73);
+  --Black:rgba(11,20,38);
+  --Cyan:rgba(0,192,189);
+  --Grey:rgba(131,163,165);
+  --Red:rgb(218, 32, 32);
+  --Green:rgba(36, 139, 41, 0.781);
+  --Orange:rgb(241, 156, 58);
+  --Purple:rgb(177, 27, 197);
+
+}
+
+div{
+  background-color: var(--weak);
+}
+
+*{
+  padding: 0%;
+  margin: 0%;
+  box-sizing: border-box;
+}
