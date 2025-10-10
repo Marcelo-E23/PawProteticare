@@ -9,6 +9,7 @@ import Animadotado from "./pages/Animal/AnimalAdotado";
 import VisualizarAnimadotado from "./pages/Animal/VisualizarAnimalAdotado";
 import AlterarAnimadotado from "./pages/Animal/AlterarAnimalAdotado";
 import Doador from "./pages/Doador/Doador";
+import CadastroDoador from "./pages/Doador/Cadastro Doacao";
 import Adocao from "./pages/Adocao/Adocao";
 
 
@@ -26,6 +27,7 @@ export default function AppRoutes(){
                 <Route path="/AlterarAnimalAdotado/:id" element={<AlterarAnimadotado/>}/>
                 <Route path="/VisualizarAnimalAdotado/:id" element={<VisualizarAnimadotado/>}/>
                 <Route path="/Doador" element={<Doador/>}/>
+                <Route path="/CadastroDoador" element={<CadastroDoador/>}/>
                 <Route path="/Adocao" element={<Adocao/>}/>
             </Routes>
         </BrowserRouter>

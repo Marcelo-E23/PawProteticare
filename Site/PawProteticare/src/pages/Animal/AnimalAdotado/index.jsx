@@ -50,7 +50,7 @@ export default function Animadotado() {
                 
                 {animadotado.length === 0 ? (
                     <div className={style.semcadastro}>
-                        <p >Sem animais cadastrados.</p>
+                        <p >Sem animais adotados.</p>
                     </div>
                 ) : (
                     <table className="table table-success table-striped-columns">

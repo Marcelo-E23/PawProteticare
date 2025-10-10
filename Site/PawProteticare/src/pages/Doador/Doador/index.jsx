@@ -5,10 +5,15 @@ import endFetch from '../../../axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import style from './doador.module.css';
+import botao from '../../../css/botao.module.css'
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Doador() {
     const [doacao, setDoacao] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+
 
     const getDoacao = async () => {
         try {
@@ -22,6 +27,10 @@ export default function Doador() {
         }
     };
 
+    const navCadastro = () => {
+        navigate('/CadastroDoador');
+    }
+    
     useEffect(() => {
         getDoacao();
     }, []);
@@ -47,6 +56,7 @@ export default function Doador() {
                                     <th>ID do Doador</th>
                                     <th>Tipo</th>
                                     <th>Valor</th>
+                                    <th>Data</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -56,12 +66,18 @@ export default function Doador() {
                                         <td>{doacao.doador_id}</td>
                                         <td>{doacao.tipodoacao}</td>
                                         <td>{doacao.valor}</td>
+                                        <td>{doacao.data}</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
+                        
                     </div>
+                    
                 )}
+                <button type="button" className={botao.bgreen} onClick={navCadastro}>
+                    Inserir
+                </button>
             </div>
         </>
     );
