@@ -1,0 +1,27 @@
+.login{
+    display: flex;
+    flex-flow: row column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 3vh;
+    background-color: var(--DarkBlue);
+    width: 150vh;
+    flex-grow: 1;
+    padding: 3vh;
+  }
+  
+  
+    
+  .login label{
+    font-size: 4vh;
+    margin: 1vh;
+    display: block;
+  }
+  
+  .erroalterar{
+    font-size: 5vh;
+    padding: 3vh;
+    color: var(--Red);
+    display:block;
+  }

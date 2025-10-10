@@ -1,6 +1,6 @@
 import Header from '../../../components/Header';
 import table from '../../../css/table.module.css';
-import styles from './doador.module.css';
+import style from './protese.module.css';
 import endFetch from '../../../axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
@@ -8,17 +8,17 @@ import botao from '../../../css/botao.module.css'
 import { useNavigate } from 'react-router-dom';
 
 
-export default function Doador() {
-    const [doacao, setDoacao] = useState([]);
+export default function Protese() {
+    const [protese, setProtese] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
 
-    const getDoacao = async () => {
+    const getProtese = async () => {
         try {
-            const response = await endFetch.get("/doacao"); 
-            setDoacao(response.data);
-            console.log(doacao);
+            const response = await endFetch.get("/protese"); 
+            setProtese(response.data);
+            console.log(protese);
         } catch (error) {
             console.error(<p className={style}>Erro ao carregar os dados</p>, error);
         } finally {
@@ -27,11 +27,15 @@ export default function Doador() {
     };
 
     const navCadastro = () => {
-        navigate('/CadastroDoador');
+        navigate('/CadastroProtese');
+    }
+    
+    const navVisualizar = () => {
+        navigate('/VisualizarProtese');
     }
     
     useEffect(() => {
-        getDoacao();
+        getProtese();
     }, []);
 
     if (loading) {
@@ -42,9 +46,9 @@ export default function Doador() {
         <>
             <Header />
             <div className={table.tabela}>
-                {doacao.length === 0 ? (
+                {protese.length === 0 ? (
                     <div className={style.semcadastro}>
-                        <p>Sem doações cadastradas.</p>
+                        <p>Sem protéses cadastradas.</p>
                     </div>
                 ) : (
                     <div className={styles.tabela}>
@@ -52,20 +56,24 @@ export default function Doador() {
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>ID do Doador</th>
+                                    <th>Nome</th>
                                     <th>Tipo</th>
-                                    <th>Valor</th>
-                                    <th>Data</th>
+                                    <th>Fabricante</th>
+                                    <th>Custo</th>
+                                    <th>Visualizar</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {doacao.map((doacao) => (
-                                    <tr key={doacao.id}>
-                                        <td>{doacao.id}</td>
-                                        <td>{doacao.doador_id}</td>
-                                        <td>{doacao.tipodoacao}</td>
-                                        <td>{doacao.valor}</td>
-                                        <td>{doacao.data}</td>
+                                {protese.map((protese) => (
+                                    <tr key={protese.id}>
+                                        <td>{protese.id}</td>
+                                        <td>{protese.nome}</td>
+                                        <td>{protese.tipo}</td>
+                                        <td>{protese.fabricante}</td>
+                                        <td>{protese.custo}</td>
+                                        <td className={table.icon} onClick={() => navVisualizar(protese.id)}>
+                                            <FcBinoculars size="3rem" />
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

@@ -25,16 +25,16 @@ export default function Home(){
                     </div>
                 </Link>
 
-                <Link to='/animachado'>
+                <Link to='/Protese'>
                     <div className={styles.card}>
-                        <img src={protese} alt="Animail" />
+                        <img src={protese} alt="Protese" />
                         <p>Protese</p>
                     </div>
                 </Link>
                 
                 <Link to='/Adocao'>
                     <div className={styles.card}>
-                    <img src={adocao} alt="Doador" />
+                    <img src={adocao} alt="Adoção" />
                     <p>Adoção</p>
                     </div>
                 </Link>
