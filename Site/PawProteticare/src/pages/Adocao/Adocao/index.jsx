@@ -16,16 +16,17 @@ export default function Adocao() {
 
     // Busca as solicitações de adoção
     const getAdocao = async () => {
-        try {
-            const response = await endFetch.get("/solicitacaoadocao"); 
-            setAdocao(response.data);
-        } catch (error) {
-            console.error("Erro ao carregar os dados:", error);
-            setErro("Erro ao carregar os dados.");
-        } finally {
-            setLoading(false);
-        }
-    };
+    try {
+        const response = await endFetch.get("/solicitacaoadocao"); 
+        setAdocao(response.data);
+    } catch (error) {
+        console.error("Erro ao carregar os dados:", error);
+        setAdocao([]); // ← garante que será um array vazio mesmo com erro
+    } finally {
+        setLoading(false);
+    }
+};
+
 
     const navVisualizar = (id) => {
         navigate(`/VisualizarAdocao/${id}`);
