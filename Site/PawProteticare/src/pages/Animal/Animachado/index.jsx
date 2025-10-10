@@ -1,12 +1,12 @@
 import style from './animal.module.css';
-import table from '../../css/table.module.css';
+import table from '../../../css/table.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Header from '../../components/Header';
+import Header from '../../../components/Header';
 import { useEffect, useState } from 'react';
-import endFetch from '../../axios';  
+import endFetch from '../../../axios';  
 import { useNavigate } from 'react-router-dom';
 import { FcSynchronize, FcBinoculars } from 'react-icons/fc';
-import botao from '../../css/botao.module.css'
+import botao from '../../../css/botao.module.css'
 
 
 export default function Animachado() {

@@ -1,10 +1,10 @@
 import styles from './visualizar.module.css';
-import Header from '../../components/Header';
-import endFetch from '../../axios';
+import Header from '../../../components/Header';
+import endFetch from '../../../axios';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import voltar from '../../components/Voltar';
+import voltar from '../../../components/Voltar';
 
 export default function VisualizarAnimachado(){
     const { id } = useParams();

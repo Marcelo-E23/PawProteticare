@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import Header from "../../components/Header";
-import Voltar from "../../components/Voltar";
-import endFetch from "../../axios";  
+import Header from "../../../components/Header";
+import Voltar from "../../../components/Voltar";
+import endFetch from "../../../axios";  
 import { useNavigate } from "react-router-dom";
 import style from './cadastro.module.css';
-import styles from '../../css/input.module.css';
+import styles from '../../../css/input.module.css';
 import { Link } from "react-router-dom";
-import Input from "../../modelos/Inputcadastro";
-import botao from '../../css/botao.module.css';
+import Input from "../../../modelos/Inputcadastro";
+import botao from '../../../css/botao.module.css';
 
 const CadastroAnimachado = () => {
   const [nome, setNome] = useState("");

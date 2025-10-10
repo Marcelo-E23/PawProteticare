@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import endFetch from '../../axios';
-import Header from '../../components/Header';
-import Voltar from '../../components/Voltar';
+import endFetch from '../../../axios';
+import Header from '../../../components/Header';
+import Voltar from '../../../components/Voltar';
 import style from './alterar.module.css';
-import input from '../../css/input.module.css';
-import botao from '../../css/botao.module.css'
+import input from '../../../css/input.module.css';
+import botao from '../../../css/botao.module.css'
 
 export default function AlterarAnimachado() {
     const { id } = useParams();

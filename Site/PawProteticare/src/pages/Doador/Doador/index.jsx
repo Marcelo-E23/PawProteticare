@@ -1,7 +1,7 @@
-import Header from '../../components/Header';
-import table from '../../css/table.module.css';
+import Header from '../../../components/Header';
+import table from '../../../css/table.module.css';
 import styles from './doador.module.css';
-import endFetch from '../../axios';
+import endFetch from '../../../axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import style from './doador.module.css';
