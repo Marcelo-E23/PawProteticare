@@ -2,10 +2,12 @@ import style from './animal.module.css';
 import table from '../../../css/table.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../../../components/Header';
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import endFetch from '../../../axios';  
 import { useNavigate } from 'react-router-dom';
 import { FcSynchronize, FcBinoculars } from 'react-icons/fc';
+import Voltar from '../../../components/Voltar';
 
 export default function Animadotado() {
     const [animadotado, setAnimadotado] = useState([]);
@@ -43,7 +45,9 @@ export default function Animadotado() {
     return (
         <>
             <Header />
+            <Link to={'/AnimalAchado'}><Voltar/></Link>
             <div className={table.tabela}>
+                
                 {animadotado.length === 0 ? (
                     <div className={style.semcadastro}>
                         <p >Sem animais cadastrados.</p>
