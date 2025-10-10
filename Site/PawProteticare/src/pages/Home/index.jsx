@@ -32,7 +32,7 @@ export default function Home(){
                     </div>
                 </Link>
                 
-                <Link to='/Doador'>
+                <Link to='/Adocao'>
                     <div className={styles.card}>
                     <img src={adocao} alt="Doador" />
                     <p>Adoção</p>

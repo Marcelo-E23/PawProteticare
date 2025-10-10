@@ -6,10 +6,10 @@ import { Link, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import voltar from '../../../components/Voltar';
 
-export default function VisualizarAnimachado(){
+export default function VisualizarAdocao(){
     const { id } = useParams();
-    const [animachado, setAnimachado] = useState({
-        nome: '',
+    const [doacao, setDoacao] = useState({
+        pro: '',
         especie: '',
         idade: '',
         status: '',
@@ -22,18 +22,18 @@ export default function VisualizarAnimachado(){
 
     const getAnimachado = async () => {
         try {
-            const response = await endFetch.get(`/animachado/${id}`);
-            setAnimachado(response.data);
+            const response = await endFetch.get(`/doacao/${id}`);
+            setDoacao(response.data);
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            setError('Erro ao carregar os dados do animachado');
+            setError('Erro ao carregar os dados solicitação de adoção');
             console.log(error);
         }
     };
 
     useEffect(() => {
-        getAnimachado();
+        getAdocao();
     }, [id]);
 
     if (loading) {
@@ -45,15 +45,8 @@ export default function VisualizarAnimachado(){
         <Header/>
         <div className={styles.vizualizar}>
             
-            <Link to={'/animachado'}><p className={styles.voltar}>Voltar</p></Link>
+            <Link to={'/adocao'}><p className={styles.voltar}>Voltar</p></Link>
             <h1 className={styles.titulo}>Ficha animachado</h1>
-
-            <div className={styles.card}>
-                <div className={styles.imagem}>
-                    <img src={animachado.imagem} alt={animachado.nome} />
-                    <p>{animachado.nome}</p>
-                </div>
-
                 <div className={styles.informacoes}>
                     
                     <div className={styles.dados}>
@@ -100,7 +93,6 @@ export default function VisualizarAnimachado(){
 
                 </div>
             </div>
-        </div>
         </>
 
     )

@@ -1,40 +1,38 @@
 import style from './adocao.module.css';
 import table from '../../../css/table.module.css';
+import botao from '../../../css/botao.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../../../components/Header';
 import { useEffect, useState } from 'react';
 import endFetch from '../../../axios';  
 import { useNavigate } from 'react-router-dom';
-import botao from '../../../css/botao.module.css'
-
+import { FcBinoculars } from 'react-icons/fc';
 
 export default function Adocao() {
     const [adocao, setAdocao] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [erro, setErro] = useState(null);
     const navigate = useNavigate();
 
+    // Busca as solicitações de adoção
     const getAdocao = async () => {
         try {
             const response = await endFetch.get("/solicitacaoadocao"); 
             setAdocao(response.data);
-            console.log(adocao) 
         } catch (error) {
-            console.error(<p className={style.erro}>Erro ao carregar os dados</p>, error);
+            console.error("Erro ao carregar os dados:", error);
+            setErro("Erro ao carregar os dados.");
         } finally {
-            setLoading(false); 
+            setLoading(false);
         }
     };
 
-    const navAceitar = () => {
-        navigate('/solicitacaoadocao');
-    };
-
-    const navRecusar = () => {
-        navigate('/solicitacaoadocao');
-    };
-
     const navVisualizar = (id) => {
-        navigate(`/VisualizarAnimachado/${id}`);
+        navigate(`/VisualizarAdocao/${id}`);
+    };
+
+    const navCadastro = () => {
+        navigate(`/CadastroAdocao`);
     };
 
     useEffect(() => {
@@ -48,12 +46,20 @@ export default function Adocao() {
     return (
         <>
             <Header />
+
             <div className={table.tabela}>
-                {adocao.length === 0 ? (
+                {/* Mensagem de erro */}
+                {erro && <p className={style.erro}>{erro}</p>}
+
+                {/* Sem registros */}
+                {adocao.length === 0 && !erro && (
                     <div className={style.semcadastro}>
-                        <p >Sem solicitações de adoçâo.</p>
+                        <p>Sem solicitações de adoção.</p>
                     </div>
-                ) : (
+                )}
+
+                {/* Tabela apenas se houver registros */}
+                {adocao.length > 0 && (
                     <table className="table table-success table-striped-columns">
                         <thead>
                             <tr>
@@ -61,17 +67,18 @@ export default function Adocao() {
                                 <th>Solicitante</th>
                                 <th>Data</th>
                                 <th>Animal</th>
-                                <th className={style.visualizar}><p>Visualizar</p></th>
+                                <th className={style.visualizar}>Visualizar</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {adocao.map((adocao) => (
-                                <tr key={adocao.id}>
-                                    <td>{adocao.id}</td>
-                                    <td>{adocao.propietario}</td>
-                                    <td>{adocao.data_solitacao}</td>
-                                    <td>{adocao.id.animachado}</td>
-                                    <td className={table.icon} onClick={() => navVisualizar(adocao.id)}>
+                            {adocao.map((item) => (
+                                <tr key={item.id}>
+                                    <td>{item.id}</td>
+                                    <td>{item.proprietario}</td>
+                                    <td>{new Date(item.data_solicitacao).toLocaleDateString()}</td>
+                                    {/* Animal placeholder seguro */}
+                                    <td>{item.animal ? `${item.animal.nome} (${item.animal.idade} anos)` : 'Não informado'}</td>
+                                    <td className={table.icon} onClick={() => navVisualizar(item.id)}>
                                         <FcBinoculars size="3rem" />
                                     </td>
                                 </tr>
@@ -79,6 +86,7 @@ export default function Adocao() {
                         </tbody>
                     </table>
                 )}
+
                 <button type="button" className={botao.bgreen} onClick={navCadastro}>
                     Inserir
                 </button>
