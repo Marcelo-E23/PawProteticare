@@ -6,9 +6,9 @@ import { Link, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import Voltar from '../../../components/Voltar';
 
-export default function VisualizarAnimachado(){
+export default function VisualizarAnimadotado(){
     const { id } = useParams();
-    const [animachado, setAnimachado] = useState({
+    const [animadotado, setAnimadotado] = useState({
         nome: '',
         especie: '',
         idade: '',
@@ -20,20 +20,20 @@ export default function VisualizarAnimachado(){
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-    const getAnimachado = async () => {
+    const getAnimadotado = async () => {
         try {
-            const response = await endFetch.get(`/animachado/${id}`);
-            setAnimachado(response.data);
+            const response = await endFetch.get(`/animadotado/${id}`);
+            setAnimadotado(response.data);
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            setError('Erro ao carregar os dados do animachado');
+            setError('Erro ao carregar os dados do animadotado');
             console.log(error);
         }
     };
 
     useEffect(() => {
-        getAnimachado();
+        getAnimadotado();
     }, [id]);
 
     if (loading) {
@@ -45,56 +45,56 @@ export default function VisualizarAnimachado(){
         <Header/>
         <div className={styles.vizualizar}>
             
-            <Link to={'/AnimalAchado'}><Voltar/></Link>
-            <h1 className={styles.titulo}>Ficha animachado</h1>
+            <Link to={'/AnimalAdotado'}><p className={styles.voltar}>Voltar</p></Link>
+            <h1 className={styles.titulo}>Ficha animadotado</h1>
 
             <div className={styles.card}>
                 <div className={styles.imagem}>
-                    <img src={animachado.imagem} alt={animachado.nome} />
-                    <p>{animachado.nome}</p>
+                    <img src={animadotado.imagem} alt={animadotado.nome} />
+                    <p>{animadotado.nome}</p>
                 </div>
 
                 <div className={styles.informacoes}>
                     
                     <div className={styles.dados}>
-                        <p className={styles.caracteristica}>ID do animachado</p>
-                        <div className={styles.animachado}>
-                            <p>{animachado.id}</p>
+                        <p className={styles.caracteristica}>ID do animadotado</p>
+                        <div className={styles.animadotado}>
+                            <p>{animadotado.id}</p>
                         </div>
                     </div>
                     
                     <div className={styles.dados}>
                         <p className={styles.caracteristica}>Espécie</p>
-                        <div className={styles.animachado}>
-                            <p>{animachado.especie}</p>
+                        <div className={styles.animadotado}>
+                            <p>{animadotado.especie}</p>
                         </div>
                     </div>
 
                     <div className={styles.dados}>
                         <p className={styles.caracteristica}>Idade</p>
-                        <div className={styles.animachado}>
-                            <p>{animachado.idade}</p>
+                        <div className={styles.animadotado}>
+                            <p>{animadotado.idade}</p>
                         </div>
                     </div>
 
                     <div className={styles.dados}>
                         <p className={styles.caracteristica}>Status</p>
-                        <div className={styles.animachado}>
-                            <p>{animachado.status}</p>
+                        <div className={styles.animadotado}>
+                            <p>{animadotado.status}</p>
                         </div>
                     </div>
 
                     <div className={styles.dados}>
                         <p className={styles.caracteristica}>Necessidade de Protése</p>
-                        <div className={styles.animachado}>
-                            <p>{animachado.protese}</p>
+                        <div className={styles.animadotado}>
+                            <p>{animadotado.protese}</p>
                         </div>
                     </div>
 
                     <div className={styles.dados}>
                         <p className={styles.caracteristica}>Historia</p>
-                        <div className={styles.animachado}>
-                            <p>{animachado.historia}</p>
+                        <div className={styles.animadotado}>
+                            <p>{animadotado.historia}</p>
                         </div>
                     </div>
 

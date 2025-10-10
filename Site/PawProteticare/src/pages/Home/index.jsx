@@ -11,7 +11,7 @@ export default function Home(){
         <>
             <Header/> 
             <main>
-                <Link to='/animachado'>
+                <Link to='/AnimalAchado'>
                     <div className={styles.card}>
                         <img src={animais} alt="Animail" />
                         <p>Animais</p>

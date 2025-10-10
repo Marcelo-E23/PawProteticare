@@ -6,19 +6,17 @@ import { useEffect, useState } from 'react';
 import endFetch from '../../../axios';  
 import { useNavigate } from 'react-router-dom';
 import { FcSynchronize, FcBinoculars } from 'react-icons/fc';
-import botao from '../../../css/botao.module.css'
 
-
-export default function Animachado() {
-    const [animachado, setAnimachado] = useState([]);
+export default function Animadotado() {
+    const [animadotado, setAnimadotado] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    const getAnimachado = async () => {
+    const getAnimadotado = async () => {
         try {
-            const response = await endFetch.get("/animachado"); 
-            setAnimachado(response.data);
-            console.log(animachado) 
+            const response = await endFetch.get("/animadotado"); 
+            setAnimadotado(response.data);
+            console.log(animadotado) 
         } catch (error) {
             console.error(<p className={style.erro}>Erro ao carregar os dados</p>, error);
         } finally {
@@ -26,20 +24,16 @@ export default function Animachado() {
         }
     };
 
-    const navCadastro = () => {
-        navigate('/CadastroAnimachado');
-    };
-
     const navAlterar = (id) => {
-        navigate(`/AlterarAnimachado/${id}`);
+        navigate(`/AlterarAnimalAdotado/${id}`);
     };
 
     const navVisualizar = (id) => {
-        navigate(`/VisualizarAnimachado/${id}`);
+        navigate(`/VisualizarAnimalAdotado/${id}`);
     };
 
     useEffect(() => {
-        getAnimachado();
+        getAnimadotado();
     }, []);
 
     if (loading) {
@@ -50,7 +44,7 @@ export default function Animachado() {
         <>
             <Header />
             <div className={table.tabela}>
-                {animachado.length === 0 ? (
+                {animadotado.length === 0 ? (
                     <div className={style.semcadastro}>
                         <p >Sem animais cadastrados.</p>
                     </div>
@@ -69,18 +63,18 @@ export default function Animachado() {
                             </tr>
                         </thead>
                         <tbody>
-                            {animachado.map((animachado) => (
-                                <tr key={animachado.id}>
-                                    <td>{animachado.id}</td>
-                                    <td>{animachado.nome}</td>
-                                    <td>{animachado.especie}</td>
-                                    <td>{animachado.idade} anos</td>
-                                    <td>{animachado.status}</td>
-                                    <td>{animachado.protese}</td>
-                                    <td className={table.icon} onClick={() => navAlterar(animachado.id)}>
+                            {animadotado.map((animadotado) => (
+                                <tr key={animadotado.id}>
+                                    <td>{animadotado.id}</td>
+                                    <td>{animadotado.nome}</td>
+                                    <td>{animadotado.especie}</td>
+                                    <td>{animadotado.idade} anos</td>
+                                    <td>{animadotado.status}</td>
+                                    <td>{animadotado.protese}</td>
+                                    <td className={table.icon} onClick={() => navAlterar(animadotado.id)}>
                                         <FcSynchronize  size="3rem" />
                                     </td>
-                                    <td className={table.icon} onClick={() => navVisualizar(animachado.id)}>
+                                    <td className={table.icon} onClick={() => navVisualizar(animadotado.id)}>
                                         <FcBinoculars size="3rem" />
                                     </td>
                                 </tr>
@@ -88,9 +82,6 @@ export default function Animachado() {
                         </tbody>
                     </table>
                 )}
-                <button type="button" className={botao.bgreen} onClick={navCadastro}>
-                    Inserir
-                </button>
             </div>
         </>
     );

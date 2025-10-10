@@ -42,7 +42,7 @@ const CadastroAnimachado = () => {
       console.log(novoAnimachado);
 
       setMessage(`Animal cadastrado com sucesso: ${response.data.nome}`);
-      navigate('/animachado');
+      navigate('/AnimalAchado');
 
     } catch (error) {
       console.error("Erro do servidor:", error.response?.data || error.message);
@@ -55,7 +55,7 @@ const CadastroAnimachado = () => {
       <Header />
       <div className={style.cadastro}>
         <form onSubmit={handleSubmit}>
-          <Link to={'/animachado'}><Voltar /></Link>
+          <Link to={'/AnimalAchado'}><Voltar /></Link>
 
           <Input 
             dado={"Nome"} 

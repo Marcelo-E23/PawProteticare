@@ -7,9 +7,9 @@ import style from './alterar.module.css';
 import input from '../../../css/input.module.css';
 import botao from '../../../css/botao.module.css'
 
-export default function AlterarAnimachado() {
+export default function AlterarAnimadotado() {
     const { id } = useParams();
-    const [animachado, setAnimachado] = useState({
+    const [animadotado, setAnimadotado] = useState({
         nome: '',
         especie: '',
         idade: '',
@@ -22,21 +22,21 @@ export default function AlterarAnimachado() {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const getAnimachado = async () => {
+    const getAnimadotado = async () => {
         try {
-            const response = await endFetch.get(`/animachado/${id}`);
-            setAnimachado(response.data);
+            const response = await endFetch.get(`/animadotado/${id}`);
+            setAnimadotado(response.data);
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            setError('Erro ao carregar os dados do Animachado');
+            setError('Erro ao carregar os dados do Animadotado');
             console.log(error);
         }
     };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setAnimachado((prevState) => ({
+        setAnimadotado((prevState) => ({
             ...prevState,
             [name]: value
         }))
@@ -46,8 +46,8 @@ export default function AlterarAnimachado() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await endFetch.put(`/animachado/${id}`, animachado);
-            navigate('/AnimalAchado')
+            await endFetch.put(`/animadotado/${id}`, animadotado);
+            navigate('/AnimalAdotado')
         } catch (error) {
             setError('Erro ao salvar as alterações');
             console.log(error);
@@ -55,7 +55,7 @@ export default function AlterarAnimachado() {
     };
 
     useEffect(() => {
-        getAnimachado();
+        getAnimadotado();
     }, [id]);
 
     if (loading) {
@@ -67,7 +67,7 @@ export default function AlterarAnimachado() {
             <Header/>
             <div className={style.login}>
                 <form onSubmit={handleSubmit}>
-                    <Link to={'/AnimalAchado'}><Voltar/></Link>
+                    <Link to={'/AnimalAdotado'}><Voltar/></Link>
                     <div className={input.input}>
                         <label htmlFor="nome" className="form-label">Nome</label>
                         <input
@@ -75,7 +75,7 @@ export default function AlterarAnimachado() {
                             className="form-control"
                             id="nome"
                             name="nome"
-                            value={animachado.nome}
+                            value={animadotado.nome}
                             onChange={handleChange}
                             required
                         />
@@ -88,7 +88,7 @@ export default function AlterarAnimachado() {
                             className="form-control"
                             id="especie"
                             name="especie"
-                            value={animachado.especie}
+                            value={animadotado.especie}
                             onChange={handleChange}
                             required
                         />
@@ -101,7 +101,7 @@ export default function AlterarAnimachado() {
                             className="form-control"
                             id="idade"
                             name="idade"
-                            value={animachado.idade}
+                            value={animadotado.idade}
                             onChange={handleChange}
                             required
                         />
@@ -114,9 +114,9 @@ export default function AlterarAnimachado() {
                         <select
                         id="status" 
                         name="status" 
-                        value={animachado.status}
+                        value={animadotado.status}
                         onChange={handleChange}
-                        required>   
+                        required>
                             <option value="APTO_PARA_ADOCAO">Apto para adoção</option>
                             <option value="AGUARDANDO_PROTESE">Aguardando protése</option>
                             <option value="ADOTADO">Adotado</option>
@@ -132,7 +132,7 @@ export default function AlterarAnimachado() {
                             className="form-control"
                             id="protese"
                             name="protese"
-                            value={animachado.protese}
+                            value={animadotado.protese}
                             onChange={handleChange}
                         />
                     </div>
@@ -142,7 +142,7 @@ export default function AlterarAnimachado() {
                             className="form-control"
                             id="historia"
                             name="historia"
-                            value={animachado.historia}
+                            value={animadotado.historia}
                             onChange={handleChange}
                         />
                     </div>
@@ -155,7 +155,7 @@ export default function AlterarAnimachado() {
             const file = e.target.files[0];
             const reader = new FileReader();
             reader.onloadend = () => {
-                setAnimachado((prevState) => ({
+                setAnimadotado((prevState) => ({
                     ...prevState,
                     imagem: reader.result
                 }));
