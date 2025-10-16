@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import endFetch from '../../axios';
 import style from './login.module.css';
@@ -12,7 +12,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // limpa erro ao tentar novo login
+    setError(''); // limpa o erro ao tentar novo login
 
     try {
       // Requisição POST para autenticar usuário
@@ -21,11 +21,18 @@ const Login = () => {
         password: senha,
       });
 
-      // Pega o token da resposta
-      const { access_token } = response.data;
+      // Pega o token e a role retornados do backend
+      const { access_token, role } = response.data;
 
-      // Salva token no localStorage
+      // Verifica se o usuário é administrador
+      if (role !== 'ADMIN') {
+        setError('Acesso restrito a administradores');
+        return;
+      }
+
+      // Salva token e role no localStorage
       localStorage.setItem('access_token', access_token);
+      localStorage.setItem('user_role', role);
 
       // Redireciona para página inicial
       navigate('/home');
@@ -60,7 +67,10 @@ const Login = () => {
             placeholder="Digite sua senha"
           />
         </div>
+
+        {/* Exibe erro se existir */}
         {error && <p className={style.erro}>{error}</p>}
+
         <button className={botao.bblue} type="submit">Entrar</button>
       </form>
     </div>
