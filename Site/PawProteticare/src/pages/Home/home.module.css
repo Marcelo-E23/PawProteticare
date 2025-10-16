@@ -2,9 +2,9 @@ main {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 2rem; /* espaço entre os cards */
+  gap: 2rem;
   margin: 3rem auto;
-  max-width: 1000px; /* limite de largura do container */
+  max-width: 1000px;
 }
 
 .card {
@@ -13,11 +13,10 @@ main {
   align-items: center;
   border-radius: 2vh;
   background-color: var(--DarkBlue);
-
-  flex: 0 1 45%;  /* ocupa cerca de metade da linha */
-  height: 35vh;   /* altura proporcional à viewport */
-  padding: 3vh;  /* padding menor, proporcional ao card */
-  box-sizing: border-box; /* importante para não somar padding à largura */
+  flex: 0 1 45%;
+  height: 35vh;
+  padding: 3vh;
+  box-sizing: border-box;
 }
 
 

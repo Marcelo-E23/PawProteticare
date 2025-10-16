@@ -12,32 +12,32 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // limpa o erro ao tentar novo login
+    setError(''); 
 
     try {
-      // Requisição POST para autenticar usuário
+      
       const response = await endFetch.post('/auth/authenticate', {
         email: login,
         password: senha,
       });
 
-      // Pega o token e a role retornados do backend
+      
       const { access_token, role } = response.data;
 
-      // Verifica se o usuário é administrador
+      
       if (role !== 'ADMIN') {
         setError('Acesso restrito a administradores');
         return;
       }
 
-      // Salva token e role no localStorage
+      
       localStorage.setItem('access_token', access_token);
       localStorage.setItem('user_role', role);
 
-      // Redireciona para página inicial
+      
       navigate('/home');
     } catch (error) {
-      // Se der erro, mostra mensagem genérica
+      
       setError('Usuário ou senha incorretos');
     }
   };
@@ -68,7 +68,7 @@ const Login = () => {
           />
         </div>
 
-        {/* Exibe erro se existir */}
+        {}
         {error && <p className={style.erro}>{error}</p>}
 
         <button className={botao.bblue} type="submit">Entrar</button>
