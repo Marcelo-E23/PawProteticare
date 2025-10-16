@@ -66,8 +66,8 @@ export default function Animachado() {
                                 <th>Nome</th>
                                 <th>Espécie</th>
                                 <th>Idade</th>
+                                <th>Protése</th>
                                 <th>Status</th>
-                                <th>Necessidade de Protése</th>
                                 <th className={style.alterar}><p>Alterar</p></th>
                                 <th className={style.visualizar}><p>Visualizar</p></th>
                             </tr>
@@ -79,8 +79,8 @@ export default function Animachado() {
                                     <td>{animachado.nome}</td>
                                     <td>{animachado.especie}</td>
                                     <td>{animachado.idade} anos</td>
-                                    <td>{animachado.status}</td>
                                     <td>{animachado.protese}</td>
+                                    <td>{animachado.status}</td>
                                     <td className={table.icon} onClick={() => navAlterar(animachado.id)}>
                                         <FcSynchronize  size="3rem" />
                                     </td>
