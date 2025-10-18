@@ -4,8 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../../../components/Header';
 import { useEffect, useState } from 'react';
 import endFetch from '../../../axios';  
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link} from 'react-router-dom';
 import { FcBinoculars } from 'react-icons/fc';
+import Voltar from '../../../components/Voltar';
 
 export default function AdocoesRejeitadas() {
     const [adocoes, setAdocoes] = useState([]);
@@ -41,9 +42,8 @@ export default function AdocoesRejeitadas() {
     return (
         <>
             <Header />
+            <Link to={'/Adocao'}><Voltar/></Link>
             <div className={table.tabela}>
-                {erro && <p className={style.erro}>{erro}</p>}
-
                 {adocoes.length === 0 ? (
                     <div className={style.semcadastro}>
                         <p>Sem adoções rejeitadas</p>
