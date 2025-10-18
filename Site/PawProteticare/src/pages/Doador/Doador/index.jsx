@@ -4,79 +4,77 @@ import style from './doador.module.css';
 import endFetch from '../../../axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
-import botao from '../../../css/botao.module.css'
 import { useNavigate } from 'react-router-dom';
+import { FcBinoculars } from 'react-icons/fc';
+import botao from '../../../css/botao.module.css';
 
-
-export default function Doador() {
-    const [doacao, setDoacao] = useState([]);
+export default function Doacao() {
+    const [doacoes, setDoacoes] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [erro, setErro] = useState(null);
     const navigate = useNavigate();
 
-
-    const getDoacao = async () => {
+    const getDoacoes = async () => {
         try {
-            const response = await endFetch.get("/doacao"); 
-            setDoacao(response.data);
-            console.log(doacao);
+            const response = await endFetch.get("/doacao");
+            setDoacoes(response.data);
         } catch (error) {
-            console.error(<p className={style}>Erro ao carregar os dados</p>, error);
+            console.error("Erro ao carregar doações:", error);
+            setErro("Erro ao carregar os dados");
+            setDoacoes([]);
         } finally {
-            setLoading(false); 
+            setLoading(false);
         }
     };
 
-    const navCadastro = () => {
-        navigate('/CadastroDoador');
-    }
-    
-    useEffect(() => {
-        getDoacao();
-    }, []);
+    const navVisualizar = (id) => {
+        navigate(`/VisualizarDoacao/${id}`);
+    };
 
-    if (loading) {
-        return <div className={style.carregando}>Carregando...</div>;
-    }
+    const navCadastro = () => {
+        navigate('/CadastroDoacao');
+    };
+
+    useEffect(() => {
+        getDoacoes();
+    }, []);
 
     return (
         <>
             <Header />
             <div className={table.tabela}>
-                {doacao.length === 0 ? (
+                {loading ? (
+                    <div className={style.carregando}>Carregando...</div>
+                ) : doacoes.length === 0 ? (
                     <div className={style.semcadastro}>
-                        <p>Sem doações cadastradas.</p>
+                        <p>Sem doações registradas.</p>
                     </div>
                 ) : (
-                    <div className={table.tabela}>
-                        <table className="table table-success table-striped-columns">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>ID do Doador</th>
-                                    <th>Tipo</th>
-                                    <th>Valor</th>
-                                    <th>Data</th>
+                    <table className="table table-success table-striped-columns">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Doador</th>
+                                <th>Data</th>
+                                <th>Valor</th>
+                                <th className={style.visualizar}>Visualizar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {doacoes.map((item) => (
+                                <tr key={item.id}>
+                                    <td>{item.id}</td>
+                                    <td>{item.doador ? item.doador.nome : 'Não informado'}</td>
+                                    <td>{new Date(item.data).toLocaleDateString()}</td>
+                                    <td>R$ {item.valor.toFixed(2)}</td>
+                                    <td className={table.icon} onClick={() => navVisualizar(item.id)}>
+                                        <FcBinoculars size="3rem" />
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {doacao.map((doacao) => (
-                                    <tr key={doacao.id}>
-                                        <td>{doacao.id}</td>
-                                        <td>{doacao.doador_id}</td>
-                                        <td>{doacao.tipodoacao}</td>
-                                        <td>{doacao.valor}</td>
-                                        <td>{doacao.data}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                        
-                    </div>
-                    
+                            ))}
+                        </tbody>
+                    </table>
                 )}
-                <button type="button" className={botao.bgreen} onClick={navCadastro}>
-                    Inserir
-                </button>
             </div>
         </>
     );
