@@ -49,17 +49,14 @@ export default function Adocao() {
             <Header />
 
             <div className={table.tabela}>
-                {}
                 {erro && <p className={style.erro}>{erro}</p>}
 
-                {}
                 {adocao.length === 0 && !erro && (
                     <div className={style.semcadastro}>
                         <p>Sem solicitações de adoção.</p>
                     </div>
                 )}
 
-                {}
                 {adocao.length > 0 && (
                     <table className="table table-success table-striped-columns">
                         <thead>
