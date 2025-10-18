@@ -6,7 +6,7 @@ import Header from '../../../components/Header';
 import { useEffect, useState } from 'react';
 import endFetch from '../../../axios';  
 import { useNavigate } from 'react-router-dom';
-import { FcSynchronize, FcBinoculars } from 'react-icons/fc';
+import { FcBinoculars } from 'react-icons/fc';
 
 export default function Adocao() {
     const [adocao, setAdocao] = useState([]);
@@ -16,33 +16,29 @@ export default function Adocao() {
 
     // Busca as solicitações de adoção
     const getAdocao = async () => {
-        try {
-            const response = await endFetch.get("/solicitacaoadocao"); 
-            setAdocao(response.data);
-        } catch (error) {
-            console.error("Erro ao carregar os dados:", error);
-            setAdocao([]);
-            setErro('Erro ao carregar os dados');
-        } finally {
-            setLoading(false);
-        }
+    try {
+        const response = await endFetch.get("/solicitacaoadocao"); 
+        setAdocao(response.data);
+    } catch (error) {
+        console.error("Erro ao carregar os dados:", error);
+        setAdocao([]); // ← garante que será um array vazio mesmo com erro
+    } finally {
+        setLoading(false);
+    }
+};
+
+
+    const navVisualizar = (id) => {
+        navigate(`/VisualizarAdocao/${id}`);
+    };
+
+    const navCadastro = () => {
+        navigate(`/CadastroAdocao`);
     };
 
     useEffect(() => {
         getAdocao();
     }, []);
-
-    const navCadastro = () => {
-        navigate('/CadastroAdocao');
-    };
-
-    const navAlterar = (id) => {
-        navigate(`/AlterarAdocao/${id}`);
-    };
-
-    const navVisualizar = (id) => {
-        navigate(`/VisualizarAdocao/${id}`);
-    };
 
     if (loading) {
         return <div className={style.carregando}>Carregando...</div>;
@@ -51,14 +47,17 @@ export default function Adocao() {
     return (
         <>
             <Header />
+
             <div className={table.tabela}>
                 {erro && <p className={style.erro}>{erro}</p>}
 
-                {adocao.length === 0 && !erro ? (
+                {adocao.length === 0 && !erro && (
                     <div className={style.semcadastro}>
                         <p>Sem solicitações de adoção.</p>
                     </div>
-                ) : (
+                )}
+
+                {adocao.length > 0 && (
                     <table className="table table-success table-striped-columns">
                         <thead>
                             <tr>
@@ -70,13 +69,14 @@ export default function Adocao() {
                             </tr>
                         </thead>
                         <tbody>
-                            {adocao.map((item) => (
-                                <tr key={item.id}>
-                                    <td>{item.id}</td>
-                                    <td>{item.proprietario ? item.proprietario.nome : 'Não informado'}</td>
-                                    <td>{new Date(item.data_solicitacao).toLocaleDateString()}</td>
-                                    <td>{item.animal ? `${item.animal.nome} (${item.animal.idade} anos)` : 'Não informado'}</td>
-                                    <td className={table.icon} onClick={() => navVisualizar(item.id)}>
+                            {adocao.map((adocao) => (
+                                <tr key={adocao.id}>
+                                    <td>{adocao.id}</td>
+                                    <td>{adocao.proprietario}</td>
+                                    <td>{new Date(adocao.data_solicitacao).toLocaleDateString()}</td>
+                                    {}
+                                    <td>{adocao.animal ? `${adocao.animal.nome} (${adocao.animal.idade} anos)` : 'Não informado'}</td>
+                                    <td className={table.icon} onClick={() => navVisualizar(adocao.id)}>
                                         <FcBinoculars size="3rem" />
                                     </td>
                                 </tr>
