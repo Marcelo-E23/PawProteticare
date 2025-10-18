@@ -1,12 +1,11 @@
 import style from './adocao.module.css';
 import table from '../../../css/table.module.css';
-import botao from '../../../css/botao.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../../../components/Header';
 import { useEffect, useState } from 'react';
 import endFetch from '../../../axios';  
 import { useNavigate } from 'react-router-dom';
-import { FcSynchronize, FcBinoculars } from 'react-icons/fc';
+import {FcBinoculars } from 'react-icons/fc';
 
 export default function Adocao() {
     const [adocao, setAdocao] = useState([]);
@@ -84,10 +83,6 @@ export default function Adocao() {
                         </tbody>
                     </table>
                 )}
-
-                <button type="button" className={botao.bgreen} onClick={navCadastro}>
-                    Inserir
-                </button>
             </div>
         </>
     );
