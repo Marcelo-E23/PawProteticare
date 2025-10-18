@@ -49,17 +49,17 @@ export default function Adocao() {
             <Header />
 
             <div className={table.tabela}>
-                {/* Mensagem de erro */}
+                {}
                 {erro && <p className={style.erro}>{erro}</p>}
 
-                {/* Sem registros */}
+                {}
                 {adocao.length === 0 && !erro && (
                     <div className={style.semcadastro}>
                         <p>Sem solicitações de adoção.</p>
                     </div>
                 )}
 
-                {/* Tabela apenas se houver registros */}
+                {}
                 {adocao.length > 0 && (
                     <table className="table table-success table-striped-columns">
                         <thead>
@@ -72,14 +72,14 @@ export default function Adocao() {
                             </tr>
                         </thead>
                         <tbody>
-                            {adocao.map((item) => (
-                                <tr key={item.id}>
-                                    <td>{item.id}</td>
-                                    <td>{item.proprietario}</td>
-                                    <td>{new Date(item.data_solicitacao).toLocaleDateString()}</td>
-                                    {/* Animal placeholder seguro */}
-                                    <td>{item.animal ? `${item.animal.nome} (${item.animal.idade} anos)` : 'Não informado'}</td>
-                                    <td className={table.icon} onClick={() => navVisualizar(item.id)}>
+                            {adocao.map((adocao) => (
+                                <tr key={adocao.id}>
+                                    <td>{adocao.id}</td>
+                                    <td>{adocao.proprietario}</td>
+                                    <td>{new Date(adocao.data_solicitacao).toLocaleDateString()}</td>
+                                    {}
+                                    <td>{adocao.animal ? `${adocao.animal.nome} (${adocao.animal.idade} anos)` : 'Não informado'}</td>
+                                    <td className={table.icon} onClick={() => navVisualizar(adocao.id)}>
                                         <FcBinoculars size="3rem" />
                                     </td>
                                 </tr>

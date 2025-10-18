@@ -1,6 +1,6 @@
 import Header from '../../../components/Header';
 import table from '../../../css/table.module.css';
-import styles from './doador.module.css';
+import style from './doador.module.css';
 import endFetch from '../../../axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
@@ -47,7 +47,7 @@ export default function Doador() {
                         <p>Sem doações cadastradas.</p>
                     </div>
                 ) : (
-                    <div className={styles.tabela}>
+                    <div className={table.tabela}>
                         <table className="table table-success table-striped-columns">
                             <thead>
                                 <tr>
