@@ -5,7 +5,7 @@ import Header from '../../../components/Header';
 import { useEffect, useState } from 'react';
 import endFetch from '../../../axios';  
 import { useNavigate } from 'react-router-dom';
-import {FcBinoculars } from 'react-icons/fc';
+import { FcBinoculars } from 'react-icons/fc';
 
 export default function Adocao() {
     const [adocao, setAdocao] = useState([]);
@@ -51,11 +51,9 @@ export default function Adocao() {
         <>
             <Header />
             <div className={table.tabela}>
-                {erro && <p className={style.erro}>{erro}</p>}
-
-                {adocao.length === 0 && !erro ? (
+                {adocao.length === 0 ? (
                     <div className={style.semcadastro}>
-                        <p>Sem solicitações de adoção.</p>
+                        <p>Sem solicitações pendentes.</p>
                     </div>
                 ) : (
                     <table className="table table-success table-striped-columns">

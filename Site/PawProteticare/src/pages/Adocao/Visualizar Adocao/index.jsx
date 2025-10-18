@@ -1,99 +1,122 @@
-import styles from './visualizar.module.css';
-import Header from '../../../components/Header';
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import endFetch from '../../../axios';
-import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
-import voltar from '../../../components/Voltar';
+import Header from '../../../components/Header';
+import Voltar from '../../../components/Voltar';
+import styles from './visualizar.module.css';
+import botao from '../../../css/botao.module.css';
 
-export default function VisualizarAdocao(){
+export default function VisualizarAdocao() {
     const { id } = useParams();
-    const [doacao, setDoacao] = useState({
-        pro: '',
-        especie: '',
-        idade: '',
-        status: '',
-        historia:'',
-        protese:'',
-        imagem:'',
-    });
+    const navigate = useNavigate();
+    const [solicitacao, setSolicitacao] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [confirmAction, setConfirmAction] = useState({ mostrar: false, tipo: '', mensagem: '' });
 
-    const getAnimachado = async () => {
+    const getSolicitacao = async () => {
         try {
-            const response = await endFetch.get(`/doacao/${id}`);
-            setDoacao(response.data);
+            const response = await endFetch.get(`/solicitacaoadocao/${id}`);
+            setSolicitacao(response.data);
+        } catch (err) {
+            console.error(err);
+            setError('Erro ao carregar os dados da solicitação');
+        } finally {
             setLoading(false);
-        } catch (error) {
-            setLoading(false);
-            setError('Erro ao carregar os dados solicitação de adoção');
-            console.log(error);
         }
     };
 
     useEffect(() => {
-        getAdocao();
+        getSolicitacao();
     }, [id]);
 
-    if (loading) {
-        return <div>Carregando...</div>;
-    }
+    const handleDecision = (tipo) => {
+        setConfirmAction({ mostrar: true, tipo, mensagem: `Tem certeza que deseja ${tipo} esta adoção?` });
+    };
 
-    return(
-        <>        
-        <Header/>
-        <div className={styles.vizualizar}>
-            
-            <Link to={'/adocao'}><p className={styles.voltar}>Voltar</p></Link>
-            <h1 className={styles.titulo}>Ficha animachado</h1>
-                <div className={styles.informacoes}>
-                    
-                    <div className={styles.dados}>
-                        <p className={styles.caracteristica}>ID do animachado</p>
-                        <div className={styles.animachado}>
-                            <p>{animachado.id}</p>
-                        </div>
-                    </div>
-                    
-                    <div className={styles.dados}>
-                        <p className={styles.caracteristica}>Espécie</p>
-                        <div className={styles.animachado}>
-                            <p>{animachado.especie}</p>
-                        </div>
-                    </div>
+    const confirmarDecision = async () => {
+        try {
+            if (confirmAction.tipo === 'aceitar') {
+                await endFetch.put(`/solicitacaoadocao/${id}/aprovar`);
+            } else {
+                await endFetch.put(`/solicitacaoadocao/${id}/rejeitar`);
+            }
+            navigate('/Adocao'); 
+        } catch (err) {
+            console.error(err);
+            setError('Erro ao processar a ação');
+        }
+    };
 
-                    <div className={styles.dados}>
-                        <p className={styles.caracteristica}>Idade</p>
-                        <div className={styles.animachado}>
-                            <p>{animachado.idade}</p>
-                        </div>
-                    </div>
+    const cancelarDecision = () => {
+        setConfirmAction({ mostrar: false, tipo: '', mensagem: '' });
+    };
 
-                    <div className={styles.dados}>
-                        <p className={styles.caracteristica}>Status</p>
-                        <div className={styles.animachado}>
-                            <p>{animachado.status}</p>
-                        </div>
-                    </div>
+    if (loading) return <div className={styles.carregando}>Carregando...</div>;
+    if (error) return <div className={styles.erro}>{error}</div>;
 
-                    <div className={styles.dados}>
-                        <p className={styles.caracteristica}>Necessidade de Protése</p>
-                        <div className={styles.animachado}>
-                            <p>{animachado.protese}</p>
-                        </div>
-                    </div>
+    const animal = solicitacao.animal;
+    const prop = solicitacao.proprietario;
+    const cepGoogle = prop?.cep ? prop.cep.replace(/\D/g, '') : null;
 
-                    <div className={styles.dados}>
-                        <p className={styles.caracteristica}>Historia</p>
-                        <div className={styles.animachado}>
-                            <p>{animachado.historia}</p>
-                        </div>
+    return (
+        <>
+            <Header />
+            <div className={styles.vizualizar}>
+                <Link to={'/Adocao'}><p className={styles.voltar}>Voltar</p></Link>
+                <h1 className={styles.titulo}>Detalhes da Solicitação de Adoção</h1>
+
+                <div className={styles.card}>
+                    {/* Informações do Animal */}
+                    <div className={styles.informacoes}>
+                        <h3>Informações do Animal</h3>
+                        <p><strong>ID:</strong> 
+                            {animal ? <Link to={`/VisualizarAnimalAdotado/${animal.id}`}>{animal.id}</Link> : 'Não informado'}
+                        </p>
+                        <p><strong>Nome:</strong> {animal?.nome}</p>
+                        <p><strong>Espécie:</strong> {animal?.especie}</p>
+                        <p><strong>Idade:</strong> {animal?.idade} anos</p>
                     </div>
 
+                    {/* Informações do Solicitante */}
+                    <div className={styles.informacoes}>
+                        <h3>Informações do Solicitante</h3>
+                        <p><strong>Nome:</strong> {prop?.nome}</p>
+                        <p><strong>Email:</strong> {prop?.email}</p>
+                        <p><strong>Telefone:</strong> {prop?.telefone || 'Não informado'}</p>
+                        <p><strong>CPF:</strong> {prop?.cpf}</p>
+                        <p><strong>Endereço:</strong> {prop?.logradouro}, {prop?.numeroend || ''} {prop?.complemento || ''}, {prop?.bairro}, {prop?.uf}</p>
+                        {cepGoogle && (
+                            <p>
+                                <a
+                                    href={`https://www.google.com/maps/search/?api=1&query=${cepGoogle}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Ver no mapa
+                                </a>
+                            </p>
+                        )}
+                    </div>
+
+                    {/* Botões de ação */}
+                    <div className={styles.botoes}>
+                        <button className={botao.bgreen} onClick={() => handleDecision('aceitar')}>Aceitar</button>
+                        <button className={botao.bred} onClick={() => handleDecision('recusar')}>Recusar</button>
+                    </div>
+
+                    {/* Confirmação */}
+                    {confirmAction.mostrar && (
+                        <div className={styles.confirmacao}>
+                            <p>{confirmAction.mensagem}</p>
+                            <button className={botao.bgreen} onClick={confirmarDecision}>Sim</button>
+                            <button className={botao.bred} onClick={cancelarDecision}>Cancelar</button>
+                        </div>
+                    )}
+
+                    {error && <div className={styles.erro}>{error}</div>}
                 </div>
             </div>
         </>
-
-    )
+    );
 }
