@@ -5,7 +5,8 @@ import Header from '../../../components/Header';
 import Voltar from '../../../components/Voltar';
 import style from './alterar.module.css';
 import input from '../../../css/input.module.css';
-import botao from '../../../css/botao.module.css'
+import botao from '../../../css/botao.module.css';
+import Input from '../../../modelos/Inputcadastro';
 
 export default function AlterarProtese() {
     const { id } = useParams();
@@ -14,123 +15,108 @@ export default function AlterarProtese() {
         fabricante: '',
         custo: '',
         tipo: '',
-        descricao:'',
+        descricao: '',
+        animalId: ''
     });
+    const [animalInfo, setAnimalInfo] = useState(null);
+    const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const getProtese = async () => {
-        try {
-            const response = await endFetch.get(`/protese/${id}`);
-            setProtese(response.data);
-            setLoading(false);
-        } catch (error) {
-            setLoading(false);
-            setError('Erro ao carregar os dados do protese');
-            console.log(error);
-        }
-    };
+    useEffect(() => {
+        const fetchProtese = async () => {
+            try {
+                const response = await endFetch.get(`/protese/${id}`);
+                setProtese(response.data);
+            } catch (error) {
+                setMessage('Erro ao carregar a prótese');
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProtese();
+    }, [id]);
+
+    // Busca animal sempre que animalId mudar
+    useEffect(() => {
+        const fetchAnimal = async () => {
+            if (!protese.animalId) {
+                setAnimalInfo(null);
+                return;
+            }
+            try {
+                const response = await endFetch.get(`/animadotado/${protese.animalId}`);
+                setAnimalInfo(response.data);
+            } catch (error) {
+                setAnimalInfo(null);
+            }
+        };
+        fetchAnimal();
+    }, [protese.animalId]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setProtese((prevState) => ({
-            ...prevState,
-            [name]: value
-        }))
-        
+        setProtese(prev => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!animalInfo) {
+            setMessage("Informe um ID de animal válido.");
+            return;
+        }
+
         try {
+            // Verifica se já existe prótese para o mesmo animal, exceto essa
+            const check = await endFetch.get(`/protese?animalId=${protese.animalId}`);
+            if (check.data.length > 0 && check.data[0].id !== Number(id)) {
+                setMessage(`O animal com ID ${protese.animalId} já possui uma prótese.`);
+                return;
+            }
+
             await endFetch.put(`/protese/${id}`, protese);
-            navigate('/AnimalAchado')
+            navigate('/Protese');
         } catch (error) {
-            setError('Erro ao salvar as alterações');
-            console.log(error);
+            setMessage('Erro ao atualizar a prótese');
         }
     };
 
-    useEffect(() => {
-        getProtese();
-    }, [id]);
-
-    if (loading) {
-        return <div>Carregando...</div>;
-    }
+    if (loading) return <div>Carregando...</div>;
 
     return (
-        <>  
-            <Header/>
+        <>
+            <Header />
             <div className={style.login}>
                 <form onSubmit={handleSubmit}>
-                    <Link to={'/AnimalAchado'}><Voltar/></Link>
-                    <div className={input.input}>
-                        <label htmlFor="nome" className="form-label">Nome</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="nome"
-                            name="nome"
-                            value={protese.nome}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
+                    <Link to={'/Protese'}><Voltar /></Link>
+
+                    <Input dado="Nome" legenda="Digite o nome da prótese:" tipo="text" valor={protese.nome} change={handleChange} name="nome" />
+                    <Input dado="Fabricante" legenda="Digite o fabricante:" tipo="text" valor={protese.fabricante} change={handleChange} name="fabricante" />
+                    <Input dado="Custo" legenda="Digite o custo:" tipo="number" valor={protese.custo} change={handleChange} name="custo" />
+                    <Input dado="Tipo" legenda="Digite o tipo da prótese:" tipo="text" valor={protese.tipo} change={handleChange} name="tipo" />
+                    <Input dado="Descrição" legenda="Digite a descrição:" tipo="textarea" valor={protese.descricao} change={handleChange} name="descricao" />
 
                     <div className={input.input}>
-                        <label htmlFor="fabricante" className="form-label">Fabricante</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="fabricante"
-                            name="fabricante"
-                            value={protese.fabricante}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-
-                    <div className={input.input}>
-                        <label htmlFor="custo" className="form-label">Custo</label>
+                        <label htmlFor="animalId">ID do Animal</label>
                         <input
                             type="number"
-                            className="form-control"
-                            id="custo"
-                            name="custo"
-                            value={protese.custo}
+                            id="animalId"
+                            name="animalId"
+                            value={protese.animalId}
                             onChange={handleChange}
+                            placeholder="Digite o ID do animal"
                             required
                         />
                     </div>
 
-                    <div className={input.input}>
-                        <label htmlFor="tipo" className="form-label">
-                            tipo
-                        </label>
-                        <input
-                            type='text'
-                            className="form-control"
-                            id="tipo" 
-                            name="tipo" 
-                            value={protese.tipo}
-                            onChange={handleChange}
-                            required>   
-                        </input>
-                    </div>
+                    {animalInfo && (
+                        <div className={style.animalInfo}>
+                            <p><strong>Nome:</strong> {animalInfo.nome}</p>
+                            <p><strong>Espécie:</strong> {animalInfo.especie}</p>
+                        </div>
+                    )}
 
-                    <div className={input.input}>
-                        <label htmlFor="descricao" className="form-label">Descrição</label>
-                        <textarea
-                            className="form-control"
-                            id="descricao"
-                            name="descricao"
-                            value={protese.descricao}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    {error && <div className={style.erroalterar}>{error}</div>}
+                    {message && <p className={style.erroalterar}>{message}</p>}
                     <button type="submit" className={botao.bgreen}>Salvar Alterações</button>
                 </form>
             </div>

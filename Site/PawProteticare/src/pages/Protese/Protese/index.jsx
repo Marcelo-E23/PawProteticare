@@ -4,87 +4,74 @@ import style from './protese.module.css';
 import endFetch from '../../../axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
-import botao from '../../../css/botao.module.css'
+import botao from '../../../css/botao.module.css';
 import { useNavigate } from 'react-router-dom';
-
+import { FcBinoculars } from 'react-icons/fc';
 
 export default function Protese() {
-    const [protese, setProtese] = useState([]);
+    const [proteses, setProteses] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-
-    const getProtese = async () => {
-        try {
-            const response = await endFetch.get("/protese"); 
-            setProtese(response.data);
-            console.log(protese);
-        } catch (error) {
-            console.error(<p className={style}>Erro ao carregar os dados</p>, error);
-        } finally {
-            setLoading(false); 
-        }
-    };
-
-    const navCadastro = () => {
-        navigate('/CadastroProtese');
-    }
-    
-    const navVisualizar = () => {
-        navigate('/VisualizarProtese');
-    }
-    
     useEffect(() => {
-        getProtese();
+        const fetchProteses = async () => {
+            try {
+                const response = await endFetch.get("/protese"); 
+                setProteses(response.data);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProteses();
     }, []);
 
-    if (loading) {
-        return <div className={style.carregando}>Carregando...</div>;
-    }
+    const navCadastro = () => navigate('/CadastroProtese');
+    const navVisualizar = (id) => navigate(`/VisualizarProtese/${id}`);
+    const navAlterar = (id) => navigate(`/AlterarProtese/${id}`);
+
+    if (loading) return <div className={style.carregando}>Carregando...</div>;
 
     return (
         <>
             <Header />
             <div className={table.tabela}>
-                {protese.length === 0 ? (
+                {proteses.length === 0 ? (
                     <div className={style.semcadastro}>
-                        <p>Sem protéses cadastradas.</p>
+                        <p>Sem próteses cadastradas.</p>
                     </div>
                 ) : (
-                    <div className={styles.tabela}>
-                        <table className="table table-success table-striped-columns">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nome</th>
-                                    <th>Tipo</th>
-                                    <th>Fabricante</th>
-                                    <th>Custo</th>
-                                    <th>Visualizar</th>
+                    <table className="table table-success table-striped-columns">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Tipo</th>
+                                <th>Fabricante</th>
+                                <th>Custo</th>
+                                <th>Alterar</th>
+                                <th>Visualizar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {proteses.map(p => (
+                                <tr key={p.id}>
+                                    <td>{p.id}</td>
+                                    <td>{p.nome}</td>
+                                    <td>{p.tipo}</td>
+                                    <td>{p.fabricante}</td>
+                                    <td>{p.custo}</td>
+                                    <td className={table.icon} onClick={() => navAlterar(p.id)}>✏️</td>
+                                    <td className={table.icon} onClick={() => navVisualizar(p.id)}>
+                                        <FcBinoculars size="2rem" />
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {protese.map((protese) => (
-                                    <tr key={protese.id}>
-                                        <td>{protese.id}</td>
-                                        <td>{protese.nome}</td>
-                                        <td>{protese.tipo}</td>
-                                        <td>{protese.fabricante}</td>
-                                        <td>{protese.custo}</td>
-                                        <td className={table.icon} onClick={() => navVisualizar(protese.id)}>
-                                            <FcBinoculars size="3rem" />
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                        
-                    </div>
-                    
+                            ))}
+                        </tbody>
+                    </table>
                 )}
-                <button type="button" className={botao.bgreen} onClick={navCadastro}>
-                    Inserir
-                </button>
+                <button type="button" className={botao.bgreen} onClick={navCadastro}>Cadastrar Prótese</button>
             </div>
         </>
     );

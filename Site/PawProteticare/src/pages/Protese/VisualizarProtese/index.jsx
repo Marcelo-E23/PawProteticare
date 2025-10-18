@@ -1,100 +1,53 @@
-import styles from './visualizar.module.css';
+import { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import Header from '../../../components/Header';
-import endFetch from '../../../axios';
-import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
 import Voltar from '../../../components/Voltar';
+import endFetch from '../../../axios';
+import styles from './visualizar.module.css';
 
-export default function VisualizarProtese(){
+export default function VisualizarProtese() {
     const { id } = useParams();
-    const [protese, setProtese] = useState({
-        nome: '',
-        fabricante: '',
-        custo: '',
-        tipo: '',
-        descricao:'',
-    });
+    const [protese, setProtese] = useState({});
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
-
-    const getProtese = async () => {
-        try {
-            const response = await endFetch.get(`/protese/${id}`);
-            setProtese(response.data);
-            setLoading(false);
-        } catch (error) {
-            setLoading(false);
-            setError('Erro ao carregar os dados do animadotado');
-            console.log(error);
-        }
-    };
 
     useEffect(() => {
-        getProtese();
+        const fetchProtese = async () => {
+            try {
+                const response = await endFetch.get(`/protese/${id}`);
+                setProtese(response.data);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProtese();
     }, [id]);
 
-    if (loading) {
-        return <div>Carregando...</div>;
-    }
+    if (loading) return <div>Carregando...</div>;
 
-    return(
-        <>        
-        <Header/>
-        <div className={styles.vizualizar}>
-            
-            <Link to={'/Protese'}><p className={styles.voltar}>Voltar</p></Link>
-            <h1 className={styles.titulo}>Ficha Protese</h1>
+    return (
+        <>
+            <Header />
+            <div className={styles.vizualizar}>
+                <Link to={'/Protese'}><p className={styles.voltar}>Voltar</p></Link>
+                <h1 className={styles.titulo}>Ficha da Prótese</h1>
 
-            <div className={styles.card}>
-                <div className={styles.informacoes}>
-                    
-                    <div className={styles.dados}>
-                        <p className={styles.caracteristica}>ID do animadotado</p>
-                        <div className={styles.animadotado}>
-                            <p>{protese.id}</p>
-                        </div>
+                <div className={styles.card}>
+                    <div className={styles.informacoes}>
+                        <p><strong>ID da Prótese:</strong> {protese.id}</p>
+                        <p><strong>Nome:</strong> {protese.nome}</p>
+                        <p><strong>Fabricante:</strong> {protese.fabricante}</p>
+                        <p><strong>Custo:</strong> {protese.custo}</p>
+                        <p><strong>Tipo:</strong> {protese.tipo}</p>
+                        <p><strong>Descrição:</strong> {protese.descricao}</p>
+                        <p>
+                            <strong>ID do Animal:</strong> 
+                            <Link to={`/VisualizarAnimalAdotado/${protese.animalId}`}> {protese.animalId}</Link>
+                        </p>
                     </div>
-                    
-                    <div className={styles.dados}>
-                        <p className={styles.caracteristica}>Espécie</p>
-                        <div className={styles.protese}>
-                            <p>{protese.especie}</p>
-                        </div>
-                    </div>
-
-                    <div className={styles.dados}>
-                        <p className={styles.caracteristica}>Idade</p>
-                        <div className={styles.protese}>
-                            <p>{protese.idade}</p>
-                        </div>
-                    </div>
-
-                    <div className={styles.dados}>
-                        <p className={styles.caracteristica}>Status</p>
-                        <div className={styles.protese}>
-                            <p>{protese.status}</p>
-                        </div>
-                    </div>
-
-                    <div className={styles.dados}>
-                        <p className={styles.caracteristica}>Necessidade de Protése</p>
-                        <div className={styles.protese}>
-                            <p>{protese.protese}</p>
-                        </div>
-                    </div>
-
-                    <div className={styles.dados}>
-                        <p className={styles.caracteristica}>Historia</p>
-                        <div className={styles.protese}>
-                            <p>{protese.historia}</p>
-                        </div>
-                    </div>
-
                 </div>
             </div>
-        </div>
         </>
-
-    )
+    );
 }
