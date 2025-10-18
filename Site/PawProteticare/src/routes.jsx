@@ -15,6 +15,7 @@ import AlterarProtese from "./pages/Protese/Alterar Protese";
 import CadastroProtese from "./pages/Protese/Cadastro Protese";
 import VisualizarProtese from "./pages/Protese/VisualizarProtese";
 import Adocao from "./pages/Adocao/Adocao";
+import VisualizarAdocao from "./pages/Adocao/Visualizar Adocao";
 
 
 export default function AppRoutes(){
