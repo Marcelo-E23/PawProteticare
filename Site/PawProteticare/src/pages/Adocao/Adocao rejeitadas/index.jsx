@@ -44,9 +44,9 @@ export default function AdocoesRejeitadas() {
             <div className={table.tabela}>
                 {erro && <p className={style.erro}>{erro}</p>}
 
-                {adocoes.length === 0 && !erro ? (
+                {adocoes.length === 0 ? (
                     <div className={style.semcadastro}>
-                        <p>Sem adoções rejeitadas.</p>
+                        <p>Sem adoções rejeitadas</p>
                     </div>
                 ) : (
                     <table className="table table-danger table-striped-columns">

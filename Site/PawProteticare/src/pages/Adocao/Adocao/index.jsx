@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../../../components/Header';
 import { useEffect, useState } from 'react';
 import endFetch from '../../../axios';  
+import botao from '../../../css/botao.module.css'
 import { useNavigate } from 'react-router-dom';
 import { FcBinoculars } from 'react-icons/fc';
 
@@ -41,6 +42,10 @@ export default function Adocao() {
 
     const navVisualizar = (id) => {
         navigate(`/VisualizarAdocao/${id}`);
+    };
+    
+    const navRejeitado = () => {
+        navigate(`/AdocaoRejeitadas`);
     };
 
     if (loading) {
@@ -81,6 +86,9 @@ export default function Adocao() {
                         </tbody>
                     </table>
                 )}
+                 <button type="button" className={botao.bred} onClick={navRejeitado}>
+                    Rejeitados
+                </button>
             </div>
         </>
     );

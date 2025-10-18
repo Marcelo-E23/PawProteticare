@@ -16,6 +16,7 @@ import CadastroProtese from "./pages/Protese/Cadastro Protese";
 import VisualizarProtese from "./pages/Protese/VisualizarProtese";
 import Adocao from "./pages/Adocao/Adocao";
 import VisualizarAdocao from "./pages/Adocao/Visualizar Adocao";
+import AdocoesRejeitadas from "./pages/Adocao/Adocao rejeitadas";
 
 
 export default function AppRoutes(){
@@ -38,6 +39,9 @@ export default function AppRoutes(){
                 <Route path="/CadastroProtese" element={<CadastroProtese/>}/>
                 <Route path="/VisualizarProtese/:id" element={<VisualizarProtese/>}/>
                 <Route path="/Adocao" element={<Adocao/>}/>
+                <Route path="/VisualizarAdocao/:id" element={<VisualizarAdocao/>}/>
+                <Route path="/AdocaoRejeitadas" element={<AdocoesRejeitadas/>}/>    
+
             </Routes>
         </BrowserRouter>
     )
