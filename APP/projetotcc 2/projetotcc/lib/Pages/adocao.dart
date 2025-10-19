@@ -1,11 +1,27 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:projetotcc/Pages/interesse_adocao.dart';
 
 class AdocaoPage extends StatelessWidget {
   const AdocaoPage({super.key});
+
+  // Função que busca os animais da API
+  Future<List<Map<String, dynamic>>> fetchAnimais() async {
+    final url = Uri.parse('https://sua-api.com/animais'); // Coloque sua URL
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final List data = json.decode(response.body);
+      // Retornando como lista de Map<String, dynamic>
+      return data.map((e) => e as Map<String, dynamic>).toList();
+    } else {
+      throw Exception('Falha ao carregar animais');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,81 +50,58 @@ class AdocaoPage extends StatelessWidget {
       backgroundColor: backgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final isMobile = constraints.maxWidth < 600;
-            final cards = [
-              _buildAnimalCard(context, isMobile,
-                  nome: "Jonas",
-                  idade: "8 anos",
-                  raca: "Bulldog",
-                  sexo: "Macho",
-                  porte: "Médio",
-                  temperamento: "Leal, calmo e companheiro",
-                  castrado: true,
-                  vermifugado: true,
-                  imagemPaths: ['assets/images/Jonasid11.jpg']),
-              _buildAnimalCard(context, isMobile,
-                  nome: "Vodka",
-                  idade: "16 anos",
-                  raca: "Bombain",
-                  sexo: "Macho",
-                  porte: "Pequeno",
-                  temperamento: "Brincalhão e afetuoso",
-                  castrado: true,
-                  vermifugado: true,
-                  imagemPaths: ['assets/images/Vodkaid7.jpg']),
-              _buildAnimalCard(context, isMobile,
-                  nome: "Amora",
-                  idade: "12 anos",
-                  raca: "Pastor Alemão",
-                  sexo: "Fêmea",
-                  porte: "Grande",
-                  temperamento: "Protetora e dócil com crianças",
-                  castrado: true,
-                  vermifugado: true,
-                  imagemPaths: ['assets/images/Amoraid4.jpg']),
-              _buildAnimalCard(context, isMobile,
-                  nome: "Pantera",
-                  idade: "20 anos",
-                  raca: "Siamês",
-                  sexo: "Fêmea",
-                  porte: "Médio",
-                  temperamento: "Tímida no começo, carinhosa depois",
-                  castrado: true,
-                  vermifugado: false,
-                  imagemPaths: ['assets/images/Panteraid6.jpg']),
-              _buildAnimalCard(context, isMobile,
-                  nome: "Pedrita",
-                  idade: "14 anos",
-                  raca: "Dachshund",
-                  sexo: "Fêmea",
-                  porte: "Pequeno",
-                  temperamento: "Muito animada e ama colo",
-                  castrado: false,
-                  vermifugado: true,
-                  imagemPaths: ['assets/images/Pedritaid2.jpg']),
-              _buildAnimalCard(context, isMobile,
-                  nome: "Toby",
-                  idade: "8 anos",
-                  raca: "Chihuahua",
-                  sexo: "Macho",
-                  porte: "Mini",
-                  temperamento: "Calmo, ama cochilar no sol",
-                  castrado: true,
-                  vermifugado: true,
-                  imagemPaths: ['assets/images/Tobyid2.jpg']),
-            ];
+        child: FutureBuilder<List<Map<String, dynamic>>>(
+          future: fetchAnimais(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text(
+                  'Erro ao carregar animais',
+                  style: GoogleFonts.roboto(fontSize: 16),
+                ),
+              );
+            } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+              return Center(
+                child: Text(
+                  'Sem animais para adoção',
+                  style: GoogleFonts.roboto(fontSize: 16),
+                ),
+              );
+            }
 
-            return isMobile
-                ? ListView(children: cards)
-                : GridView.count(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.95,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    children: cards,
+            final animais = snapshot.data!;
+            return LayoutBuilder(
+              builder: (context, constraints) {
+                final isMobile = constraints.maxWidth < 600;
+                final cards = animais.map((animal) {
+                  return _buildAnimalCard(
+                    context,
+                    isMobile,
+                    nome: animal['nome'] ?? '',
+                    idade: animal['idade'] ?? '',
+                    raca: animal['raca'] ?? '',
+                    sexo: animal['sexo'] ?? '',
+                    porte: animal['porte'] ?? '',
+                    temperamento: animal['temperamento'] ?? '',
+                    castrado: animal['castrado'] ?? false,
+                    vermifugado: animal['vermifugado'] ?? false,
+                    imagemPaths: [animal['imagem'] ?? ''],
                   );
+                }).toList();
+
+                return isMobile
+                    ? ListView(children: cards)
+                    : GridView.count(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.95,
+                        crossAxisSpacing: 16,
+                        mainAxisSpacing: 16,
+                        children: cards,
+                      );
+              },
+            );
           },
         ),
       ),
@@ -170,10 +163,8 @@ class AdocaoPage extends StatelessWidget {
                       ),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
-                      fit: BoxFit
-                          .contain, // ✅ mostra a imagem inteira sem cortar
-                      alignment:
-                          Alignment.topCenter, // ✅ foca no topo (rosto do pet)
+                      fit: BoxFit.contain,
+                      alignment: Alignment.topCenter,
                       width: double.infinity,
                     ),
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../services/auth_service.dart';
 
 class LoginProvider with ChangeNotifier {
@@ -12,19 +13,47 @@ class LoginProvider with ChangeNotifier {
   bool get estaLogado => _logado;
   String? get nomeUsuario => _nomeUsuario;
 
-  // Login
+  // 🔹 Ao iniciar o app, carrega dados do armazenamento local
+  Future<void> carregarLoginSalvo() async {
+    final prefs = await SharedPreferences.getInstance();
+    final tokenSalvo = prefs.getString('token');
+    final nomeSalvo = prefs.getString('nomeUsuario');
+
+    if (tokenSalvo != null && nomeSalvo != null) {
+      final valido = await _authService.validarToken(tokenSalvo);
+      if (valido) {
+        _token = tokenSalvo;
+        _nomeUsuario = nomeSalvo;
+        _logado = true;
+        notifyListeners();
+      } else {
+        deslogar();
+      }
+    }
+  }
+
+  // 🔹 Login
   Future<bool> login(String email, String senha) async {
     final token = await _authService.login(email, senha);
     if (token != null) {
       _token = token;
       _logado = true;
+
+      // Salva localmente
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('token', token);
+
+      // Nome do usuário (opcional, depende do backend)
+      _nomeUsuario = email.split('@').first;
+      await prefs.setString('nomeUsuario', _nomeUsuario!);
+
       notifyListeners();
       return true;
     }
     return false;
   }
 
-  // Cadastro
+  // 🔹 Cadastro
   Future<bool> cadastrar(String nome, String email, String senha) async {
     final sucesso = await _authService.cadastrar(nome, email, senha);
     if (sucesso) {
@@ -34,12 +63,12 @@ class LoginProvider with ChangeNotifier {
     return sucesso;
   }
 
-  // Recuperação de senha
+  // 🔹 Recuperar senha
   Future<bool> recuperarSenha(String email) async {
     return await _authService.recuperarSenha(email);
   }
 
-  // Validação do token
+  // 🔹 Validação do token
   Future<bool> validarToken() async {
     if (_token == null) return false;
     final valido = await _authService.validarToken(_token!);
@@ -47,15 +76,20 @@ class LoginProvider with ChangeNotifier {
     return valido;
   }
 
-  // Logout
-  void deslogar() {
+  // 🔹 Logout (limpa local e memória)
+  Future<void> deslogar() async {
     _token = null;
     _logado = false;
     _nomeUsuario = null;
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+    await prefs.remove('nomeUsuario');
+
     notifyListeners();
   }
 
-  // Exemplo de pegar animais da API
+  // 🔹 Exemplo de pegar animais da API
   Future<List<dynamic>> listarAnimais() async {
     if (_token == null) return [];
     return await _authService.listarAnimais(_token!);

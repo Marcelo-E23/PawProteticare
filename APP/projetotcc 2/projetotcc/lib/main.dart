@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:projetotcc/Pages/minhas_doacoes.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:projetotcc/providers/theme_provider.dart';
 import 'package:projetotcc/providers/login_provider.dart';
 import 'package:projetotcc/providers/doacao_provider.dart';
-import 'package:projetotcc/historico_page.dart';
 
 import 'package:projetotcc/Pages/inicio.dart';
 import 'package:projetotcc/Pages/recuperar_senha.dart';
 import 'package:projetotcc/Pages/adocao.dart';
 import 'package:projetotcc/Pages/doacao.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 🔹 Instancia manualmente para carregar o login salvo
+  final loginProvider = LoginProvider();
+  await loginProvider.carregarLoginSalvo();
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider.value(value: loginProvider),
         ChangeNotifierProvider(create: (_) => DoacaoProvider()),
       ],
       child: const Projetotcc(),
@@ -31,6 +37,7 @@ class Projetotcc extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final loginProvider = Provider.of<LoginProvider>(context);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -51,12 +58,16 @@ class Projetotcc extends StatelessWidget {
         ),
       ),
       themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      home: const SplashDelay(),
+
+      // 🔹 Se estiver logado, vai pra tela inicial direto
+      home: loginProvider.estaLogado
+          ? const TelaPrincipal()
+          : const SplashDelay(),
       routes: {
         '/adocao': (context) => const AdocaoPage(),
         '/doacao': (context) => const DoacaoPage(),
         '/recuperar': (context) => const RecuperarSenhaPage(),
-        '/historico': (context) => const HistoricoPage(),
+        '/historico': (context) => const HistoricoUsuarioPage(),
       },
     );
   }

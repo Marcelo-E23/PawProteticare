@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projetotcc/Pages/minhas_doacoes.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,7 +11,6 @@ import 'package:projetotcc/Pages/inicio.dart';
 import 'package:projetotcc/Pages/doacao.dart';
 import 'package:projetotcc/Pages/login.dart';
 import 'package:projetotcc/Pages/adocao.dart';
-import 'package:projetotcc/historico_page.dart';
 
 class MenuDrawer extends StatelessWidget {
   const MenuDrawer({super.key});
@@ -84,7 +84,7 @@ class MenuDrawer extends StatelessWidget {
           _criarSeparador(context),
           _criarBlocoTitulo(context, 'USUÁRIO'),
           _criarItemMenu(context, 'Minhas Adoções', Icons.history_outlined,
-              const HistoricoPage()),
+              const HistoricoUsuarioPage()),
           _criarItemMenu(context, 'Minha Conta', Icons.person_outline, const Login()),
           _criarSeparador(context),
           _criarBlocoTitulo(context, 'CONFIGURAÇÕES'),

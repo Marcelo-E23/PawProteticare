@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
-import '../doacao_model.dart';
+import '../models/doacao_model.dart';
+import '../services/doacao_service.dart';
 
 class DoacaoProvider with ChangeNotifier {
-  final List<Doacao> _historico = [];
+  final _service = DoacaoService();
 
-  List<Doacao> get historico => _historico;
+  // Histórico apenas do usuário logado
+  List<DoacaoModel> _historicoUsuario = [];
 
-  void adicionarDoacao(Doacao doacao) {
-    _historico.add(doacao);
+  List<DoacaoModel> get historicoUsuario => _historicoUsuario;
+
+  // Criar nova doação
+  Future<void> adicionarDoacao(DoacaoModel doacao, String token) async {
+    final nova = await _service.criarDoacao(doacao, token);
+    _historicoUsuario.add(nova);
+    notifyListeners();
+  }
+
+  // Carregar histórico do usuário logado
+  Future<void> carregarDoacoesUsuario(String token) async {
+    _historicoUsuario = await _service.listarDoacoesUsuario(token);
     notifyListeners();
   }
 }
+
