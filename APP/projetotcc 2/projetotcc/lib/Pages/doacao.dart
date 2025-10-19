@@ -47,13 +47,18 @@ class _DoacaoPageState extends State<DoacaoPage> {
     super.dispose();
   }
 
+  void definirValor(double valor) {
+    setState(() {
+      _valorController.text = valor.toStringAsFixed(2);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final loginProvider = Provider.of<LoginProvider>(context);
 
-    // Precisa pedir nome/CPF se primeira doação (nome não está no provider)
     final precisaNomeCpf = loginProvider.nomeUsuario == null;
 
     return Scaffold(
@@ -132,9 +137,21 @@ class _DoacaoPageState extends State<DoacaoPage> {
 
               // Campos específicos do tipo de doação
               if (_tipoDoacao == "Dinheiro") ...[
+                Text('Valor (R\$)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    ElevatedButton(onPressed: () => definirValor(10), child: const Text('R\$10')),
+                    const SizedBox(width: 8),
+                    ElevatedButton(onPressed: () => definirValor(20), child: const Text('R\$20')),
+                    const SizedBox(width: 8),
+                    ElevatedButton(onPressed: () => definirValor(50), child: const Text('R\$50')),
+                  ],
+                ),
+                const SizedBox(height: 16),
                 TextFormField(
                   controller: _valorController,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [MoneyInputFormatter()],
                   validator: (value) => value == null || value.isEmpty ? 'Informe o valor da doação' : null,
                   style: TextStyle(color: isDark ? Colors.white : Colors.black),
@@ -203,7 +220,6 @@ class _DoacaoPageState extends State<DoacaoPage> {
   void _confirmarDoacao(LoginProvider loginProvider) async {
     if (!_formKey.currentState!.validate()) return;
 
-    // Nome e CPF do formulário
     final nome = _nomeController.text.trim();
     final cpf = _cpfController.text.trim();
 
@@ -228,7 +244,6 @@ class _DoacaoPageState extends State<DoacaoPage> {
       await Provider.of<DoacaoProvider>(context, listen: false)
           .adicionarDoacao(doacao, loginProvider.token!);
 
-      // Salvar nome localmente se primeira doação
       if (loginProvider.nomeUsuario == null) {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('nomeUsuario', nome);
