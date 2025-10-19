@@ -274,8 +274,8 @@ class SobreNosPage extends StatelessWidget {
               elevation: 2,
               shadowColor: Colors.white.withOpacity(0.05),
             ).copyWith(
-              overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
-                if (states.contains(MaterialState.pressed)) {
+              overlayColor: WidgetStateProperty.resolveWith<Color?>((states) {
+                if (states.contains(WidgetState.pressed)) {
                   return const Color(0xFFDDE5FF);
                 }
                 return const Color(0xFFE0E7FF);
@@ -337,13 +337,13 @@ class SobreNosPage extends StatelessWidget {
               ),
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
             ).copyWith(
-              overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
-                if (states.contains(MaterialState.pressed)) {
+              overlayColor: WidgetStateProperty.resolveWith<Color?>((states) {
+                if (states.contains(WidgetState.pressed)) {
                   return const Color(0xFFDDE5FF);
                 }
                 return const Color(0xFFE0E7FF);
               }),
-              shadowColor: MaterialStateProperty.all<Color>(
+              shadowColor: WidgetStateProperty.all<Color>(
                 Colors.black.withOpacity(0.05),
               ),
             ),

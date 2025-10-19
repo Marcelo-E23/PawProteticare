@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:projetotcc/menu_drawer.dart';
 import 'package:projetotcc/widgets/noticia_card.dart';
 import 'package:projetotcc/widgets/patrocinador_card.dart';

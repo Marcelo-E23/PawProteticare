@@ -3,6 +3,8 @@ import 'package:projetotcc/menu_drawer.dart';
 import 'package:projetotcc/Pages/fieb.dart';
 
 class TelaPrincipal extends StatelessWidget {
+  const TelaPrincipal({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +43,7 @@ class TelaPrincipal extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => FiebScreen(),
+                          builder: (context) => const FiebScreen(),
                         ),
                       );
                     },

@@ -13,7 +13,7 @@ class PatrocinadorCard extends StatefulWidget {
 
 class _PatrocinadorCardState extends State<PatrocinadorCard>
     with SingleTickerProviderStateMixin {
-  bool _isPressed = false;
+  final bool _isPressed = false;
   late AnimationController _controller;
   late Animation<double> _fadeIn;
 
@@ -155,7 +155,7 @@ class _PatrocinadorCardState extends State<PatrocinadorCard>
                                         style: GoogleFonts.roboto(
                                           fontSize: isWide ? 18 : 16,
                                           fontWeight: FontWeight.bold,
-                                          color: theme.colorScheme.onBackground,
+                                          color: theme.colorScheme.onSurface,
                                         ),
                                       ),
                                     ),

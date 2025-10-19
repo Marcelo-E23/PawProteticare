@@ -68,7 +68,7 @@ class _NoticiaCardState extends State<NoticiaCard>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWide = constraints.maxWidth > 800;
-        final categoriaColor = const Color(0xFF2196F3);
+        const categoriaColor = Color(0xFF2196F3);
 
         return Center(
           child: ConstrainedBox(

@@ -4,9 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:projetotcc/Pages/doacao.dart';
 import 'doacao_provider.dart';
-import 'doacao_model.dart';
+import 'data/model/doacao_model.dart';
 
 class HistoricoPage extends StatelessWidget {
+  const HistoricoPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final doacoes = Provider.of<DoacaoProvider>(context).historico;
@@ -60,7 +62,7 @@ class HistoricoPage extends StatelessWidget {
                         style: const TextStyle(fontSize: 24),
                       ),
                       title: Text(
-                        "${d.tipo}${d.valor != null ? " — R\$ ${d.valor}" : ""}",
+                        "${d.tipo}${" — R\$ ${d.valor}"}",
                         style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w600,
                           fontSize: 15,

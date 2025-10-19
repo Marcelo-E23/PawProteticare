@@ -13,6 +13,8 @@ import 'package:projetotcc/Pages/adocao.dart';
 import 'package:projetotcc/historico_page.dart';
 
 class MenuDrawer extends StatelessWidget {
+  const MenuDrawer({super.key});
+
   @override
   Widget build(BuildContext context) {
     final loginProvider = Provider.of<LoginProvider>(context);
@@ -37,7 +39,7 @@ class MenuDrawer extends StatelessWidget {
               children: [
                 Semantics(
                   label: 'Logo da ONG',
-                  child: CircleAvatar(
+                  child: const CircleAvatar(
                     radius: 32,
                     backgroundImage: AssetImage('assets/images/logo1.png'),
                   ),
@@ -75,15 +77,15 @@ class MenuDrawer extends StatelessWidget {
           const SizedBox(height: 24),
           _criarBlocoTitulo(context, 'ONG'),
           _criarItemMenu(
-              context, 'Tela Inicial', Icons.home_filled, FiebScreen()),
-          _criarItemMenu(context, 'Adoção', Icons.pets_outlined, AdocaoPage()),
+              context, 'Tela Inicial', Icons.home_filled, const FiebScreen()),
+          _criarItemMenu(context, 'Adoção', Icons.pets_outlined, const AdocaoPage()),
           _criarItemMenu(context, 'Doação', Icons.volunteer_activism_outlined,
-              DoacaoPage()),
+              const DoacaoPage()),
           _criarSeparador(context),
           _criarBlocoTitulo(context, 'USUÁRIO'),
           _criarItemMenu(context, 'Minhas Adoções', Icons.history_outlined,
               HistoricoPage()),
-          _criarItemMenu(context, 'Minha Conta', Icons.person_outline, Login()),
+          _criarItemMenu(context, 'Minha Conta', Icons.person_outline, const Login()),
           _criarSeparador(context),
           _criarBlocoTitulo(context, 'CONFIGURAÇÕES'),
           Consumer<ThemeProvider>(
@@ -94,7 +96,7 @@ class MenuDrawer extends StatelessWidget {
                 themeProvider.isDarkMode
                     ? Icons.nightlight_round
                     : Icons.wb_sunny,
-                Login(), // não navega, apenas exibe
+                const Login(), // não navega, apenas exibe
                 textoColor: isDarkMode
                     ? const Color(0xFFE0E0E0)
                     : const Color(0xFF212121),
@@ -114,7 +116,7 @@ class MenuDrawer extends StatelessWidget {
             context,
             'Sair',
             Icons.logout,
-            Login(),
+            const Login(),
             textoColor: const Color(0xFFE53935),
             offset: const Offset(4, -1), // 👈 ajuste vertical do ícone
           ),

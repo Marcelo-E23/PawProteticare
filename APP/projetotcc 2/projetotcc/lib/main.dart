@@ -7,17 +7,10 @@ import 'package:projetotcc/login_provider.dart';
 import 'package:projetotcc/doacao_provider.dart';
 import 'package:projetotcc/historico_page.dart';
 
-import 'package:projetotcc/widgets/noticia_card.dart';
-import 'package:projetotcc/widgets/patrocinador_card.dart';
-import 'package:projetotcc/Pages/cadastro.dart';
-import 'package:projetotcc/Pages/sobrenos.dart';
 import 'package:projetotcc/Pages/inicio.dart';
 import 'package:projetotcc/Pages/recuperacaosenha.dart';
 import 'package:projetotcc/Pages/adocao.dart';
 import 'package:projetotcc/Pages/doacao.dart';
-import 'package:projetotcc/Pages/login.dart';
-import 'package:projetotcc/Pages/interesse_adocao.dart';
-import 'package:projetotcc/menu_drawer.dart';
 
 void main() {
   runApp(

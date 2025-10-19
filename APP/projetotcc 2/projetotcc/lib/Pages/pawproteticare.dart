@@ -64,7 +64,7 @@ class _PawProticareState extends State<PawProticare> {
                       controller: _controller,
                       obscureText: true,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                         labelText: 'Pesquisar Animal',
                         filled: true,
                         fillColor: Colors.lightBlue[50],

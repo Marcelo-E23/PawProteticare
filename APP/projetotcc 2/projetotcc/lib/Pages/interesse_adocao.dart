@@ -257,7 +257,7 @@ class _InteresseAdocaoPageState extends State<InteresseAdocaoPage> {
                   ),
                   const SizedBox(height: 8),
                   DropdownButtonFormField<String>(
-                    value: _residencia,
+                    initialValue: _residencia,
                     items: ["Casa", "Apartamento", "Chácara", "Outro"]
                         .map((tipo) => DropdownMenuItem(
                               value: tipo,

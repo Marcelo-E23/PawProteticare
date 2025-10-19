@@ -135,7 +135,7 @@ class AdocaoPage extends StatelessWidget {
     final nameColor = isDark ? Colors.white : const Color(0xFF212529);
     final textColor =
         isDark ? const Color(0xFFE0E0E0) : const Color(0xFF495057);
-    final nameFontSize = 22.0;
+    const nameFontSize = 22.0;
     final buttonPadding = isMobile
         ? const EdgeInsets.symmetric(vertical: 14, horizontal: 20)
         : const EdgeInsets.symmetric(vertical: 18, horizontal: 20);

@@ -66,7 +66,7 @@ class _DoacaoPageState extends State<DoacaoPage> {
               ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
-                value: _tipoDoacao,
+                initialValue: _tipoDoacao,
                 items: ["Dinheiro", "Ração", "Acessórios"]
                     .map((tipo) => DropdownMenuItem(
                           value: tipo,
@@ -169,7 +169,7 @@ class _DoacaoPageState extends State<DoacaoPage> {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: const Color(0xFF007BFF)),
+        borderSide: const BorderSide(color: Color(0xFF007BFF)),
       ),
       errorStyle: TextStyle(
         fontSize: 12,
@@ -393,7 +393,7 @@ class _DoacaoPageState extends State<DoacaoPage> {
                 ),
               ),
             );
-          }).toList(),
+          }),
         ],
         const SizedBox(height: 32),
         Center(
@@ -468,7 +468,7 @@ class _DoacaoPageState extends State<DoacaoPage> {
                       ),
                     ),
                   );
-                }).toList(),
+                }),
               ],
             );
           },
