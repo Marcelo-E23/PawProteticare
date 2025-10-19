@@ -143,7 +143,7 @@ class _PagamentoPageState extends State<PagamentoPage> {
               size: 200.0,
             ),
           ] else if (_metodoSelecionado == "Cartão") ...[
-            Icon(Icons.credit_card, color: Colors.blue, size: 80),
+            const Icon(Icons.credit_card, color: Colors.blue, size: 80),
             const SizedBox(height: 15),
             Text(
               "Pagamento com cartão confirmado!",
@@ -151,7 +151,7 @@ class _PagamentoPageState extends State<PagamentoPage> {
               textAlign: TextAlign.center,
             ),
           ] else if (_metodoSelecionado == "Dinheiro") ...[
-            Icon(Icons.attach_money, color: Colors.green, size: 80),
+            const Icon(Icons.attach_money, color: Colors.green, size: 80),
             const SizedBox(height: 15),
             Text(
               "Pagamento em dinheiro registrado!",

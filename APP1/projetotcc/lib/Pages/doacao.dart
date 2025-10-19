@@ -135,7 +135,7 @@ class _DoacaoPageState extends State<DoacaoPage> {
                     ),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<String>(
-                      value: _tipoDoacao,
+                      initialValue: _tipoDoacao,
                       items: ["Dinheiro", "Ração", "Acessórios"].map((tipo) {
                         final icon = iconesDoacao[tipo];
                         return DropdownMenuItem(
@@ -375,7 +375,7 @@ class _DoacaoPageState extends State<DoacaoPage> {
                             ),
                           ),
                         );
-                      }).toList(),
+                      }),
                     ],
                     const SizedBox(height: 45),
                     Center(

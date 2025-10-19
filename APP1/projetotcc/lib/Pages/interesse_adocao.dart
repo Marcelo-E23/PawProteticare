@@ -152,7 +152,7 @@ class _InteresseAdocaoPageState extends State<InteresseAdocaoPage> {
         isDark ? const Color(0xFF2D2D2D) : const Color(0xFFF5F6F7);
     final borderInactive =
         isDark ? const Color(0xFF444444) : const Color(0xFFE0E0E0);
-    final borderActive = const Color(0xFF007AFF);
+    const borderActive = Color(0xFF007AFF);
     final placeholderColor =
         isDark ? const Color(0xFFAAAAAA) : const Color(0xFF888888);
     final iconColor =
@@ -272,8 +272,9 @@ class _InteresseAdocaoPageState extends State<InteresseAdocaoPage> {
                       keyboardType: TextInputType.phone,
                       hintText: "(99) 99999-9999", validator: (value) {
                     final telRegex = RegExp(r'^\(\d{2}\) \d{4,5}-\d{4}$');
-                    if (value == null || !telRegex.hasMatch(value))
+                    if (value == null || !telRegex.hasMatch(value)) {
                       return "Telefone inválido";
+                    }
                     return null;
                   }),
                   _buildCampo("CEP *", _cepController, labelColor, textColor,
@@ -305,7 +306,7 @@ class _InteresseAdocaoPageState extends State<InteresseAdocaoPage> {
                     width: MediaQuery.of(context).size.width * 0.9,
                     height: 56,
                     child: DropdownButtonFormField<String>(
-                      value: _residencia,
+                      initialValue: _residencia,
                       items: ["Casa", "Apartamento", "Chácara", "Outro"]
                           .map((tipo) => DropdownMenuItem(
                                 value: tipo,
@@ -420,7 +421,7 @@ class _InteresseAdocaoPageState extends State<InteresseAdocaoPage> {
         isDark ? const Color(0xFF2D2D2D) : const Color(0xFFF5F6F7);
     final borderInactive =
         isDark ? const Color(0xFF444444) : const Color(0xFFE0E0E0);
-    final borderActive = const Color(0xFF007AFF);
+    const borderActive = Color(0xFF007AFF);
     final placeholderColor =
         isDark ? const Color(0xFFAAAAAA) : const Color(0xFF888888);
 

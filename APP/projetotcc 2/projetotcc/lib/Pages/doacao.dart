@@ -97,7 +97,7 @@ class _DoacaoPageState extends State<DoacaoPage> {
               ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
-                value: _tipoDoacao,
+                initialValue: _tipoDoacao,
                 items: ["Dinheiro", "Ração", "Acessórios"]
                     .map((tipo) => DropdownMenuItem(
                           value: tipo,
@@ -137,7 +137,7 @@ class _DoacaoPageState extends State<DoacaoPage> {
 
               // Campos específicos do tipo de doação
               if (_tipoDoacao == "Dinheiro") ...[
-                Text('Valor (R\$)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                const Text('Valor (R\$)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                 const SizedBox(height: 8),
                 Row(
                   children: [
@@ -151,7 +151,7 @@ class _DoacaoPageState extends State<DoacaoPage> {
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _valorController,
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [MoneyInputFormatter()],
                   validator: (value) => value == null || value.isEmpty ? 'Informe o valor da doação' : null,
                   style: TextStyle(color: isDark ? Colors.white : Colors.black),

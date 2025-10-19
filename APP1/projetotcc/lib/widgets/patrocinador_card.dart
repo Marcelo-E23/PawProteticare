@@ -75,8 +75,8 @@ class _PatrocinadorCardState extends State<PatrocinadorCard>
     final isWide = screenWidth > 800;
 
     final cardColor = isDark ? const Color(0xFF1E1E1E) : Colors.white;
-    final primaryColor = const Color(0xFF0A2E5C);
-    final accentColor = const Color(0xFF0A84FF);
+    const primaryColor = Color(0xFF0A2E5C);
+    const accentColor = Color(0xFF0A84FF);
     final secondaryColor = isDark ? const Color(0xFFB0B0B0) : const Color(0xFF4B5563);
     final borderColor = isDark ? const Color(0xFF3A3A3C) : const Color(0xFFD1D5DB);
 

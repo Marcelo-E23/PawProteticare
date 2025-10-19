@@ -4,7 +4,7 @@ import 'package:projetotcc/providers/login_provider.dart';
 import 'login.dart';
 
 class Cadastro extends StatefulWidget {
-  const Cadastro({Key? key}) : super(key: key);
+  const Cadastro({super.key});
 
   @override
   State<Cadastro> createState() => _CadastroState();

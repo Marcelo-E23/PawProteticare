@@ -12,6 +12,8 @@ import 'package:projetotcc/Pages/adocao.dart';
 import 'package:projetotcc/historico_page.dart';
 
 class MenuDrawer extends StatelessWidget {
+  const MenuDrawer({super.key});
+
   @override
   Widget build(BuildContext context) {
     final loginProvider = Provider.of<LoginProvider>(context);
@@ -36,7 +38,7 @@ class MenuDrawer extends StatelessWidget {
               children: [
                 Semantics(
                   label: 'Logo da ONG',
-                  child: CircleAvatar(
+                  child: const CircleAvatar(
                     radius: 43,
                     backgroundImage: AssetImage('assets/images/logo1.png'),
                   ),
@@ -77,7 +79,7 @@ class MenuDrawer extends StatelessWidget {
             context,
             'Tela Inicial',
             Icons.home_filled,
-            FiebScreen(),
+            const FiebScreen(),
             // exigeLogin: true,
             // estaLogado: loginProvider.estaLogado,
           ),
@@ -85,7 +87,7 @@ class MenuDrawer extends StatelessWidget {
             context,
             'Adoção',
             Icons.pets_outlined,
-            AdocaoPage(),
+            const AdocaoPage(),
             // exigeLogin: true,
             // estaLogado: loginProvider.estaLogado,
           ),
@@ -93,7 +95,7 @@ class MenuDrawer extends StatelessWidget {
             context,
             'Doação',
             Icons.volunteer_activism_outlined,
-            DoacaoPage(),
+            const DoacaoPage(),
             // exigeLogin: true,
             // estaLogado: loginProvider.estaLogado,
           ),
@@ -101,7 +103,7 @@ class MenuDrawer extends StatelessWidget {
             context,
             'Sobre Nós',
             Icons.business,
-            SobreNosPage(),
+            const SobreNosPage(),
             //exigeLogin: true,
             //estaLogado: loginProvider.estaLogado,
           ),
@@ -115,7 +117,7 @@ class MenuDrawer extends StatelessWidget {
             //exigeLogin: true,
             // estaLogado: loginProvider.estaLogado,
           ),
-          _criarItemMenu(context, 'Minha Conta', Icons.person_outline, Login()),
+          _criarItemMenu(context, 'Minha Conta', Icons.person_outline, const Login()),
           _criarSeparador(context),
           _criarBlocoTitulo(context, 'CONFIGURAÇÕES'),
           Consumer<ThemeProvider>(
@@ -126,7 +128,7 @@ class MenuDrawer extends StatelessWidget {
                 themeProvider.isDarkMode
                     ? Icons.nightlight_round
                     : Icons.wb_sunny,
-                Login(), // não navega, apenas exibe
+                const Login(), // não navega, apenas exibe
                 textoColor: isDarkMode
                     ? const Color(0xFFE0E0E0)
                     : const Color(0xFF212121),
@@ -146,7 +148,7 @@ class MenuDrawer extends StatelessWidget {
             context,
             'Sair',
             Icons.logout,
-            Login(),
+            const Login(),
             textoColor: const Color(0xFFE53935),
             offset: const Offset(4, -1), // 👈 ajuste vertical do ícone
           ),

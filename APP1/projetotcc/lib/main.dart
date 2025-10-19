@@ -62,7 +62,7 @@ home: const FiebScreen(), //  Inicia DIRETO no jornal
         '/adocao': (context) => const AdocaoPage(),
         '/doacao': (context) => const DoacaoPage(),
         '/historico': (context) => HistoricoPage(),
-        '/FiebScreen': (context) => FiebScreen(),
+        '/FiebScreen': (context) => const FiebScreen(),
       },
     );
   }

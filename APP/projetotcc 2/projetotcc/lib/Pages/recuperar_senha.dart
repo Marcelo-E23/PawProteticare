@@ -5,7 +5,7 @@ import 'package:projetotcc/providers/login_provider.dart';
 import 'login.dart';
 
 class RecuperarSenhaPage extends StatefulWidget {
-  const RecuperarSenhaPage({Key? key}) : super(key: key);
+  const RecuperarSenhaPage({super.key});
 
   @override
   _RecuperarSenhaPageState createState() => _RecuperarSenhaPageState();
@@ -141,11 +141,11 @@ class _RecuperarSenhaPageState extends State<RecuperarSenhaPage> {
                     const SizedBox(height: 24),
                     TextButton(
                       onPressed: () => Navigator.pop(context),
-                      child: Text('Voltar para o login'),
                       style: TextButton.styleFrom(
                         foregroundColor: const Color(0xff0c2772),
                         textStyle: GoogleFonts.quicksand(fontSize: 14),
                       ),
+                      child: const Text('Voltar para o login'),
                     ),
                   ],
                 ),

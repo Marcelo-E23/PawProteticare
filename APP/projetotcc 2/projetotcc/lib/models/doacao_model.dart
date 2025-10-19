@@ -18,7 +18,7 @@ class DoacaoModel {
   Map<String, dynamic> toJson() => {
         if (id != null) 'id': id,
         'tipodoacao': tipo,
-        'valor': valor != null ? valor.toString() : null,
+        'valor': valor?.toString(),
         'doador': usuario.toJson(),
         'datadoacao': dataDoacao.toIso8601String(),
       };

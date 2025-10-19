@@ -77,7 +77,7 @@ class _FiebScreenState extends State<FiebScreen> {
     final backgroundColor = isDark ? const Color(0xFF121212) : const Color(0xFFF9FAFB);
     final primaryColor = isDark ? Colors.white : const Color(0xFF0A2E5C);
     final secondaryColor = isDark ? const Color(0xFFB0B0B0) : const Color(0xFF4B5563);
-    final accentColor = const Color(0xFF0A84FF);
+    const accentColor = Color(0xFF0A84FF);
     final dividerColor = isDark ? const Color(0xFF3A3A3C) : const Color(0xFFD1D5DB);
 
     return Scaffold(

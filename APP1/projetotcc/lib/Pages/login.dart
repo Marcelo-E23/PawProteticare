@@ -144,7 +144,7 @@ class _LoginState extends State<Login> {
                           TextFormField(
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
-                            autofillHints: [AutofillHints.email],
+                            autofillHints: const [AutofillHints.email],
                             onChanged: (_) => _validateForm(),
                             style: TextStyle(color: textPrimary, fontSize: 16),
                             decoration: InputDecoration(
@@ -196,7 +196,7 @@ class _LoginState extends State<Login> {
                           TextFormField(
                             controller: _senhaController,
                             obscureText: _obscurePassword,
-                            autofillHints: [AutofillHints.password],
+                            autofillHints: const [AutofillHints.password],
                             onChanged: (_) => _validateForm(),
                             style: TextStyle(color: textPrimary, fontSize: 16),
                             decoration: InputDecoration(

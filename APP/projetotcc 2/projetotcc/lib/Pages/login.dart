@@ -105,11 +105,11 @@ class _LoginState extends State<Login> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => RecuperarSenhaPage()),
+                      MaterialPageRoute(builder: (context) => const RecuperarSenhaPage()),
                     );
                   },
                   style: ButtonStyle(
-                    overlayColor: MaterialStateProperty.all(
+                    overlayColor: WidgetStateProperty.all(
                       isDark ? Colors.white10 : Colors.black12,
                     ),
                   ),
@@ -182,7 +182,7 @@ class _LoginState extends State<Login> {
                                 if (sucesso) {
                                   Navigator.pushReplacement(
                                     context,
-                                    MaterialPageRoute(builder: (context) => FiebScreen()),
+                                    MaterialPageRoute(builder: (context) => const FiebScreen()),
                                   );
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -219,7 +219,7 @@ class _LoginState extends State<Login> {
                     );
                   },
                   style: ButtonStyle(
-                    overlayColor: MaterialStateProperty.all(
+                    overlayColor: WidgetStateProperty.all(
                       isDark ? Colors.white10 : Colors.black12,
                     ),
                   ),

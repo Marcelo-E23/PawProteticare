@@ -6,7 +6,7 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:projetotcc/Pages/login.dart';
 
 class Cadastro extends StatefulWidget {
-  const Cadastro({Key? key}) : super(key: key);
+  const Cadastro({super.key});
 
   @override
   State<Cadastro> createState() => _CadastroState();
@@ -39,7 +39,7 @@ class _CadastroState extends State<Cadastro> {
   bool? senhaValidaVisual;
   bool? confirmarSenhaValida;
 
-  Map<String, bool> _campoTocado = {
+  final Map<String, bool> _campoTocado = {
     'nome completo': false,
     'e-mail': false,
     'cpf': false,
@@ -162,9 +162,9 @@ class _CadastroState extends State<Cadastro> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     // ✅ ÍCONE MENOR (40px)
-                    Icon(
+                    const Icon(
                       Icons.check_circle_outline,
-                      color: const Color(0xFF0A84FF),
+                      color: Color(0xFF0A84FF),
                       size: 40,
                     ),
                     const SizedBox(height: 20), // ✅ mais espaço
@@ -199,9 +199,9 @@ class _CadastroState extends State<Cadastro> {
                           ),
                         ),
                         const SizedBox(width: 6),
-                        Icon(
+                        const Icon(
                           Icons.favorite,
-                          color: const Color(0xFF0A84FF),
+                          color: Color(0xFF0A84FF),
                           size: 16, // ✅ coração menor e vetorial
                         ),
                       ],
@@ -238,15 +238,15 @@ class _CadastroState extends State<Cadastro> {
                     },
                     // ✅ CORREÇÃO: usar ButtonStyle para overlayColor
                     style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all<Color>(const Color(0xFF0A84FF)),
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      foregroundColor: WidgetStateProperty.all<Color>(const Color(0xFF0A84FF)),
+                      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                         const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                       ),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
-                      overlayColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                        if (states.contains(MaterialState.pressed)) {
+                      overlayColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+                        if (states.contains(WidgetState.pressed)) {
                           return const Color(0xFF0A84FF).withOpacity(0.2);
                         }
                         return null;
@@ -625,9 +625,9 @@ class _CadastroState extends State<Cadastro> {
     final Color fundoInput = inputFill;
     final Color textoInput = textPrimary;
     final Color placeholder = placeholderColor;
-    final Color bordaErro = Colors.redAccent;
-    final Color bordaCorreto = Colors.green;
-    final Color bordaAtiva = const Color(0xFF0A84FF);
+    const Color bordaErro = Colors.redAccent;
+    const Color bordaCorreto = Colors.green;
+    const Color bordaAtiva = Color(0xFF0A84FF);
     final Color bordaInativa = inputBorder;
 
     Color bordaColor;

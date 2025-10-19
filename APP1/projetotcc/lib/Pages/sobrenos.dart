@@ -80,12 +80,12 @@ class _SobreNosPageState extends State<SobreNosPage> with SingleTickerProviderSt
                   content: RichText(
                     text: TextSpan(
                       style: GoogleFonts.inter(fontSize: 16, height: 1.5, color: textColor),
-                      children: [
-                        const TextSpan(text: 'A PawProteticare '),
-                        TextSpan(text: 'resgata', style: const TextStyle(fontWeight: FontWeight.bold)),
-                        const TextSpan(text: ', reabilita e '),
-                        TextSpan(text: 'inclui', style: const TextStyle(fontWeight: FontWeight.bold)),
-                        const TextSpan(text: ' cães e gatos com deficiência física , vítimas de abandono ou maus-tratos — oferecendo acolhimento, cuidado e uma nova chance.'),
+                      children: const [
+                        TextSpan(text: 'A PawProteticare '),
+                        TextSpan(text: 'resgata', style: TextStyle(fontWeight: FontWeight.bold)),
+                        TextSpan(text: ', reabilita e '),
+                        TextSpan(text: 'inclui', style: TextStyle(fontWeight: FontWeight.bold)),
+                        TextSpan(text: ' cães e gatos com deficiência física , vítimas de abandono ou maus-tratos — oferecendo acolhimento, cuidado e uma nova chance.'),
                       ],
                     ),
                   ),

@@ -56,7 +56,7 @@ class ThemeProvider extends ChangeNotifier {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Color(0xff1a2b4c), // azul petróleo
+        backgroundColor: const Color(0xff1a2b4c), // azul petróleo
         foregroundColor: Colors.white,
         textStyle: const TextStyle(fontSize: 16),
       ),
