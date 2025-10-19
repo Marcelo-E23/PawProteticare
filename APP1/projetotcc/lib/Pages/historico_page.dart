@@ -3,15 +3,17 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:projetotcc/Pages/doacao.dart';
-import 'doacao_provider.dart';
-import 'doacao_model.dart';
+import '../provider/doacao_provider.dart';
+import '../models/doacao_model.dart';
 
 class HistoricoPage extends StatelessWidget {
   const HistoricoPage({super.key});
+  
+  String get token => null;
 
   @override
   Widget build(BuildContext context) {
-    final doacoes = Provider.of<DoacaoProvider>(context).historico;
+    final doacoes = Provider.of<DoacaoProvider>(context).carregarDoacoesUsuario(token);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(

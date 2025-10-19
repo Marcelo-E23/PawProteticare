@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:projetotcc/Pages/fieb.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:projetotcc/login_provider.dart';
+import 'package:projetotcc/provider/login_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 

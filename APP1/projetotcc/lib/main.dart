@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:projetotcc/theme_provider.dart';
-import 'package:projetotcc/login_provider.dart';
-import 'package:projetotcc/doacao_provider.dart';
-import 'package:projetotcc/historico_page.dart';
+import 'package:projetotcc/provider/login_provider.dart';
+import 'package:projetotcc/provider/doacao_provider.dart';
+import 'package:projetotcc/Pages/historico_page.dart';
 
 import 'package:projetotcc/Pages/cadastro.dart';
 import 'package:projetotcc/Pages/sobrenos.dart';

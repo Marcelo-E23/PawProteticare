@@ -5,11 +5,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:projetotcc/Pages/fieb.dart';
 import 'package:projetotcc/Pages/sobrenos.dart';
 import 'package:projetotcc/theme_provider.dart';
-import 'package:projetotcc/login_provider.dart';
+import 'package:projetotcc/provider/login_provider.dart';
 import 'package:projetotcc/Pages/doacao.dart';
 import 'package:projetotcc/Pages/login.dart';
 import 'package:projetotcc/Pages/adocao.dart';
-import 'package:projetotcc/historico_page.dart';
+import 'package:projetotcc/Pages/historico_page.dart';
 
 class MenuDrawer extends StatelessWidget {
   const MenuDrawer({super.key});
