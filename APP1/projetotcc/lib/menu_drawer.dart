@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:projetotcc/Pages/fieb.dart';
-import 'package:projetotcc/Pages/sobrenos.dart';
-import 'package:projetotcc/theme_provider.dart';
-import 'package:projetotcc/provider/login_provider.dart';
-import 'package:projetotcc/Pages/doacao.dart';
-import 'package:projetotcc/Pages/login.dart';
-import 'package:projetotcc/Pages/adocao.dart';
-import 'package:projetotcc/Pages/historico_page.dart';
+import 'Pages/fieb.dart';
+import 'Pages/sobrenos.dart';
+import 'theme_provider.dart';
+import 'provider/login_provider.dart';
+import 'Pages/doacao.dart';
+import 'Pages/adocao.dart';
+import 'Pages/historico_page.dart';
+import 'Pages/login.dart';
 
 class MenuDrawer extends StatelessWidget {
   const MenuDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final loginProvider = Provider.of<LoginProvider>(context);
+    final loginProvider = context.watch<LoginProvider>();
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final userName = loginProvider.nomeUsuario ?? "Visitante";
     final screenWidth = MediaQuery.of(context).size.width;
@@ -27,12 +27,11 @@ class MenuDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
+          // Cabeçalho
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 28),
             decoration: BoxDecoration(
-              color: isDarkMode
-                  ? const Color(0xFF0D47A1)
-                  : const Color((0xFF1A4D8F)),
+              color: isDarkMode ? const Color(0xFF0D47A1) : const Color(0xFF1A4D8F),
             ),
             child: Row(
               children: [
@@ -74,69 +73,31 @@ class MenuDrawer extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 26),
+
+          // Blocos do menu
           _criarBlocoTitulo(context, 'ONG'),
-          _criarItemMenu(
-            context,
-            'Tela Inicial',
-            Icons.home_filled,
-            const FiebScreen(),
-            // exigeLogin: true,
-            // estaLogado: loginProvider.estaLogado,
-          ),
-          _criarItemMenu(
-            context,
-            'Adoção',
-            Icons.pets_outlined,
-            const AdocaoPage(),
-            // exigeLogin: true,
-            // estaLogado: loginProvider.estaLogado,
-          ),
-          _criarItemMenu(
-            context,
-            'Doação',
-            Icons.volunteer_activism_outlined,
-            const DoacaoPage(),
-            // exigeLogin: true,
-            // estaLogado: loginProvider.estaLogado,
-          ),
-          _criarItemMenu(
-            context,
-            'Sobre Nós',
-            Icons.business,
-            const SobreNosPage(),
-            //exigeLogin: true,
-            //estaLogado: loginProvider.estaLogado,
-          ),
+          _criarItemMenu(context, 'Tela Inicial', Icons.home_filled, FiebScreen()),
+          _criarItemMenu(context, 'Adoção', Icons.pets_outlined, AdocaoPage(), exigeLogin: true, estaLogado: loginProvider.estaLogado),
+          _criarItemMenu(context, 'Doação', Icons.volunteer_activism_outlined, DoacaoPage(), exigeLogin: true, estaLogado: loginProvider.estaLogado),
+          _criarItemMenu(context, 'Sobre Nós', Icons.business, SobreNosPage()),
           _criarSeparador(context),
           _criarBlocoTitulo(context, 'USUÁRIO'),
-          _criarItemMenu(
-            context,
-            'Minhas Adoções',
-            Icons.history_outlined,
-            HistoricoPage(),
-            //exigeLogin: true,
-            // estaLogado: loginProvider.estaLogado,
-          ),
-          _criarItemMenu(context, 'Minha Conta', Icons.person_outline, const Login()),
+          _criarItemMenu(context, 'Minhas Adoções', Icons.history_outlined, HistoricoUsuarioPage(), exigeLogin: true, estaLogado: loginProvider.estaLogado),
+          _criarItemMenu(context, 'Minha Conta', Icons.person_outline, Login()),
           _criarSeparador(context),
           _criarBlocoTitulo(context, 'CONFIGURAÇÕES'),
+
           Consumer<ThemeProvider>(
             builder: (context, themeProvider, child) {
               return _criarItemMenu(
                 context,
                 'Modo noturno',
-                themeProvider.isDarkMode
-                    ? Icons.nightlight_round
-                    : Icons.wb_sunny,
-                const Login(), // não navega, apenas exibe
-                textoColor: isDarkMode
-                    ? const Color(0xFFE0E0E0)
-                    : const Color(0xFF212121),
+                themeProvider.isDarkMode ? Icons.nightlight_round : Icons.wb_sunny,
+                const Login(), // apenas visual, não navega
+                textoColor: isDarkMode ? const Color(0xFFE0E0E0) : const Color(0xFF212121),
                 trailing: Switch.adaptive(
                   value: themeProvider.isDarkMode,
-                  onChanged: (value) {
-                    themeProvider.toggleTheme(value);
-                  },
+                  onChanged: (value) => themeProvider.toggleTheme(value),
                   activeColor: const Color(0xFF4C8DFF),
                   inactiveTrackColor: Colors.grey[300],
                 ),
@@ -144,13 +105,14 @@ class MenuDrawer extends StatelessWidget {
             },
           ),
           const SizedBox(height: 10),
+
           _criarItemMenu(
             context,
             'Sair',
             Icons.logout,
-            const Login(),
+            Login(),
             textoColor: const Color(0xFFE53935),
-            offset: const Offset(4, -1), // 👈 ajuste vertical do ícone
+            offset: const Offset(4, -1),
           ),
           const SizedBox(height: 24),
         ],
@@ -171,6 +133,7 @@ class MenuDrawer extends StatelessWidget {
     );
   }
 
+  // ------------------- Funções auxiliares -------------------
   Widget _criarItemMenu(
     BuildContext context,
     String titulo,
@@ -192,21 +155,18 @@ class MenuDrawer extends StatelessWidget {
           if (exigeLogin && !estaLogado) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content:
-                    Text('Você precisa estar logado para acessar essa área.'),
+                content: Text('Você precisa estar logado para acessar essa área.'),
                 backgroundColor: Colors.redAccent,
               ),
             );
             return;
           }
-
           Navigator.push(
             context,
             PageRouteBuilder(
               pageBuilder: (_, __, ___) => pagina,
-              transitionsBuilder: (_, animation, __, child) {
-                return FadeTransition(opacity: animation, child: child);
-              },
+              transitionsBuilder: (_, animation, __, child) =>
+                  FadeTransition(opacity: animation, child: child),
             ),
           );
         },
@@ -216,20 +176,15 @@ class MenuDrawer extends StatelessWidget {
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           constraints: const BoxConstraints(minHeight: 48),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-          ),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
           child: Row(
             children: [
               Transform.translate(
                 offset: offset,
                 child: Icon(
                   icone,
-                  color: textoColor == const Color(0xFFE53935)
-                      ? textoColor
-                      : isDarkMode
-                          ? const Color(0xFF4C8DFF)
-                          : const Color(0xFF1976D2),
+                  color: textoColor ??
+                      (isDarkMode ? const Color(0xFF4C8DFF) : const Color(0xFF1976D2)),
                 ),
               ),
               const SizedBox(width: 16),
@@ -240,9 +195,7 @@ class MenuDrawer extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.normal,
                     color: textoColor ??
-                        (isDarkMode
-                            ? const Color(0xFFE0E0E0)
-                            : const Color(0xFF212121)),
+                        (isDarkMode ? const Color(0xFFE0E0E0) : const Color(0xFF212121)),
                   ),
                 ),
               ),
@@ -264,9 +217,7 @@ class MenuDrawer extends StatelessWidget {
         style: GoogleFonts.inter(
           fontSize: 14,
           fontWeight: FontWeight.w600,
-          color: isDarkMode
-              ? Colors.white.withOpacity(0.75)
-              : Colors.black.withOpacity(0.75),
+          color: isDarkMode ? Colors.white.withOpacity(0.75) : Colors.black.withOpacity(0.75),
         ),
       ),
     );
@@ -275,9 +226,7 @@ class MenuDrawer extends StatelessWidget {
   Widget _criarSeparador(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Divider(
-      color: isDarkMode
-          ? const Color.fromRGBO(255, 255, 255, 0.08)
-          : const Color(0xFFE0E0E0),
+      color: isDarkMode ? const Color.fromRGBO(255, 255, 255, 0.08) : const Color(0xFFE0E0E0),
       thickness: 1,
       indent: 20,
       endIndent: 20,

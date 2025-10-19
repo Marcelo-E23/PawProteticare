@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
-import 'package:projetotcc/Pages/fieb.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:projetotcc/provider/login_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../provider/doacao_provider.dart';
+import '../provider/login_provider.dart';
+import '../models/doacao_model.dart';
+import '../models/usuario_model.dart';
 
 class DoacaoPage extends StatefulWidget {
   const DoacaoPage({super.key});
@@ -34,8 +37,7 @@ class _DoacaoPageState extends State<DoacaoPage> {
     "Ração": [
       {
         "nome": "MedCenterPet",
-        "endereco":
-            "Av. Brg. Manoel Rodrigues Jordão, 1742 - Jardim Silveira, Barueri",
+        "endereco": "Av. Brg. Manoel Rodrigues Jordão, 1742 - Jardim Silveira, Barueri",
         "horario": "Seg a Sáb, 8h às 22h",
         "mapa": "https://www.google.com/maps?q=MedCenterPet+Barueri"
       },
@@ -56,7 +58,23 @@ class _DoacaoPageState extends State<DoacaoPage> {
     ],
   };
 
-  // 👇 MÉTODO CORRIGIDO — ADICIONADO DENTRO DA CLASSE
+  @override
+  void initState() {
+    super.initState();
+    final loginProvider = Provider.of<LoginProvider>(context, listen: false);
+    if (loginProvider.nomeUsuario != null) {
+      _nomeController.text = loginProvider.nomeUsuario!;
+    }
+  }
+
+  @override
+  void dispose() {
+    _nomeController.dispose();
+    _cpfController.dispose();
+    _valorController.dispose();
+    super.dispose();
+  }
+
   bool _podeConfirmar() {
     final formValido = _formKey.currentState?.validate() ?? false;
     if (_tipoDoacao == "Dinheiro") {
@@ -65,6 +83,12 @@ class _DoacaoPageState extends State<DoacaoPage> {
     } else {
       return formValido && _localSelecionado != null;
     }
+  }
+
+  void definirValor(double valor) {
+    setState(() {
+      _valorController.text = 'R\$ ${valor.toStringAsFixed(0)},00';
+    });
   }
 
   @override
@@ -85,7 +109,6 @@ class _DoacaoPageState extends State<DoacaoPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
           onPressed: () => Navigator.pop(context),
-          tooltip: "Voltar",
         ),
         title: Row(
           children: [
@@ -125,6 +148,7 @@ class _DoacaoPageState extends State<DoacaoPage> {
                     ),
                     const SizedBox(height: 27),
 
+                    // Tipo de Doação
                     Text(
                       "Como você quer ajudar?",
                       style: GoogleFonts.poppins(
@@ -135,7 +159,7 @@ class _DoacaoPageState extends State<DoacaoPage> {
                     ),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<String>(
-                      initialValue: _tipoDoacao,
+                      value: _tipoDoacao,
                       items: ["Dinheiro", "Ração", "Acessórios"].map((tipo) {
                         final icon = iconesDoacao[tipo];
                         return DropdownMenuItem(
@@ -166,22 +190,23 @@ class _DoacaoPageState extends State<DoacaoPage> {
                     ),
                     const SizedBox(height: 30),
 
-                    if (_tipoDoacao == "Dinheiro") ...[
-                      Text(
-                        "Seus dados",
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: isDark ? Colors.white : Colors.black,
-                        ),
+                    // Campos de Nome/CPF
+                    Text(
+                      "Seus dados",
+                      style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: isDark ? Colors.white : Colors.black,
                       ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: _nomeController,
-                        decoration: estiloCampo("Nome completo", isDark, icon: Icons.person_outline),
-                        validator: (value) => value?.trim().isEmpty ?? true ? 'Informe seu nome' : null,
-                      ),
-                      const SizedBox(height: 16),
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _nomeController,
+                      decoration: estiloCampo("Nome completo", isDark, icon: Icons.person_outline),
+                      validator: (value) => value?.trim().isEmpty ?? true ? 'Informe seu nome' : null,
+                    ),
+                    const SizedBox(height: 16),
+                    if (_tipoDoacao == "Dinheiro")
                       TextFormField(
                         controller: _cpfController,
                         inputFormatters: [
@@ -195,25 +220,9 @@ class _DoacaoPageState extends State<DoacaoPage> {
                           return cpfRegex.hasMatch(value) ? null : 'CPF inválido';
                         },
                       ),
-                      const SizedBox(height: 30),
-                    ] else if (_tipoDoacao == "Ração" || _tipoDoacao == "Acessórios") ...[
-                      Text(
-                        "Seu nome",
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: isDark ? Colors.white : Colors.black,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: _nomeController,
-                        decoration: estiloCampo("Nome completo", isDark, icon: Icons.person_outline),
-                        validator: (value) => value?.trim().isEmpty ?? true ? 'Informe seu nome' : null,
-                      ),
-                      const SizedBox(height: 30),
-                    ],
+                    const SizedBox(height: 30),
 
+                    // Campos de Doação
                     if (_tipoDoacao == "Dinheiro") ...[
                       Text(
                         "Escolha o valor",
@@ -223,16 +232,16 @@ class _DoacaoPageState extends State<DoacaoPage> {
                           color: isDark ? Colors.white : Colors.black,
                         ),
                       ),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 16),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: ["25", "50", "100"].map((valor) {
+                        children: [25, 50, 100].map((valor) {
                           final valorFormatado = 'R\$ $valor,00';
                           final isSelected = _valorController.text.trim() == valorFormatado;
                           return Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 4),
                             child: ElevatedButton(
-                              onPressed: () => setState(() => _valorController.text = valorFormatado),
+                              onPressed: () => definirValor(valor.toDouble()),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: isSelected
                                     ? const Color(0xFF0A84FF)
@@ -277,6 +286,7 @@ class _DoacaoPageState extends State<DoacaoPage> {
                             .copyWith(hintText: "Ex: R\$ 75,00"),
                       ),
                     ],
+
                     if (_tipoDoacao == "Ração" || _tipoDoacao == "Acessórios") ...[
                       const SizedBox(height: 27),
                       Text(
@@ -377,23 +387,14 @@ class _DoacaoPageState extends State<DoacaoPage> {
                         );
                       }),
                     ],
+
                     const SizedBox(height: 45),
-                    Center(
-                      child: TextButton.icon(
-                        onPressed: () {},
-                        icon: const Icon(Icons.info_outline, size: 16),
-                        label: Text(
-                          "Política de Privacidade",
-                          style: GoogleFonts.poppins(color: const Color(0xFF0A84FF)),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 24),
                   ],
                 ),
               ),
             ),
 
+            // Botão de confirmar
             Positioned(
               bottom: 20,
               left: 20,
@@ -405,8 +406,7 @@ class _DoacaoPageState extends State<DoacaoPage> {
                   onPressed: _podeConfirmar() && !_confirmando
                       ? () async {
                           setState(() => _confirmando = true);
-                          await Future.delayed(const Duration(seconds: 2));
-                          _confirmarDoacao();
+                          await _confirmarDoacao(loginProvider);
                           setState(() => _confirmando = false);
                         }
                       : null,
@@ -485,98 +485,115 @@ class _DoacaoPageState extends State<DoacaoPage> {
     );
   }
 
-  void _confirmarDoacao() {
+  Future<void> _confirmarDoacao(LoginProvider loginProvider) async {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final loginProvider = Provider.of<LoginProvider>(context, listen: false);
-    final nomeUsuario = loginProvider.nomeUsuario ?? "Amigo";
 
-    _valorController.clear();
-    _cpfController.clear();
-    _nomeController.clear();
-    _localSelecionado = null;
+    final nome = _nomeController.text.trim();
+    final cpf = _cpfController.text.trim();
 
-    showGeneralDialog(
-      context: context,
-      barrierDismissible: true,
-      barrierLabel: "Confirmação",
-      transitionDuration: const Duration(milliseconds: 400),
-      pageBuilder: (_, __, ___) => Center(
-        child: Material(
-          color: Colors.transparent,
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.85,
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF1E1E1E) : const Color(0xFFF9FAFB),
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.check_circle, color: Color(0xFF0A84FF), size: 64),
-                const SizedBox(height: 20),
-                Text(
-                  "Parabéns, $nomeUsuario!",
-                  style: GoogleFonts.poppins(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white : const Color(0xFF0A2E5C),
+    final usuario = UsuarioModel(nome: nome, cpf: cpf);
+
+    final tipo = _tipoDoacao;
+    final valor = _valorController.text.trim();
+
+    final doacao = DoacaoModel(
+      tipo: tipo,
+      valor: tipo == "Dinheiro" ? double.tryParse(valor.replaceAll(RegExp(r'[^\d.]'), '')) : null,
+      usuario: usuario,
+      dataDoacao: DateTime.now(),
+    );
+
+    try {
+      await Provider.of<DoacaoProvider>(context, listen: false)
+          .adicionarDoacao(doacao, loginProvider.token!);
+
+      if (loginProvider.nomeUsuario == null) {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('nomeUsuario', nome);
+        await prefs.setString('cpfUsuario', cpf);
+      }
+
+      showGeneralDialog(
+        context: context,
+        barrierDismissible: true,
+        barrierLabel: "Confirmação",
+        transitionDuration: const Duration(milliseconds: 400),
+        pageBuilder: (_, __, ___) => Center(
+          child: Material(
+            color: Colors.transparent,
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.85,
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: isDark ? const Color(0xFF1E1E1E) : const Color(0xFFF9FAFB),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  "Sua doação foi confirmada com sucesso.",
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    color: isDark ? Colors.white70 : const Color(0xFF4B5563),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "Obrigado por fazer a diferença.",
-                  style: GoogleFonts.poppins(
-                    fontSize: 16,
-                    fontStyle: FontStyle.italic,
-                    color: isDark ? Colors.white60 : const Color(0xFF6B7280),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          '/FiebScreen',
-                          (route) => false,
-                        );
-                      },
-                      label: const Text("Voltar à página inicial"),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF0A2E5C),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
-                        textStyle: GoogleFonts.poppins(fontSize: 16),
-                      ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.check_circle, color: Color(0xFF0A84FF), size: 64),
+                  const SizedBox(height: 20),
+                  Text(
+                    "Parabéns, $nome!",
+                    style: GoogleFonts.poppins(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: isDark ? Colors.white : const Color(0xFF0A2E5C),
                     ),
-                  ],
-                ),
-              ],
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    "Sua doação foi confirmada com sucesso.",
+                    style: GoogleFonts.poppins(
+                      fontSize: 18,
+                      color: isDark ? Colors.white70 : const Color(0xFF4B5563),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    "Obrigado por fazer a diferença.",
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      fontStyle: FontStyle.italic,
+                      color: isDark ? Colors.white60 : const Color(0xFF6B7280),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
+                  ElevatedButton.icon(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.check, size: 18),
+                    label: const Text("Fechar"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF0A2E5C),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+                      textStyle: GoogleFonts.poppins(fontSize: 16),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+
+      _valorController.clear();
+      _nomeController.clear();
+      _cpfController.clear();
+      _localSelecionado = null;
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Erro ao enviar doação: $e')));
+    }
   }
 }

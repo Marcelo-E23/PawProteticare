@@ -61,7 +61,7 @@ home: const FiebScreen(), //  Inicia DIRETO no jornal
       routes: {
         '/adocao': (context) => const AdocaoPage(),
         '/doacao': (context) => const DoacaoPage(),
-        '/historico': (context) => HistoricoPage(),
+        '/historico': (context) => HistoricoUsuarioPage(),
         '/FiebScreen': (context) => const FiebScreen(),
       },
     );
