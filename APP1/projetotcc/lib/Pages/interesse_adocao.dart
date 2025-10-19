@@ -41,11 +41,9 @@ class _InteresseAdocaoPageState extends State<InteresseAdocaoPage> {
   bool validarNomeCompleto(String nome) {
     final partes = nome.trim().split(RegExp(r'\s+'));
     if (partes.length < 2) return false;
-
     for (final parte in partes) {
       if (!RegExp(r'^[A-ZÀ-Ÿ][a-zà-ÿ\-]*$').hasMatch(parte)) return false;
     }
-
     return true;
   }
 
@@ -167,9 +165,8 @@ class _InteresseAdocaoPageState extends State<InteresseAdocaoPage> {
           style: GoogleFonts.poppins(
               fontWeight: FontWeight.w600, color: Colors.white),
         ),
-        backgroundColor:
-            const Color(0xFF1A4D8F), // 🔥 MELHORIA: azul escuro da paleta
-        foregroundColor: Colors.white, // 🔥 MELHORIA: ícone de voltar branco
+        backgroundColor: const Color(0xFF1A4D8F),
+        foregroundColor: Colors.white,
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -179,19 +176,17 @@ class _InteresseAdocaoPageState extends State<InteresseAdocaoPage> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color:
-                    isDark ? const Color(0xFF2D2D2D) : const Color(0xFFF5F6F7),
+                color: inputFillColor,
                 borderRadius: BorderRadius.circular(16),
               ),
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
               child: Row(
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                        12), // 🔥 MELHORIA: imagem quadrivulada
+                    borderRadius: BorderRadius.circular(12),
                     child: Image.asset(
                       widget.imagemPath,
-                      width: 100, // 🔥 MELHORIA: imagem ampliada
+                      width: 100,
                       height: 100,
                       fit: BoxFit.cover,
                       semanticLabel: 'Foto do pet ${widget.nomeAnimal}',
@@ -204,7 +199,7 @@ class _InteresseAdocaoPageState extends State<InteresseAdocaoPage> {
                       Text(
                         widget.nomeAnimal,
                         style: GoogleFonts.poppins(
-                          fontSize: 24, // 🔥 MELHORIA: nome com destaque
+                          fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: textColor,
                         ),
@@ -234,75 +229,96 @@ class _InteresseAdocaoPageState extends State<InteresseAdocaoPage> {
             const SizedBox(height: 16),
             Form(
               key: _formKey,
-              autovalidateMode: AutovalidateMode
-                  .onUserInteraction, // 🔥 MELHORIA: validação em tempo real
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 children: [
                   _buildCampo(
-                      "Nome completo *", _nomeController, labelColor, textColor,
-                      validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return "Campo obrigatório";
-                    }
-                    if (!validarNomeCompleto(value)) {
-                      return "Digite nome e sobrenome válidos";
-                    }
-                    return null;
-                  }),
-                  _buildCampo("CPF *", _cpfController, labelColor, textColor,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        CpfInputFormatter(), // formata como 000.000.000-00
-                      ],
-                      keyboardType: TextInputType.number,
-                      hintText: "000.000.000-00", validator: (value) {
-                    final cpfRegex = RegExp(
-                        r'^\d{3}\.\d{3}\.\d{3}-\d{2}$'); // exige formato com pontos e hífen
-                    if (value == null || !cpfRegex.hasMatch(value.trim())) {
-                      return "CPF inválido";
-                    }
-                    return null;
-                  }),
+                    "Nome completo *",
+                    _nomeController,
+                    labelColor,
+                    textColor,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return "Campo obrigatório";
+                      }
+                      if (!validarNomeCompleto(value)) {
+                        return "Digite nome e sobrenome válidos";
+                      }
+                      return null;
+                    },
+                  ),
                   _buildCampo(
-                      "Telefone *", _telefoneController, labelColor, textColor,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        TelefoneInputFormatter()
-                      ],
-                      keyboardType: TextInputType.phone,
-                      hintText: "(99) 99999-9999", validator: (value) {
-                    final telRegex = RegExp(r'^\(\d{2}\) \d{4,5}-\d{4}$');
-                    if (value == null || !telRegex.hasMatch(value)) {
-                      return "Telefone inválido";
-                    }
-                    return null;
-                  }),
-                  _buildCampo("CEP *", _cepController, labelColor, textColor,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(
-                            RegExp(r'\d|-')), // permite só números e hífen
-                      ],
-                      keyboardType: TextInputType.number,
-                      hintText: "00000-000", validator: (value) {
-                    final cepRegex = RegExp(
-                        r'^\d{5}-\d{3}$'); // exige 5 dígitos + hífen + 3 dígitos
-                    if (value == null || !cepRegex.hasMatch(value.trim())) {
-                      return "CEP inválido";
-                    }
-                    return null;
-                  }),
+                    "CPF *",
+                    _cpfController,
+                    labelColor,
+                    textColor,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      CpfInputFormatter(),
+                    ],
+                    keyboardType: TextInputType.number,
+                    hintText: "000.000.000-00",
+                    validator: (value) {
+                      final cpfRegex =
+                          RegExp(r'^\d{3}\.\d{3}\.\d{3}-\d{2}$');
+                      if (value == null || !cpfRegex.hasMatch(value.trim())) {
+                        return "CPF inválido";
+                      }
+                      return null;
+                    },
+                  ),
+                  _buildCampo(
+                    "Telefone *",
+                    _telefoneController,
+                    labelColor,
+                    textColor,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      TelefoneInputFormatter()
+                    ],
+                    keyboardType: TextInputType.phone,
+                    hintText: "(99) 99999-9999",
+                    validator: (value) {
+                      final telRegex =
+                          RegExp(r'^\(\d{2}\) \d{4,5}-\d{4}$');
+                      if (value == null || !telRegex.hasMatch(value)) {
+                        return "Telefone inválido";
+                      }
+                      return null;
+                    },
+                  ),
+                  _buildCampo(
+                    "CEP *",
+                    _cepController,
+                    labelColor,
+                    textColor,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'\d|-')),
+                    ],
+                    keyboardType: TextInputType.number,
+                    hintText: "00000-000",
+                    validator: (value) {
+                      final cepRegex = RegExp(r'^\d{5}-\d{3}$');
+                      if (value == null || !cepRegex.hasMatch(value.trim())) {
+                        return "CEP inválido";
+                      }
+                      return null;
+                    },
+                  ),
                   const SizedBox(height: 10),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("Tipo de residência *",
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: labelColor)),
+                    child: Text(
+                      "Tipo de residência *",
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: labelColor,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 10),
                   SizedBox(
-                    // 🔥 MELHORIA: altura e largura padronizadas no dropdown
                     width: MediaQuery.of(context).size.width * 0.9,
                     height: 56,
                     child: DropdownButtonFormField<String>(
@@ -319,14 +335,12 @@ class _InteresseAdocaoPageState extends State<InteresseAdocaoPage> {
                                 ),
                               ))
                           .toList(),
-                      onChanged: (value) =>
-                          setState(() => _residencia = value!),
+                      onChanged: (value) => setState(() => _residencia = value!),
                       decoration: InputDecoration(
                         helperText: ' ',
                         filled: true,
                         fillColor: inputFillColor,
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(color: borderInactive),
@@ -341,13 +355,11 @@ class _InteresseAdocaoPageState extends State<InteresseAdocaoPage> {
                         ),
                         errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                              color: Color(0xFFE53935), width: 2),
+                          borderSide: const BorderSide(color: Color(0xFFE53935), width: 2),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                              color: Color(0xFFE53935), width: 2),
+                          borderSide: const BorderSide(color: Color(0xFFE53935), width: 2),
                         ),
                       ),
                     ),
@@ -381,15 +393,12 @@ class _InteresseAdocaoPageState extends State<InteresseAdocaoPage> {
                       ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF1A4D8F),
-
-                        /// 🔥 MELHORIA: botão turquesa vibrante
                         foregroundColor: Colors.white,
                         disabledBackgroundColor: const Color(0xFF444444),
                         disabledForegroundColor: Colors.white70,
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              14), // 🔥 MELHORIA: borda arredondada
+                          borderRadius: BorderRadius.circular(14),
                         ),
                         elevation: 4,
                         shadowColor: Colors.black.withOpacity(0.1),
@@ -405,7 +414,6 @@ class _InteresseAdocaoPageState extends State<InteresseAdocaoPage> {
     );
   }
 
-  // 🔧 Campo de texto reutilizável com altura e largura padronizadas
   Widget _buildCampo(
     String label,
     TextEditingController controller,
@@ -428,9 +436,8 @@ class _InteresseAdocaoPageState extends State<InteresseAdocaoPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width *
-            0.9, // 🔥 MELHORIA: largura uniforme
-        height: 56, // 🔥 MELHORIA: altura uniforme
+        width: MediaQuery.of(context).size.width * 0.9,
+        height: 56,
         child: TextFormField(
           controller: controller,
           inputFormatters: inputFormatters,
@@ -467,9 +474,7 @@ class _InteresseAdocaoPageState extends State<InteresseAdocaoPage> {
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(
-                  color: Color(0xFFE53935),
-                  width: 2), // 🔥 MELHORIA: borda vermelha em erro
+              borderSide: const BorderSide(color: Color(0xFFE53935), width: 2),
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
@@ -478,7 +483,7 @@ class _InteresseAdocaoPageState extends State<InteresseAdocaoPage> {
             errorStyle: GoogleFonts.poppins(
               fontSize: 12,
               color: Colors.redAccent,
-              height: 1.2, // 🔥 MELHORIA: evita quebra de layout
+              height: 1.2,
             ),
           ),
         ),
