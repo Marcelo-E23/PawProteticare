@@ -8,7 +8,7 @@ import 'package:projetotcc/providers/doacao_provider.dart';
 import 'package:projetotcc/historico_page.dart';
 
 import 'package:projetotcc/Pages/inicio.dart';
-import 'package:projetotcc/Pages/recuperacaosenha.dart';
+import 'package:projetotcc/Pages/recuperar_senha.dart';
 import 'package:projetotcc/Pages/adocao.dart';
 import 'package:projetotcc/Pages/doacao.dart';
 
