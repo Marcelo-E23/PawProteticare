@@ -54,4 +54,6 @@ class LoginProvider with ChangeNotifier {
 
   /// Retorna o caminho da imagem do avatar
   String? get avatarUrl => _avatarUrl;
+
+  get token => null;
 }
