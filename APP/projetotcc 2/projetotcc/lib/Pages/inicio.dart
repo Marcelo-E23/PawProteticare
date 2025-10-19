@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:projetotcc/menu_drawer.dart';
 import 'package:projetotcc/Pages/fieb.dart';
 
 class TelaPrincipal extends StatelessWidget {

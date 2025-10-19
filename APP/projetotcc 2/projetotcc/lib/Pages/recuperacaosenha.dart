@@ -126,7 +126,7 @@ class _RecuperarSenhaPageState extends State<RecuperarSenhaPage> {
                         foregroundColor: const Color(0xff0c2772),
                         textStyle: GoogleFonts.quicksand(fontSize: 14),
                       ),
-                      child: Text('Voltar para o login'),
+                      child: const Text('Voltar para o login'),
                     ),
                   ],
                 ),

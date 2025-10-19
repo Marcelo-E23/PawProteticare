@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:projetotcc/Pages/doacao.dart';
 import 'provider/doacao_provider.dart';
-import 'doacao_model.dart';
 
 class HistoricoPage extends StatelessWidget {
   const HistoricoPage({super.key});

@@ -84,7 +84,7 @@ class MenuDrawer extends StatelessWidget {
           _criarSeparador(context),
           _criarBlocoTitulo(context, 'USUÁRIO'),
           _criarItemMenu(context, 'Minhas Adoções', Icons.history_outlined,
-              HistoricoPage()),
+              const HistoricoPage()),
           _criarItemMenu(context, 'Minha Conta', Icons.person_outline, const Login()),
           _criarSeparador(context),
           _criarBlocoTitulo(context, 'CONFIGURAÇÕES'),

@@ -55,8 +55,8 @@ class Projetotcc extends StatelessWidget {
       routes: {
         '/adocao': (context) => const AdocaoPage(),
         '/doacao': (context) => const DoacaoPage(),
-        '/recuperar': (context) => RecuperarSenhaPage(),
-        '/historico': (context) => HistoricoPage(),
+        '/recuperar': (context) => const RecuperarSenhaPage(),
+        '/historico': (context) => const HistoricoPage(),
       },
     );
   }
@@ -77,7 +77,7 @@ class _SplashDelayState extends State<SplashDelay> {
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => TelaPrincipal(),
+          pageBuilder: (_, __, ___) => const TelaPrincipal(),
           transitionsBuilder: (_, animation, __, child) {
             return FadeTransition(opacity: animation, child: child);
           },

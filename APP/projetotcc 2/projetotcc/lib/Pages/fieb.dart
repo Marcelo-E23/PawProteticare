@@ -85,7 +85,7 @@ class FiebScreen extends StatelessWidget {
           ),
         ],
       ),
-      endDrawer: MenuDrawer(),
+      endDrawer: const MenuDrawer(),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final isWide = constraints.maxWidth > 800;
