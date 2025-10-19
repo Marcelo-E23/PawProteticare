@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'data/model/doacao_model.dart';
+import '../doacao_model.dart';
 
 class DoacaoProvider with ChangeNotifier {
   final List<Doacao> _historico = [];

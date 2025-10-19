@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:projetotcc/login_provider.dart';
+import 'package:projetotcc/provider/login_provider.dart';
 import 'login.dart';
 
 class Cadastro extends StatefulWidget {

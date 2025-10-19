@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:projetotcc/Pages/doacao.dart';
-import 'doacao_provider.dart';
-import 'data/model/doacao_model.dart';
+import 'provider/doacao_provider.dart';
+import 'doacao_model.dart';
 
 class HistoricoPage extends StatelessWidget {
   const HistoricoPage({super.key});
