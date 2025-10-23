@@ -38,10 +38,15 @@ const CadastroAdocao = () => {
     };
 
     try {
+      const token = localStorage.getItem('access_token');
       const response = await endFetch.post("/animachado", novoAnimachado);
       console.log(novoAnimachado);
 
-      setMessage(`Animal cadastrado com sucesso: ${response.data.nome}`);
+      setMessage(`Animal cadastrado com sucesso: ${response.data.nome}`,{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
       navigate('/AnimalAchado');
 
     } catch (error) {

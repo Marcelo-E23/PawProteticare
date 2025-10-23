@@ -16,7 +16,12 @@ export default function VisualizarAdocao() {
 
     const getSolicitacao = async () => {
         try {
-            const response = await endFetch.get(`/solicitacaoadocao/${id}`);
+            const token = localStorage.getItem('access_token');
+            const response = await endFetch.get(`/solicitacaoadocao/${id}`,{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
             setSolicitacao(response.data);
         } catch (err) {
             console.error(err);
@@ -37,9 +42,17 @@ export default function VisualizarAdocao() {
     const confirmarDecision = async () => {
         try {
             if (confirmAction.tipo === 'aceitar') {
-                await endFetch.put(`/solicitacaoadocao/${id}/aprovar`);
+                await endFetch.put(`/solicitacaoadocao/${id}/aprovar`,{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
             } else {
-                await endFetch.put(`/solicitacaoadocao/${id}/rejeitar`);
+                await endFetch.put(`/solicitacaoadocao/${id}/rejeitar`,{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
             }
             navigate('/Adocao'); 
         } catch (err) {

@@ -12,8 +12,14 @@ export default function VisualizarProtese() {
 
     useEffect(() => {
         const fetchProtese = async () => {
+            const token = localStorage.getItem('access_token');
             try {
-                const response = await endFetch.get(`/protese/${id}`);
+                const response = await endFetch.get(`/protese/${id}`,{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
+
                 setProtese(response.data);
             } catch (error) {
                 console.error(error);

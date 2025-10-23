@@ -16,8 +16,13 @@ export default function Adocao() {
 
     // Busca as solicitações de adoção
     const getAdocao = async () => {
+        const token = localStorage.getItem('access_token');
         try {
-            const response = await endFetch.get("/solicitacaoadocao"); 
+            const response = await endFetch.get("/solicitacaoadocao",{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
             setAdocao(response.data);
         } catch (error) {
             console.error("Erro ao carregar os dados:", error);

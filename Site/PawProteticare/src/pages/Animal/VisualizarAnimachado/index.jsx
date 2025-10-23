@@ -21,8 +21,13 @@ export default function VisualizarAnimachado(){
     const [error, setError] = useState('');
 
     const getAnimachado = async () => {
+        const token = localStorage.getItem('access_token');
         try {
-            const response = await endFetch.get(`/animachado/${id}`);
+            const response = await endFetch.get(`/animachado/${id}`,{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
             setAnimachado(response.data);
             setLoading(false);
         } catch (error) {

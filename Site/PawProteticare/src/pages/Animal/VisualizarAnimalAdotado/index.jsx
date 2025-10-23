@@ -34,19 +34,32 @@ export default function VisualizarAnimadotado() {
   const [error, setError] = useState('');
 
   const getAnimadotado = async () => {
+    const token = localStorage.getItem('access_token');
     try {
-      const response = await endFetch.get(`/animadotado/${id}`);
+      const response = await endFetch.get(`/animadotado/${id}`,{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
       let data = response.data;
 
       // Puxar animachado se necessário
       if (data.animachado_id && !data.animachado) {
-        const animalRes = await endFetch.get(`/animachado/${data.animachado_id}`);
+        const animalRes = await endFetch.get(`/animachado/${data.animachado_id}`,{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
         data.animachado = animalRes.data;
       }
 
       // Puxar proprietario se necessário
       if (data.proprietario_id && !data.proprietario) {
-        const propRes = await endFetch.get(`/usuario/${data.proprietario_id}`);
+        const propRes = await endFetch.get(`/usuario/${data.proprietario_id}`,{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
         data.proprietario = propRes.data;
       }
 

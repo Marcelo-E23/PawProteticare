@@ -16,16 +16,25 @@ export default function Animadotado() {
 
   // Função que busca os registros e depois os dados completos do animal
   const getAnimadotado = async () => {
+    const token = localStorage.getItem('access_token');
     try {
       // 1️⃣ Pega todos os registros de animadotado
-      const response = await endFetch.get("/animadotado");
+      const response = await endFetch.get("/animadotado",{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
       const adotados = response.data;
 
       // 2️⃣ Para cada registro, busca o animachado correspondente
       const completos = await Promise.all(
         adotados.map(async (item) => {
           if (item.animachado_id) {
-            const animalRes = await endFetch.get(`/animachado/${item.animachado_id}`);
+            const animalRes = await endFetch.get(`/animachado/${item.animachado_id}`,{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
             return { ...item, animachado: animalRes.data };
           }
           return item;

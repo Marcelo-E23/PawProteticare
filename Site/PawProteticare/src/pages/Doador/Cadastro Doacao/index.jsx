@@ -17,6 +17,7 @@ const CadastroDoador = () => {
 
   // ✅ useEffect deve ficar aqui, fora do handleSubmit
   useEffect(() => {
+    const token = localStorage.getItem('access_token');
     const hoje = new Date();
     const dataFormatada = hoje.toLocaleDateString("pt-BR");
     setData(dataFormatada);
@@ -32,7 +33,11 @@ const CadastroDoador = () => {
     };
 
     try {
-      const response = await endFetch.post("/doacao", novaDoacao);
+      const response = await endFetch.post("/doacao", novaDoacao,{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
       console.log(novaDoacao);
 
       setMessage(`Doação cadastrada com sucesso: ${response.data.nome}`);

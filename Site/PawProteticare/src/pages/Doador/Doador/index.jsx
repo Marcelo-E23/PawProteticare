@@ -15,6 +15,7 @@ export default function Doacao() {
     const navigate = useNavigate();
 
     const getDoacoes = async () => {
+        const token = localStorage.getItem('access_token');
         try {
             const response = await endFetch.get("/doacao");
             setDoacoes(response.data);

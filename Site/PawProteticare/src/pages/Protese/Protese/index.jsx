@@ -16,7 +16,7 @@ export default function Protese() {
 useEffect(() => {
   const fetchProteses = async () => {
     try {
-      const token = sessionStorage.getItem('access_token'); // ou localStorage.getItem('token')
+      const token = localStorage.getItem('access_token'); // ou localStorage.getItem('token')
 
       const response = await endFetch.get("/protese", {
         headers: {

@@ -15,8 +15,13 @@ export default function AdocoesRejeitadas() {
     const navigate = useNavigate();
 
     const getAdocoesRejeitadas = async () => {
+        const token = localStorage.getItem('access_token');
         try {
-            const response = await endFetch.get("/solicitacaoadocao?status=REJEITADO"); 
+            const response = await endFetch.get("/solicitacaoadocao?status=REJEITADO",{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
             setAdocoes(response.data);
         } catch (error) {
             console.error("Erro ao carregar os dados:", error);

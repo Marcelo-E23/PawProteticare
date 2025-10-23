@@ -13,6 +13,7 @@ export default function VisualizarDoacao() {
 
     useEffect(() => {
         const fetchDoacao = async () => {
+            const token = localStorage.getItem('access_token');
             try {
                 const response = await endFetch.get(`/doacao/${id}`);
                 setDoacao(response.data);

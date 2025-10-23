@@ -15,8 +15,13 @@ export default function Animachado() {
     const navigate = useNavigate();
 
     const getAnimachado = async () => {
+        const token = localStorage.getItem('access_token');
         try {
-            const response = await endFetch.get("/animachado"); 
+            const response = await endFetch.get("/animachado",{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
             setAnimachado(response.data);
             console.log(animachado) 
         } catch (error) {

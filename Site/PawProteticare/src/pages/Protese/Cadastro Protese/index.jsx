@@ -23,6 +23,7 @@ export default function CadastroProtese() {
   // Função para buscar animal pelo ID
 useEffect(() => {
   const fetchAnimal = async () => {
+    const token = localStorage.getItem('access_token');
     try {
       const token = sessionStorage.getItem('token'); // pega o token da sessão
 
