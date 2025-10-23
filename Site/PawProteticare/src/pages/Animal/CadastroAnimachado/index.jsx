@@ -28,7 +28,6 @@ const CadastroAnimachado = () => {
 
     const novoAnimachado = {
       nome,
-      protese,
       especie,
       idade: Number(idade),
       status,
@@ -84,14 +83,6 @@ const CadastroAnimachado = () => {
             tipo={"number"} 
             valor={idade} 
             change={(e) => setIdade(e.target.value)} 
-          />
-
-          <Input 
-            dado={"Protése"} 
-            legenda={"Digite a Necessidade de Protése do animal:"} 
-            tipo={"text"} 
-            valor={protese} 
-            change={(e) => setProtese(e.target.value)} 
           />
 
           <div className={styles.input}>
