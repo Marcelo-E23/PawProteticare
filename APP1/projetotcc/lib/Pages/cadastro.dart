@@ -234,7 +234,7 @@ class _CadastroState extends State<Cadastro> {
                   );
                 },
                 style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(const Color(0xFF0A84FF)),
+                  foregroundColor: WidgetStateProperty.all(const Color(0xFF0A84FF)),
                 ),
                 child: Text(
                   'Ir para o login',

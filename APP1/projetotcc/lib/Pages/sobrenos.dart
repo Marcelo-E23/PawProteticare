@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart';
-import 'package:projetotcc/Pages/adocao.dart';
-import 'package:projetotcc/Pages/doacao.dart';
 
 class SobreNosPage extends StatefulWidget {
   const SobreNosPage({super.key});

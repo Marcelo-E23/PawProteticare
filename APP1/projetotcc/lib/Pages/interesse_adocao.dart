@@ -351,7 +351,7 @@ class _InteresseAdocaoPageState extends State<InteresseAdocaoPage> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: borderActive, width: 2),
+                          borderSide: const BorderSide(color: borderActive, width: 2),
                         ),
                         errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -470,7 +470,7 @@ class _InteresseAdocaoPageState extends State<InteresseAdocaoPage> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: borderActive, width: 2),
+              borderSide: const BorderSide(color: borderActive, width: 2),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
