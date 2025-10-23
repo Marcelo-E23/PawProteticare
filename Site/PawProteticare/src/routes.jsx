@@ -23,7 +23,7 @@ export default function AppRoutes(){
     return(
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Home/>}/>
+                <Route path="/" element={<Login/>}/>
                 <Route path="/Home" element={<Home/>}/>
                 <Route path="/AnimalAchado" element={<Animachado/>}/>
                 <Route path="/AlterarAnimalAchado/:id" element={<AlterarAnimachado/>}/>

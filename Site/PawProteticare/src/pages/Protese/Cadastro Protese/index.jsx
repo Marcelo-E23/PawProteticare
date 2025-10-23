@@ -16,26 +16,32 @@ export default function CadastroProtese() {
   const [descricao, setDescricao] = useState("");
   const [animalId, setAnimalId] = useState("");
   const [animalInfo, setAnimalInfo] = useState(null);
+  const [animaisAchados, setAnimaisAchados] = useState([]);
   const [message, setMessage] = useState("");  
   const navigate = useNavigate();
 
   // Função para buscar animal pelo ID
-  useEffect(() => {
-    const fetchAnimal = async () => {
-      if (!animalId) {
-        setAnimalInfo(null);
-        return;
-      }
-      try {
-        const response = await endFetch.get(`/animadotado/${animalId}`);
-        setAnimalInfo(response.data);
-      } catch (error) {
-        setAnimalInfo(null);
-        console.error("Animal não encontrado");
-      }
-    };
-    fetchAnimal();
-  }, [animalId]);
+useEffect(() => {
+  const fetchAnimal = async () => {
+    try {
+      const token = sessionStorage.getItem('token'); // pega o token da sessão
+
+      const response = await endFetch.get(`/animachado`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setAnimaisAchados(response.data);
+    } catch (error) {
+      setAnimalInfo(null);
+      console.error("Animal não encontrado", error);
+    }
+  };
+
+  fetchAnimal();
+}, [animalId]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -76,17 +82,25 @@ export default function CadastroProtese() {
           <Input dado="Tipo" legenda="Digite o tipo da prótese:" tipo="text" valor={tipo} change={e => setTipo(e.target.value)} />
           <Input dado="Descrição" legenda="Digite a descrição:" tipo="textarea" valor={descricao} change={e => setDescricao(e.target.value)} />
 
-          <div className={input.input}>
-            <label htmlFor="animalId">ID do Animal</label>
-            <input
-              type="number"
-              id="animalId"
-              value={animalId}
-              onChange={e => setAnimalId(e.target.value)}
-              placeholder="Digite o ID do animal"
-              required
-            />
-          </div>
+      <div className={input.input}>
+  <label htmlFor="animalId">ID do Animal</label>
+  <select
+    id="animalId"
+    value={animalId}
+    onChange={e => setAnimalId(e.target.value)}
+    required
+  >
+    <option value="" disabled>
+      Selecione o animal
+    </option>
+    {animaisAchados.map(animal => (
+      <option key={animal.id} value={animal.id}>
+        {animal.nome} {/* ou outra propriedade que faça sentido */}
+      </option>
+    ))}
+  </select>
+</div>
+
 
           {animalInfo && (
             <div className={style.animalInfo}>

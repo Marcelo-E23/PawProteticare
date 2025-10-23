@@ -13,19 +13,26 @@ export default function Protese() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchProteses = async () => {
-            try {
-                const response = await endFetch.get("/protese"); 
-                setProteses(response.data);
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchProteses();
-    }, []);
+useEffect(() => {
+  const fetchProteses = async () => {
+    try {
+      const token = sessionStorage.getItem('access_token'); // ou localStorage.getItem('token')
+
+      const response = await endFetch.get("/protese", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setProteses(response.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchProteses();
+}, []);
 
     const navCadastro = () => navigate('/CadastroProtese');
     const navVisualizar = (id) => navigate(`/VisualizarProtese/${id}`);

@@ -24,11 +24,18 @@ const Login = () => {
       
       const { access_token, role } = response.data;
 
+
+      console.log(access_token)
+
+      const payload = decodeJwtPayload(access_token);
+
+      console.log("id usuario " + payload.id)
+
       
-      if (role !== 'ADMIN') {
-        setError('Acesso restrito a administradores');
-        return;
-      }
+      //if (role !== 'ADMIN') {
+        ///setError('Acesso restrito a administradores');
+        //return;
+      //}
 
       
       localStorage.setItem('access_token', access_token);
@@ -40,6 +47,29 @@ const Login = () => {
       
       setError('Usuário ou senha incorretos');
     }
+
+    function decodeJwtPayload(token) {
+  // Divide o token em partes
+  const parts = token.split('.');
+  if (parts.length !== 3) {
+    throw new Error('Token JWT inválido');
+  }
+
+  // payload está na segunda parte
+  const payloadBase64Url = parts[1];
+
+  // Converte Base64Url para Base64
+  const payloadBase64 = payloadBase64Url.replace(/-/g, '+').replace(/_/g, '/');
+
+  // Decodifica Base64 para string JSON
+  const payloadJson = atob(payloadBase64);
+
+  // Converte JSON para objeto JS
+  const payload = JSON.parse(payloadJson);
+
+  return payload;
+}
+
   };
 
   return (
