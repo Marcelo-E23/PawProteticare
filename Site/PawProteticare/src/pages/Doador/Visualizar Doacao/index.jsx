@@ -15,7 +15,11 @@ export default function VisualizarDoacao() {
         const fetchDoacao = async () => {
             const token = localStorage.getItem('access_token');
             try {
-                const response = await endFetch.get(`/doacao/${id}`);
+                const response = await endFetch.get(`/doacao/${id}`,{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
                 setDoacao(response.data);
             } catch (error) {
                 console.error(error);

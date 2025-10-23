@@ -55,14 +55,22 @@ useEffect(() => {
 
     try {
       // Verifica se já existe prótese para esse animal
-      const check = await endFetch.get(`/protese?animalId=${animalId}`);
+      const check = await endFetch.get(`/protese?animalId=${animalId}`,{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
       if (check.data.length > 0) {
         setMessage("Este animal já possui uma prótese cadastrada.");
         return;
       }
 
       const response = await endFetch.post("/protese", novaProtese);
-      setMessage(`Prótese cadastrada com sucesso: ${response.data.nome}`);
+      setMessage(`Prótese cadastrada com sucesso: ${response.data.nome}`,{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
       navigate('/Protese');
     } catch (error) {
       console.error(error);

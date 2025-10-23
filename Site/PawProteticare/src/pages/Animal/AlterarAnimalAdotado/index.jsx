@@ -111,7 +111,11 @@ export default function AlterarAnimadotado() {
     e.preventDefault();
     try {
       // Apenas atualiza o animachado vinculado ao animadotado
-      await endFetch.put(`/animachado/${animadotado.animachado.id}`, animadotado.animachado);
+      await endFetch.put(`/animachado/${animadotado.animachado.id}`, animadotado.animachado,{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
       navigate('/AnimalAdotado');
     } catch (err) {
       console.log(err);

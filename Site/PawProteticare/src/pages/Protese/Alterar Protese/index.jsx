@@ -50,8 +50,11 @@ export default function AlterarProtese() {
                 return;
             }
             try {
-                const response = await endFetch.get(`/animadotado/${protese.animalId}`);
-                setAnimalInfo(response.data);
+                const response = await endFetch.get(`/animadotado/${protese.animalId}`,{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
             } catch (error) {
                 setAnimalInfo(null);
             }

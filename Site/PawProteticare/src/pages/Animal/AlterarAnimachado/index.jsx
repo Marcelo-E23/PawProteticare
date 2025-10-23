@@ -51,7 +51,11 @@ export default function AlterarAnimachado() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await endFetch.put(`/animachado/${id}`, animachado);
+            await endFetch.put(`/animachado/${id}`, animachado,{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                             },
+                    });
             navigate('/AnimalAchado')
         } catch (error) {
             setError('Erro ao salvar as alterações');
