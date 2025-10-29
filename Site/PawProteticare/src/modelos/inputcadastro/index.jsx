@@ -5,6 +5,7 @@ export default function Input({dado, tipo, valor, change, legenda, id}){
         <div className={styles.input}>
             <label htmlFor={dado} className="form-label">{dado}</label>
             <input
+              id={id}
               type={tipo}
               value={valor}
               onChange={change}

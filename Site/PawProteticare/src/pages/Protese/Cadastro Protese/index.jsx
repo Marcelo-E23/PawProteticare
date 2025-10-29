@@ -81,11 +81,11 @@ export default function CadastroProtese() {
             <Voltar />
           </Link>
 
-          <Input dado="Nome" legenda="Digite o nome da prótese:" tipo="text" valor={nome} change={(e) => setNome(e.target.value)} />
-          <Input dado="Fabricante" legenda="Digite o fabricante:" tipo="text" valor={fabricante} change={(e) => setFabricante(e.target.value)} />
-          <Input dado="Custo" legenda="Digite o custo:" tipo="number" valor={custo} change={(e) => setCusto(e.target.value)} />
-          <Input dado="Tipo" legenda="Digite o tipo da prótese:" tipo="text" valor={tipo} change={(e) => setTipo(e.target.value)} />
-          <Input dado="Descrição" legenda="Digite a descrição:" tipo="textarea" valor={descricao} change={(e) => setDescricao(e.target.value)} />
+          <Input id="Nome" dado="Nome" legenda="Digite o nome da prótese:" tipo="text" valor={nome} change={(e) => setNome(e.target.value)} />
+          <Input id="Fabricante" dado="Fabricante" legenda="Digite o fabricante:" tipo="text" valor={fabricante} change={(e) => setFabricante(e.target.value)} />
+          <Input id="Custo" dado="Custo" legenda="Digite o custo:" tipo="number" valor={custo} change={(e) => setCusto(e.target.value)} />
+          <Input id="Tipo" dado="Tipo" legenda="Digite o tipo da prótese:" tipo="text" valor={tipo} change={(e) => setTipo(e.target.value)} />
+          <Input id="Descricao" dado="Descrição" legenda="Digite a descrição:" tipo="textarea" valor={descricao} change={(e) => setDescricao(e.target.value)} />
 
           <div className={input.input}>
             <label htmlFor="animalId">Animal</label>

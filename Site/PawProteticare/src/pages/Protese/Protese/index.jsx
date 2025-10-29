@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import botao from '../../../css/botao.module.css';
 import { useNavigate } from 'react-router-dom';
-import { FcBinoculars } from 'react-icons/fc';
+import { FcBinoculars, FcSynchronize  } from 'react-icons/fc';
 
 export default function Protese() {
     const [proteses, setProteses] = useState([]);
@@ -69,7 +69,9 @@ useEffect(() => {
                                     <td>{p.tipo}</td>
                                     <td>{p.fabricante}</td>
                                     <td>{p.custo}</td>
-                                    <td className={table.icon} onClick={() => navAlterar(p.id)}>✏️</td>
+                                    <td className={table.icon} onClick={() => navAlterar(p.id)}>
+                                        <FcSynchronize  size="3rem" />
+                                    </td>
                                     <td className={table.icon} onClick={() => navVisualizar(p.id)}>
                                         <FcBinoculars size="2rem" />
                                     </td>
