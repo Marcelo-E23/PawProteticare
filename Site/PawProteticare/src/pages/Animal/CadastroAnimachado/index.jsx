@@ -15,44 +15,41 @@ const CadastroAnimachado = () => {
   const [especie, setEspecie] = useState("");
   const [idade, setIdade] = useState("");
   const [imagem, setImagem] = useState("");
-  const [status, setStatus] = useState("ANALISE_SITUAÇÃO");
+  const [status, setStatus] = useState("ANALISE_SITUACAO");
   const [historia, setHistoria] = useState("");
   const [message, setMessage] = useState("");  
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    // Define valor de "doado" com base no status
-    const doado = status === "Adotado";
+  const doado = status === "ADOTADO";
 
-    const novoAnimachado = {
-      nome,
-      especie,
-      idade: Number(idade),
-      status,
-      historia,
-      imagem,
-      doado,
-    };
+  // Cria o FormData
+  const formData = new FormData();
+  formData.append("nome", nome);
+  formData.append("especie", especie);
+  formData.append("idade", idade);
+  formData.append("status", status);
+  formData.append("historia", historia);
+  if (imagem) formData.append("imagem", imagem);
 
-    try {
-      const token = localStorage.getItem('access_token');
-      const response = await endFetch.post("/animachado", novoAnimachado,{
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                             },
-                    });
-      console.log(novoAnimachado);
+  try {
+    const token = localStorage.getItem("access_token");
+    const response = await endFetch.post("/animachado", formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
-      setMessage(`Animal cadastrado com sucesso: ${response.data.nome}`);
-      navigate('/AnimalAchado');
-
-    } catch (error) {
-      console.error("Erro do servidor:", error.response?.data || error.message);
-      setMessage("Erro ao cadastrar o animal. Tente novamente.");
-    }
-  };
+    setMessage(`Animal cadastrado com sucesso: ${response.data.nome}`);
+    navigate("/AnimalAchado");
+  } catch (error) {
+    console.error("Erro do servidor:", error.response?.data || error.message);
+    setMessage("Erro ao cadastrar o animal. Tente novamente.");
+  }
+};
 
   return (
     <>
@@ -93,14 +90,15 @@ const CadastroAnimachado = () => {
               value={status} 
               onChange={(e) => setStatus(e.target.value)}
               required
-            >   
-              <option value="APTO_PARA_ADOCAO">Apto para adoção</option>
-              <option value="AGUARDANDO_PROTESE">Aguardando protése</option>
-              <option value="ADOTADO">Adotado</option>
+            > 
               <option value="ANALISE_SITUACAO">Analisando situação</option>
+              <option value="APTO_PARA_ADOCAO">Apto para adoção</option>
+              <option value="AGUARDANDO_PROTESE">Aguardando prótese</option>
+              <option value="ADOTADO">Adotado</option>
               <option value="FALECIDO">Falecido</option>
             </select>
           </div>
+
 
           <Input 
             dado={"História"} 
@@ -117,15 +115,16 @@ const CadastroAnimachado = () => {
               accept="image/*" 
               onChange={(e) => {
                 const file = e.target.files[0];
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                  setImagem(reader.result); 
-                };
                 if (file) {
-                  reader.readAsDataURL(file);
+                  setImagem(file);
+                  const preview = URL.createObjectURL(file);
+                  document.getElementById("preview").src = preview;
                 }
               }}
             />
+            <div className={styles.preview}>
+              <img id="preview" alt="Pré-visualização" />
+            </div>
           </div>
 
           {message && <p className={style.errocadastro}>{message}</p>}

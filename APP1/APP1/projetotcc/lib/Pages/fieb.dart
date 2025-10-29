@@ -105,7 +105,7 @@ class _FiebScreenState extends State<FiebScreen> {
           ),
         ],
       ),
-      endDrawer: MenuDrawer(),
+      endDrawer: const MenuDrawer(),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 700),
@@ -225,7 +225,7 @@ class _FiebScreenState extends State<FiebScreen> {
                 ),
                 child: Column(
                   children: [
-                    Icon(Icons.favorite, color: accentColor, size: 32),
+                    const Icon(Icons.favorite, color: accentColor, size: 32),
                     const SizedBox(height: 16),
                     Text(
                       'Quer fazer parte dessa mudança?',

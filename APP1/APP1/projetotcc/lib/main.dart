@@ -8,14 +8,9 @@ import 'package:projetotcc/provider/login_provider.dart';
 import 'package:projetotcc/provider/doacao_provider.dart';
 import 'package:projetotcc/Pages/historico_page.dart';
 
-import 'package:projetotcc/Pages/cadastro.dart';
-import 'package:projetotcc/Pages/sobrenos.dart';
 
 import 'package:projetotcc/Pages/adocao.dart';
 import 'package:projetotcc/Pages/doacao.dart';
-import 'package:projetotcc/Pages/login.dart';
-import 'package:projetotcc/Pages/interesse_adocao.dart';
-import 'package:projetotcc/menu_drawer.dart';
 
 void main() {
   runApp(
@@ -61,7 +56,7 @@ home: const FiebScreen(), //  Inicia DIRETO no jornal
       routes: {
         '/adocao': (context) => const AdocaoPage(),
         '/doacao': (context) => const DoacaoPage(),
-        '/historico': (context) => HistoricoUsuarioPage(),
+        '/historico': (context) => const HistoricoUsuarioPage(),
         '/FiebScreen': (context) => const FiebScreen(),
       },
     );
