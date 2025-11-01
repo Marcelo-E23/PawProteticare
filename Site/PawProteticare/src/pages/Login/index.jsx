@@ -12,72 +12,60 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); 
+    setError('');
 
     try {
-      
+      // ✅ Envia os nomes corretos esperados pelo backend
       const response = await endFetch.post('/auth/authenticate', {
         email: login,
         password: senha,
       });
 
-      
-      const { access_token, role } = response.data;
+      console.log('Resposta do servidor:', response.data); // debug opcional
 
+      // ✅ Extrai corretamente o token antes de usar
+      const { access_token } = response.data;
 
-      console.log(access_token)
-
+      // ✅ Decodifica o payload do JWT para pegar dados do usuário
       const payload = decodeJwtPayload(access_token);
 
-      console.log("id usuario " + payload.id)
-
-      
-      //if (role !== 'ADMIN') {
-        ///setError('Acesso restrito a administradores');
-        //return;
-      //}
-
-      
+      // ✅ Salva no localStorage
       localStorage.setItem('access_token', access_token);
-      localStorage.setItem('user_role', role);
+      localStorage.setItem('user_role', payload.role);
+      localStorage.setItem('id_user', payload.id);
 
-      
+      // ✅ Redireciona
       navigate('/home');
-    } catch (error) {
-      
-      setError('Usuário ou senha incorretos');
+    } catch (err) {
+      console.error('Erro no login:', err);
+
+      if (err.response && err.response.status === 400) {
+        setError('Email ou senha incorretos');
+      } else if (err.response && err.response.status === 401) {
+        setError('Conta inativa ou não autorizada');
+      } else {
+        setError('Erro ao tentar fazer login. Tente novamente mais tarde.');
+      }
     }
-
-    function decodeJwtPayload(token) {
-  // Divide o token em partes
-  const parts = token.split('.');
-  if (parts.length !== 3) {
-    throw new Error('Token JWT inválido');
-  }
-
-  // payload está na segunda parte
-  const payloadBase64Url = parts[1];
-
-  // Converte Base64Url para Base64
-  const payloadBase64 = payloadBase64Url.replace(/-/g, '+').replace(/_/g, '/');
-
-  // Decodifica Base64 para string JSON
-  const payloadJson = atob(payloadBase64);
-
-  // Converte JSON para objeto JS
-  const payload = JSON.parse(payloadJson);
-
-  return payload;
-}
-
   };
+
+  // ✅ Função para decodificar o payload do JWT
+  function decodeJwtPayload(token) {
+    const parts = token.split('.');
+    if (parts.length !== 3) throw new Error('Token JWT inválido');
+
+    const payloadBase64Url = parts[1];
+    const payloadBase64 = payloadBase64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const payloadJson = atob(payloadBase64);
+    return JSON.parse(payloadJson);
+  }
 
   return (
     <div className={style.login}>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="usuario">Usuário (Email)</label>
-          <input 
+          <input
             type="text"
             id="usuario"
             value={login}
@@ -86,6 +74,7 @@ const Login = () => {
             placeholder="Digite seu email"
           />
         </div>
+
         <div>
           <label htmlFor="senha">Senha</label>
           <input
@@ -98,10 +87,12 @@ const Login = () => {
           />
         </div>
 
-        {}
+        {/* Exibe mensagem de erro, se houver */}
         {error && <p className={style.erro}>{error}</p>}
 
-        <button className={botao.bblue} type="submit">Entrar</button>
+        <button className={botao.bblue} type="submit">
+          Entrar
+        </button>
       </form>
     </div>
   );
