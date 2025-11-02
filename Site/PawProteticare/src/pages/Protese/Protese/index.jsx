@@ -16,18 +16,14 @@ export default function Protese() {
 useEffect(() => {
   const fetchProteses = async () => {
     try {
-      const token = localStorage.getItem('access_token'); // ou localStorage.getItem('token')
-
-      const response = await endFetch.get("/protese", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
+      const response = await endFetch.get("/protese",);
       setProteses(response.data);
-    } catch (error) {
+      console.log("tipo data:",typeof data); 
+    } 
+    catch (error) {
       console.error(error);
-    } finally {
+    } 
+    finally {
       setLoading(false);
     }
   };
@@ -57,8 +53,8 @@ useEffect(() => {
                                 <th>Tipo</th>
                                 <th>Fabricante</th>
                                 <th>Custo</th>
-                                <th>Alterar</th>
-                                <th>Visualizar</th>
+                                <th className={style.alterar}><p>Alterar</p></th>
+                                <th className={style.visualizar}><p>Visualizar</p></th>
                             </tr>
                         </thead>
                         <tbody>

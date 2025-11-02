@@ -11,7 +11,6 @@ import botao from '../../../css/botao.module.css';
 
 const CadastroAnimachado = () => {
   const [nome, setNome] = useState("");
-  const [protese, setProtese] = useState("");
   const [especie, setEspecie] = useState("");
   const [idade, setIdade] = useState("");
   const [imagem, setImagem] = useState("");
@@ -23,9 +22,6 @@ const CadastroAnimachado = () => {
   const handleSubmit = async (e) => {
   e.preventDefault();
 
-  const doado = status === "ADOTADO";
-
-  // Cria o FormData
   const formData = new FormData();
   formData.append("nome", nome);
   formData.append("especie", especie);
@@ -35,13 +31,8 @@ const CadastroAnimachado = () => {
   if (imagem) formData.append("imagem", imagem);
 
   try {
-    const token = localStorage.getItem("access_token");
-    const response = await endFetch.post("/animachado", formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    });
+
+    const response = await endFetch.post("/animachado", formData)
 
     setMessage(`Animal cadastrado com sucesso: ${response.data.nome}`);
     navigate("/AnimalAchado");
@@ -59,6 +50,7 @@ const CadastroAnimachado = () => {
           <Link to={'/AnimalAchado'}><Voltar /></Link>
 
           <Input 
+            id={"Nome"} 
             dado={"Nome"} 
             legenda={"Digite o Nome:"} 
             tipo={"text"} 
@@ -67,6 +59,7 @@ const CadastroAnimachado = () => {
           />
 
           <Input 
+            id={"Especie"} 
             dado={"Especie"} 
             legenda={"Digite a Especie:"} 
             tipo={"text"} 
@@ -75,6 +68,7 @@ const CadastroAnimachado = () => {
           />
 
           <Input 
+            id={"Idade"} 
             dado={"Idade"} 
             legenda={"Digite a Idade:"} 
             tipo={"number"} 
@@ -101,6 +95,7 @@ const CadastroAnimachado = () => {
 
 
           <Input 
+            id={"História"} 
             dado={"História"} 
             legenda={"Digite a História do animal:"} 
             tipo={"textarea"} 
@@ -109,8 +104,9 @@ const CadastroAnimachado = () => {
           />
 
           <div className={styles.input}>
-            <label>Imagem do Animal</label>
+            <label htmlFor="imagem">Imagem do Animal</label>
             <input 
+              id="imagem"
               type="file" 
               accept="image/*" 
               onChange={(e) => {

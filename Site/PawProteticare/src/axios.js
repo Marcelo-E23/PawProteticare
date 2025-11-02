@@ -2,10 +2,10 @@ import axios from 'axios';
 
 const endFetch = axios.create({
   baseURL: 'http://localhost:8081',
-  headers: {
-    'Content-Type': 'application/json',
-  },
   withCredentials: true,
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
 });
 
 // ✅ Interceptador que adiciona o token JWT automaticamente
