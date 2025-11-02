@@ -2,7 +2,7 @@
 .input input{
   width: 97vh;
   border: 0.25vh solid;
-  font-size: 100%;
+  font-size: 120%;
   padding: 0.75rem;
   transition: all 0.5s;
   display: block;
@@ -11,7 +11,7 @@
   .input select{
   width: 97vh;
   border: 0.25vh solid;
-  font-size: 100%;
+  font-size: 120%;
   padding: 0.75rem;
   transition: all 0.5s;
   display: block;
@@ -20,7 +20,7 @@
   .input textarea{
   border: 0.25vh solid;
   height: 10rem;
-  font-size: 100%;
+  font-size: 120%;
   padding: 0.75rem;
   transition: all 0.5s;
   display: block;
@@ -31,7 +31,7 @@
     width: 100vh;
     font-weight: bold;
     border: 2px solid;
-  font-size: 100%;
+  font-size: 120%;
     padding: 0.75rem;
     background-color: var(--Grey);
     transition: all 0.5s;

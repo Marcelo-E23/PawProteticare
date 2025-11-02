@@ -9,17 +9,10 @@ export default function VisualizarProtese() {
     const { id } = useParams();
     const [protese, setProtese] = useState({});
     const [loading, setLoading] = useState(true);
-
     useEffect(() => {
         const fetchProtese = async () => {
-            const token = localStorage.getItem('access_token');
             try {
-                const response = await endFetch.get(`/protese/${id}`,{
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                             },
-                    });
-
+                const response = await endFetch.get(`/protese/${id}`);
                 setProtese(response.data);
             } catch (error) {
                 console.error(error);
@@ -36,9 +29,10 @@ export default function VisualizarProtese() {
         <>
             <Header />
             <div className={styles.vizualizar}>
-                <Link to={'/Protese'}><p className={styles.voltar}>Voltar</p></Link>
+                <div className={styles.voltar}>  
+                    <Link to={'/Protese'}><Voltar/></Link>
+                </div>
                 <h1 className={styles.titulo}>Ficha da Prótese</h1>
-
                 <div className={styles.card}>
                     <div className={styles.informacoes}>
                         <p><strong>ID da Prótese:</strong> {protese.id}</p>
@@ -47,10 +41,6 @@ export default function VisualizarProtese() {
                         <p><strong>Custo:</strong> {protese.custo}</p>
                         <p><strong>Tipo:</strong> {protese.tipo}</p>
                         <p><strong>Descrição:</strong> {protese.descricao}</p>
-                        <p>
-                            <strong>ID do Animal:</strong> 
-                            <Link to={`/VisualizarAnimalAdotado/${protese.animalId}`}> {protese.animalId}</Link>
-                        </p>
                     </div>
                 </div>
             </div>
