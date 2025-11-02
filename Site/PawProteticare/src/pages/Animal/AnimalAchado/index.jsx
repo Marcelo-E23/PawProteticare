@@ -15,7 +15,7 @@ export default function Animachado() {
     const navigate = useNavigate();
 
     const getAnimachado = async () => {
-        const token = localStorage.getItem('access_token');
+        const token = localStorage.getItem('accessToken');
         try {
             const response = await endFetch.get("/animachado",{
                     headers: {
