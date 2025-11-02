@@ -8,19 +8,23 @@ import style from './visualizardoacao.module.css';
 export default function VisualizarDoacao() {
     const { id } = useParams();
     const [doacao, setDoacao] = useState(null);
+    const [doador, setDoador] = useState(null);
     const [loading, setLoading] = useState(true);
     const [erro, setErro] = useState('');
 
     useEffect(() => {
         const fetchDoacao = async () => {
-            const token = localStorage.getItem('access_token');
             try {
-                const response = await endFetch.get(`/doacao/${id}`,{
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                             },
-                    });
-                setDoacao(response.data);
+                // 1️⃣ Pegar a doação
+                const responseDoacao = await endFetch.get(`/doacao/${id}`);
+                const doacaoData = responseDoacao.data;
+                setDoacao(doacaoData);
+
+                // 2️⃣ Se tiver doador_id, buscar dados completos do doador
+                if (doacaoData.doador?.id) {
+                    const responseDoador = await endFetch.get(`/doador/${doacaoData.doador.id}`);
+                    setDoador(responseDoador.data);
+                }
             } catch (error) {
                 console.error(error);
                 setErro('Erro ao carregar dados da doação');
@@ -28,11 +32,13 @@ export default function VisualizarDoacao() {
                 setLoading(false);
             }
         };
+
         fetchDoacao();
     }, [id]);
 
     if (loading) return <div className={style.carregando}>Carregando...</div>;
     if (erro) return <div className={style.erro}>{erro}</div>;
+    if (!doacao) return <div className={style.erro}>Doação não encontrada</div>;
 
     return (
         <>
@@ -49,35 +55,46 @@ export default function VisualizarDoacao() {
                         </div>
 
                         <div className={style.dados}>
-                            <p className={style.caracteristica}>Valor</p>
-                            <div className={style.valor}>R$ {doacao.valor.toFixed(2)}</div>
+                            <p className={style.caracteristica}>Tipo de Doação</p>
+                            <div className={style.valor}>{doacao.tipodoacao || '-'}</div>
                         </div>
 
                         <div className={style.dados}>
                             <p className={style.caracteristica}>Data</p>
-                            <div className={style.valor}>{new Date(doacao.data).toLocaleDateString()}</div>
+                            <div className={style.valor}>
+                                {doacao.datadoacao
+                                    ? new Date(doacao.datadoacao).toLocaleDateString('pt-BR', {
+                                          day: '2-digit',
+                                          month: '2-digit',
+                                          year: 'numeric'
+                                      })
+                                    : '-'}
+                            </div>
+                        </div>
+
+                        <div className={style.dados}>
+                            <p className={style.caracteristica}>Valor</p>
+                            <div className={style.valor}>
+                                {doacao.valor
+                                    ? parseFloat(doacao.valor).toLocaleString('pt-BR', {
+                                          style: 'currency',
+                                          currency: 'BRL'
+                                      })
+                                    : '-'}
+                            </div>
                         </div>
 
                         <div className={style.dados}>
                             <p className={style.caracteristica}>Doador</p>
                             <div className={style.valor}>
-                                {doacao.doador ? (
-                                    <>
-                                        <p><strong>Nome:</strong> {doacao.doador.nome}</p>
-                                        <p><strong>Email:</strong> {doacao.doador.email}</p>
-                                        <p><strong>Telefone:</strong> {doacao.doador.telefone}</p>
-                                    </>
-                                ) : 'Não informado'}
+                                <p><strong>Nome:</strong> {doador?.nome || doacao.doador.nome}</p>
+                                <p><strong>Email:</strong> {doador?.email || '-'}</p>
+                                <p><strong>Telefone:</strong> {doador?.telefone || '-'}</p>
                             </div>
                         </div>
-
-                        <div className={style.dados}>
-                            <p className={style.caracteristica}>Observações</p>
-                            <div className={style.valor}>{doacao.observacoes || '-'}</div>
+                        </div>
                         </div>
                     </div>
-                </div>
-            </div>
         </>
     );
 }

@@ -15,26 +15,19 @@ export default function Doacao() {
     const navigate = useNavigate();
 
     const getDoacoes = async () => {
-        const token = localStorage.getItem('access_token');
         try {
             const response = await endFetch.get("/doacao");
             setDoacoes(response.data);
         } catch (error) {
             console.error("Erro ao carregar doações:", error);
             setErro("Erro ao carregar os dados");
-            setDoacoes([]);
         } finally {
             setLoading(false);
         }
     };
 
-    const navVisualizar = (id) => {
-        navigate(`/VisualizarDoacao/${id}`);
-    };
-
-    const navCadastro = () => {
-        navigate('/CadastroDoacao');
-    };
+    const navVisualizar = (id) => navigate(`/VisualizarDoacao/${id}`);
+    const navCadastro = () => navigate('/CadastroDoacao');
 
     useEffect(() => {
         getDoacoes();
@@ -44,8 +37,18 @@ export default function Doacao() {
         <>
             <Header />
             <div className={table.tabela}>
+                <div className={style.topo}>
+                    <h2>Doações</h2>
+                </div>
+
                 {loading ? (
-                    <div className={style.carregando}>Carregando...</div>
+                    <div className={style.carregando}>
+                        <div className="spinner-border text-success" role="status">
+                            <span className="visually-hidden">Carregando...</span>
+                        </div>
+                    </div>
+                ) : erro ? (
+                    <div className={style.semcadastro}><p>{erro}</p></div>
                 ) : doacoes.length === 0 ? (
                     <div className={style.semcadastro}>
                         <p>Sem doações registradas.</p>
@@ -65,11 +68,11 @@ export default function Doacao() {
                             {doacoes.map((item) => (
                                 <tr key={item.id}>
                                     <td>{item.id}</td>
-                                    <td>{item.doador ? item.doador.nome : 'Não informado'}</td>
-                                    <td>{new Date(item.data).toLocaleDateString()}</td>
-                                    <td>R$ {item.valor.toFixed(2)}</td>
+                                    <td>{item.doador?.nome || 'Não informado'}</td>
+                                    <td>{new Date(item.data).toLocaleDateString('pt-BR')}</td>
+                                    <td>{item.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                                     <td className={table.icon} onClick={() => navVisualizar(item.id)}>
-                                        <FcBinoculars size="3rem" />
+                                        <FcBinoculars size="2rem" />
                                     </td>
                                 </tr>
                             ))}
