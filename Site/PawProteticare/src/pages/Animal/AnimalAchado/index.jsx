@@ -17,18 +17,14 @@ export default function Animachado() {
         const getAnimachado = async () => {
             try {
                 const response = await endFetch.get("/animachado");
-                console.log("API response:", response.data);
-
-                // Verifica se a resposta é uma lista ou se vem paginada
-                const dados = Array.isArray(response.data) ? response.data : response.data.content || [];
-                setAnimachado(dados);
+                setAnimachado(response.data)
+                console.log("dados recebidos:", response.data);
             } catch (error) {
                 console.error(error);
             } finally {
-                setLoading(false);
+                setLoading(false); 
             }
         };
-
         getAnimachado();
     }, []);
 
@@ -57,6 +53,7 @@ export default function Animachado() {
                                 <th>Nome</th>
                                 <th>Espécie</th>
                                 <th>Idade</th>
+                                <th>Protése</th>
                                 <th>Status</th>
                                 <th className={style.alterar}>Alterar</th>
                                 <th className={style.visualizar}>Visualizar</th>
@@ -65,11 +62,12 @@ export default function Animachado() {
                         <tbody>
                             {animachado.map((animal) => (
                                 <tr key={animal.id}>
-                                    <td>{animal.id ?? '—'}</td>
-                                    <td>{animal.nome ?? '—'}</td>
-                                    <td>{animal.especie ?? '—'}</td>
-                                    <td>{animal.idade ?? '—'}</td>
-                                    <td>{animal.status ?? '—'}</td>
+                                    <td>{animal.id}</td>
+                                    <td>{animal.nome}</td>
+                                    <td>{animal.especie}</td>
+                                    <td>{animal.idade}</td>
+                                    <td>{animal.proteseEntity?.nome || '—'}</td>
+                                    <td>{animal.status}</td>
                                     <td>
                                         <button 
                                             className={botao.borange} 
@@ -91,14 +89,12 @@ export default function Animachado() {
                         </tbody>
                     </table>
                 )}
-                <div style={{ marginTop: '15px' }}>
-                    <button type="button" className={botao.bgreen} onClick={navCadastro}>
-                        Inserir
-                    </button>
-                    <button type="button" className={botao.bblue} onClick={navAdotado} style={{ marginLeft: '10px' }}>
-                        Adotados
-                    </button>
-                </div>
+                <button type="button" className={botao.bgreen} onClick={navCadastro}>
+                    Inserir
+                </button>
+                <button type="button" className={botao.bblue} onClick={navAdotado}>
+                    Adotados
+                </button>
             </div>
         </>
     );

@@ -16,17 +16,11 @@ export default function Adocao() {
 
     // Busca as solicitações de adoção
     const getAdocao = async () => {
-        const token = localStorage.getItem('access_token');
         try {
-            const response = await endFetch.get("/solicitacaoadocao",{
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                             },
-                    });
+            const response = await endFetch.get("/solicitacaoadocao");
             setAdocao(response.data);
         } catch (error) {
             console.error("Erro ao carregar os dados:", error);
-            setAdocao([]);
             setErro('Erro ao carregar os dados');
         } finally {
             setLoading(false);
@@ -41,16 +35,16 @@ export default function Adocao() {
         navigate('/CadastroAdocao');
     };
 
-    const navAlterar = (id) => {
-        navigate(`/AlterarAdocao/${id}`);
-    };
-
-    const navVisualizar = (id) => {
-        navigate(`/VisualizarAdocao/${id}`);
+    const navTelaAdoacao = (id) => {
+        navigate(`/TelaAdoacao/${id}`);
     };
     
     const navRejeitado = () => {
         navigate(`/AdocaoRejeitadas`);
+    };
+    
+    const navAprovada = () => {
+        navigate(`/AdocaoAprovadas`);
     };
 
     if (loading) {
@@ -82,8 +76,8 @@ export default function Adocao() {
                                     <td>{item.id}</td>
                                     <td>{item.proprietario ? item.proprietario.nome : 'Não informado'}</td>
                                     <td>{new Date(item.data_solicitacao).toLocaleDateString()}</td>
-                                    <td>{item.animal ? `${item.animal.nome} (${item.animal.idade} anos)` : 'Não informado'}</td>
-                                    <td className={table.icon} onClick={() => navVisualizar(item.id)}>
+                                    <td>{item.animal ? `${item.animachado.nome}` : 'Não informado'}</td>
+                                    <td className={table.icon} onClick={() => navTelaAdoacao(item.id)}>
                                         <FcBinoculars size="3rem" />
                                     </td>
                                 </tr>
@@ -93,6 +87,9 @@ export default function Adocao() {
                 )}
                  <button type="button" className={botao.bred} onClick={navRejeitado}>
                     Rejeitados
+                </button>
+                 <button type="button" className={botao.bgreen} onClick={navAprovada}>
+                    Aprovados
                 </button>
             </div>
         </>

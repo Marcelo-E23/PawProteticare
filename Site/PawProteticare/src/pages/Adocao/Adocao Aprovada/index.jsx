@@ -1,4 +1,4 @@
-import style from './adocaoRejeitada.module.css';
+import style from './adocaoaprovada.module.css';
 import table from '../../../css/table.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../../../components/Header';
@@ -8,19 +8,19 @@ import { useNavigate, Link } from 'react-router-dom';
 import { FcBinoculars } from 'react-icons/fc';
 import Voltar from '../../../components/Voltar';
 
-export default function AdocoesRejeitadas() {
+export default function AdocoesAprovadas() {
     const [adocoes, setAdocoes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [erro, setErro] = useState(null);
     const navigate = useNavigate();
 
-    const getAdocoesRejeitadas = async () => {
+    const getAdocoesAprovadas = async () => {
         try {
             const response = await endFetch.get("/solicitacaoadocao");
-            const apenasRejeitadas = response.data.filter(
-                item => item.status?.toUpperCase() === 'REJEITADO'
+            const apenasAprovadas = response.data.filter(
+                item => item.status?.toUpperCase() === 'Aprovado'
             );
-            setAdocoes(apenasRejeitadas);
+            setAdocoes(apenasAprovadas);
         } catch (error) {
             console.error("Erro ao carregar os dados:", error);
             setErro('Erro ao carregar os dados');
@@ -34,7 +34,7 @@ export default function AdocoesRejeitadas() {
     };
 
     useEffect(() => {
-        getAdocoesRejeitadas();
+        getAdocoesAprovadas();
     }, []);
 
     if (loading) {
@@ -48,7 +48,7 @@ export default function AdocoesRejeitadas() {
             <div className={table.tabela}>
                 {adocoes.length === 0 ? (
                     <div className={style.semcadastro}>
-                        <p>Sem adoções rejeitadas</p>
+                        <p>Sem adoções Aprovadas</p>
                     </div>
                 ) : (
                     <table className="table table-danger table-striped-columns">
