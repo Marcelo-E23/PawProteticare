@@ -50,25 +50,10 @@ public class AnimachadoServiceImpl implements IAnimachadoService {
             animal.setNome(animalAtualizado.getNome());
             animal.setEspecie(animalAtualizado.getEspecie());
             animal.setHistoria(animalAtualizado.getHistoria());
-            //animal.setProtese(animalAtualizado.getProtese());
+            animal.setProteseEntity(animalAtualizado.getProteseEntity());
             animal.setStatus(animalAtualizado.getStatus());
             animal.setIdade(animalAtualizado.getIdade());
-
-            // Converte imagem para Base64 antes de atualizar
-        //    try {
-          //      if (animalAtualizado.getImagem() != null && new File(animalAtualizado.getImagem()).exists()) {
-           //         String base64Img = FileBase64Service.encodeFileToBase64(new File(animalAtualizado.getImagem()));
-           //         animal.setImagem(base64Img);
-          //      } else {
-             //       animal.setImagem(animalAtualizado.getImagem()); // caso já venha como Base64
-             //   }
-          //  } catch (IOException e) {
-           //     throw new RuntimeException("Erro ao atualizar imagem para Base64", e);
-          //  }
-
-            //animal.setDoado(animalAtualizado.getDoado());
-           // animal.setFk_Protese_Id(animalAtualizado.getFk_Protese_Id());
-           // animal.setFk_Usuario_Id(animalAtualizado.getFk_Usuario_Id());
+            animal.setImagem(animalAtualizado.getImagem()); // caso já venha como Base64
             return animachadoRepository.save(animal);
         }).orElseThrow(() -> new RuntimeException("Animal não encontrado"));
     }

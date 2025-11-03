@@ -85,14 +85,24 @@ public class AnimachadoController {
     }
 
 
-    @PutMapping("/{id}")
-    public ResponseEntity<AnimachadoEntity> atualizar(@PathVariable Long id, @RequestBody AnimachadoEntity animachadoEntity){
-        try {
-            return ResponseEntity.ok(animachadoServiceImpl.atualizar(id, animachadoEntity));
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+    @PutMapping(value = "/{id}", consumes = "multipart/form-data")
+    @Transactional
+    public ResponseEntity<AnimachadoEntity> atualizar(
+        @PathVariable Long id,
+        @RequestParam(required = false) MultipartFile imagem,
+        @RequestParam Map<String, String> allParams) throws IOException {
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    AnimachadoEntity animachado = objectMapper.convertValue(allParams, AnimachadoEntity.class);
+
+    if (imagem != null && !imagem.isEmpty()) {
+        animachado.setImagem(imagem.getBytes());
     }
+
+    AnimachadoEntity atualizado = animachadoServiceImpl.atualizar(id, animachado);
+    return ResponseEntity.ok(atualizado);
+    }
+
 
     @DeleteMapping("/id")
     public ResponseEntity<Void> remover(@PathVariable Long id){

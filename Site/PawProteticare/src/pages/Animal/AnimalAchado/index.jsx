@@ -53,7 +53,6 @@ export default function Animachado() {
                                 <th>Nome</th>
                                 <th>Espécie</th>
                                 <th>Idade</th>
-                                <th>Protése</th>
                                 <th>Status</th>
                                 <th className={style.alterar}>Alterar</th>
                                 <th className={style.visualizar}>Visualizar</th>
@@ -66,23 +65,12 @@ export default function Animachado() {
                                     <td>{animal.nome}</td>
                                     <td>{animal.especie}</td>
                                     <td>{animal.idade}</td>
-                                    <td>{animal.proteseEntity?.nome || '—'}</td>
                                     <td>{animal.status}</td>
-                                    <td>
-                                        <button 
-                                            className={botao.borange} 
-                                            onClick={() => navAlterar(animal.id)}
-                                        >
-                                            <FcSynchronize size={20} />
-                                        </button>
+                                    <td className={table.icon} onClick={() => navAlterar(animal.id)}>
+                                        <FcSynchronize  size="3rem" />
                                     </td>
-                                    <td>
-                                        <button 
-                                            className={botao.bblue} 
-                                            onClick={() => navVisualizar(animal.id)}
-                                        >
-                                            <FcBinoculars size={20} />
-                                        </button>
+                                    <td className={table.icon} onClick={() => navVisualizar(animal.id)}>
+                                        <FcBinoculars size="2rem" />
                                     </td>
                                 </tr>
                             ))}

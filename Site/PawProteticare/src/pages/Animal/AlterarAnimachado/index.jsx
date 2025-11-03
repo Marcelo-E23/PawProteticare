@@ -15,8 +15,8 @@ export default function AlterarAnimachado() {
         idade: '',
         status: '',
         historia: '',
-        protese: '',
-        imagem: null, // guardar arquivo
+        imagem: '', // Base64 ou URL para preview
+        file: null, // Para envio do arquivo
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -24,18 +24,18 @@ export default function AlterarAnimachado() {
 
     // Buscar dados do Animachado
     const getAnimachado = async () => {
-        const token = localStorage.getItem('access_token');
         try {
-            const response = await endFetch.get(`/animachado/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+            const response = await endFetch.get(`/animachado/${id}`);
+            const data = response.data;
+            setAnimachado({
+                nome: data.nome,
+                especie: data.especie,
+                idade: data.idade,
+                status: data.status,
+                historia: data.historia,
+                imagem: data.imagem ? `data:image/jpeg;base64,${data.imagem}` : '',
+                file: null,
             });
-            // Aqui podemos manter a imagem como null (ou url) se for necessário exibir
-            setAnimachado((prev) => ({
-                ...response.data,
-                imagem: null,
-            }));
             setLoading(false);
         } catch (error) {
             setLoading(false);
@@ -57,13 +57,15 @@ export default function AlterarAnimachado() {
         }));
     };
 
-    // Atualiza o arquivo selecionado
+    // Manipula arquivo e preview
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            const preview = URL.createObjectURL(file);
             setAnimachado((prev) => ({
                 ...prev,
-                imagem: file,
+                imagem: preview,
+                file: file,
             }));
         }
     };
@@ -71,27 +73,21 @@ export default function AlterarAnimachado() {
     // Enviar alterações
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('access_token');
+
+        const formData = new FormData();
+        formData.append("nome", animachado.nome);
+        formData.append("especie", animachado.especie);
+        formData.append("idade", animachado.idade);
+        formData.append("status", animachado.status);
+        formData.append("historia", animachado.historia);
+        if (animachado.file) formData.append("imagem", animachado.file);
 
         try {
-            const formData = new FormData();
-            formData.append('nome', animachado.nome);
-            formData.append('especie', animachado.especie);
-            formData.append('idade', animachado.idade);
-            formData.append('status', animachado.status);
-            formData.append('historia', animachado.historia);
-            formData.append('protese', animachado.protese);
-            if (animachado.imagem) {
-                formData.append('imagem', animachado.imagem); // arquivo real
-            }
-
             await endFetch.put(`/animachado/${id}`, formData, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data',
                 },
             });
-
             navigate('/AnimalAchado');
         } catch (error) {
             setError('Erro ao salvar as alterações');
@@ -179,6 +175,15 @@ export default function AlterarAnimachado() {
                             accept="image/*"
                             onChange={handleFileChange}
                         />
+                        {animachado.imagem && (
+                            <div className={input.preview}>
+                                <img
+                                    src={animachado.imagem}
+                                    alt="Preview do animal"
+                                    style={{ maxWidth: '200px', marginTop: '10px' }}
+                                />
+                            </div>
+                        )}
                     </div>
 
                     {error && <div className={style.erroalterar}>{error}</div>}

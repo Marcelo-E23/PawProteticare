@@ -13,34 +13,43 @@ const CadastroAnimachado = () => {
   const [nome, setNome] = useState("");
   const [especie, setEspecie] = useState("");
   const [idade, setIdade] = useState("");
-  const [imagem, setImagem] = useState("");
+  const [imagem, setImagem] = useState(null);  // Agora imagem é um arquivo (não uma URL)
   const [status, setStatus] = useState("ANALISE_SITUACAO");
   const [historia, setHistoria] = useState("");
   const [message, setMessage] = useState("");  
+  const [imagemPreview, setImagemPreview] = useState("");  // Estado para armazenar o preview da imagem
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const formData = new FormData();
-  formData.append("nome", nome);
-  formData.append("especie", especie);
-  formData.append("idade", idade);
-  formData.append("status", status);
-  formData.append("historia", historia);
-  if (imagem) formData.append("imagem", imagem);
+    const formData = new FormData();
+    formData.append("nome", nome);
+    formData.append("especie", especie);
+    formData.append("idade", idade);
+    formData.append("status", status);
+    formData.append("historia", historia);
+    if (imagem) formData.append("imagem", imagem);  // Envia o arquivo da imagem
 
-  try {
+    try {
+      const response = await endFetch.post("/animachado", formData);
+      setMessage(`Animal cadastrado com sucesso: ${response.data.nome}`);
+      navigate("/AnimalAchado");
+    } catch (error) {
+      console.error("Erro do servidor:", error.response?.data || error.message);
+      setMessage("Erro ao cadastrar o animal. Tente novamente.");
+    }
+  };
 
-    const response = await endFetch.post("/animachado", formData)
-
-    setMessage(`Animal cadastrado com sucesso: ${response.data.nome}`);
-    navigate("/AnimalAchado");
-  } catch (error) {
-    console.error("Erro do servidor:", error.response?.data || error.message);
-    setMessage("Erro ao cadastrar o animal. Tente novamente.");
-  }
-};
+  // Manipulando a mudança da imagem para preview
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImagem(file);
+      const preview = URL.createObjectURL(file);
+      setImagemPreview(preview);  // Atualiza o preview da imagem
+    }
+  };
 
   return (
     <>
@@ -93,7 +102,6 @@ const CadastroAnimachado = () => {
             </select>
           </div>
 
-
           <Input 
             id={"História"} 
             dado={"História"} 
@@ -109,18 +117,13 @@ const CadastroAnimachado = () => {
               id="imagem"
               type="file" 
               accept="image/*" 
-              onChange={(e) => {
-                const file = e.target.files[0];
-                if (file) {
-                  setImagem(file);
-                  const preview = URL.createObjectURL(file);
-                  document.getElementById("preview").src = preview;
-                }
-              }}
+              onChange={handleImageChange}  // Atualizando o estado de imagem e preview
             />
-            <div className={styles.preview}>
-              <img id="preview" alt="Pré-visualização" />
-            </div>
+            {imagemPreview && (
+              <div className={styles.preview}>
+                <img src={imagemPreview} alt="Pré-visualização" style={{ maxWidth: '200px', marginTop: '10px' }} />
+              </div>
+            )}
           </div>
 
           {message && <p className={style.errocadastro}>{message}</p>}
@@ -133,4 +136,3 @@ const CadastroAnimachado = () => {
 };
 
 export default CadastroAnimachado;
-//
