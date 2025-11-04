@@ -13,7 +13,7 @@ const CadastroAnimachado = () => {
   const [nome, setNome] = useState("");
   const [especie, setEspecie] = useState("");
   const [idade, setIdade] = useState("");
-  const [imagem, setImagem] = useState(null);  // Agora imagem é um arquivo (não uma URL)
+  const [imagem, setImagem] = useState();  // Agora imagem é um arquivo (não uma URL)
   const [status, setStatus] = useState("ANALISE_SITUACAO");
   const [historia, setHistoria] = useState("");
   const [message, setMessage] = useState("");  
@@ -117,7 +117,8 @@ const CadastroAnimachado = () => {
               id="imagem"
               type="file" 
               accept="image/*" 
-              onChange={handleImageChange}  // Atualizando o estado de imagem e preview
+              onChange={handleImageChange} 
+              required // Atualizando o estado de imagem e preview
             />
             {imagemPreview && (
               <div className={styles.preview}>
