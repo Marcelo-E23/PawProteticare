@@ -6,20 +6,15 @@ import AlterarAnimachado from "./pages/Animal/AlterarAnimachado";
 import CadastroAnimachado from "./pages/Animal/CadastroAnimachado";
 import VisualizarAnimachado from "./pages/Animal/VisualizarAnimachado";
 import Animadotado from "./pages/Animal/AnimalAdotado";
-import VisualizarAnimadotado from "./pages/Animal/VisualizarAnimalAdotado";
-import AlterarAnimadotado from "./pages/Animal/AlterarAnimalAdotado";
 import Protese from "./pages/Protese/Protese";
 import AlterarProtese from "./pages/Protese/Alterar Protese";
 import CadastroProtese from "./pages/Protese/Cadastro Protese";
 import VisualizarProtese from "./pages/Protese/VisualizarProtese";
 import Doador from "./pages/Doador/Doador";
-import VisualizarDoacao from "./pages/Doador/Visualizar Doacao";
 import Adocao from "./pages/Adocao/Adocao";
 import TelaAdocao from "./pages/Adocao/TelaAdoção";
 import VisualizarAdocao from "./pages/Adocao/Visualizar Adocao";
 import AdocoesRejeitadas from "./pages/Adocao/Adocao rejeitadas";
-import AdocoesAprovadas from "./pages/Adocao/Adocao Aprovada";
-
 
 
 export default function AppRoutes(){
@@ -33,10 +28,7 @@ export default function AppRoutes(){
                 <Route path="/CadastroAnimalAchado" element={<CadastroAnimachado/>}/>
                 <Route path="/VisualizarAnimalAchado/:id" element={<VisualizarAnimachado/>}/>
                 <Route path="/AnimalAdotado" element={<Animadotado/>}/>
-                <Route path="/AlterarAnimalAdotado/:id" element={<AlterarAnimadotado/>}/>
-                <Route path="/VisualizarAnimalAdotado/:id" element={<VisualizarAnimadotado/>}/>
                 <Route path="/Doador" element={<Doador/>}/>
-                <Route path="/VisualizarDoacao/:id" element={<VisualizarDoacao/>}/>
                 <Route path="/Protese" element={<Protese/>}/>
                 <Route path="/AlterarProtese/:id" element={<AlterarProtese/>}/>
                 <Route path="/CadastroProtese" element={<CadastroProtese/>}/>
