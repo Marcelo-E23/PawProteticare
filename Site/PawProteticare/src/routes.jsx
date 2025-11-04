@@ -37,8 +37,6 @@ export default function AppRoutes(){
                 <Route path="/TelaAdocao/:id" element={<TelaAdocao/>}/>
                 <Route path="/VisualizarAdocao/:id" element={<VisualizarAdocao/>}/>
                 <Route path="/AdocaoRejeitadas" element={<AdocoesRejeitadas/>}/>   
-                <Route path="/AdocaoAprovadas" element={<AdocoesAprovadas/>}/> 
-
             </Routes>
         </BrowserRouter>
     )

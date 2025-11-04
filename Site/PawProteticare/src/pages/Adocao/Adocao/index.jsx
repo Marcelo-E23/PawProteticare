@@ -31,20 +31,12 @@ export default function Adocao() {
         getAdocao();
     }, []);
 
-    const navCadastro = () => {
-        navigate('/CadastroAdocao');
-    };
-
     const navTelaAdoacao = (id) => {
         navigate(`/TelaAdoacao/${id}`);
     };
     
     const navRejeitado = () => {
         navigate(`/AdocaoRejeitadas`);
-    };
-    
-    const navAprovada = () => {
-        navigate(`/AdocaoAprovadas`);
     };
 
     if (loading) {
@@ -87,9 +79,6 @@ export default function Adocao() {
                 )}
                  <button type="button" className={botao.bred} onClick={navRejeitado}>
                     Rejeitados
-                </button>
-                 <button type="button" className={botao.bgreen} onClick={navAprovada}>
-                    Aprovados
                 </button>
             </div>
         </>
