@@ -38,3 +38,8 @@
     color: var(--Purple);
     font-weight: bold;
 }
+
+.voltar{
+    color: var(--Green);
+    transition: all 0.5s;
+}

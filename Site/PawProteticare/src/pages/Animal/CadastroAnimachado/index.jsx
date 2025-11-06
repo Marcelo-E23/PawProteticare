@@ -5,7 +5,6 @@ import endFetch from "../../../axios";
 import { useNavigate } from "react-router-dom";
 import style from './cadastro.module.css';
 import styles from '../../../css/input.module.css';
-import { Link } from "react-router-dom";
 import Input from "../../../modelos/Inputcadastro";
 import botao from '../../../css/botao.module.css';
 
@@ -121,7 +120,7 @@ const CadastroAnimachado = () => {
             />
             {imagemPreview && (
               <div className={styles.preview}>
-                <img src={imagemPreview} alt="Pré-visualização" style={{ maxWidth: '200px', marginTop: '10px' }} />
+                <img className={styles.imagem}src={imagemPreview} alt="Pré-visualização" style={{ maxWidth: '200px', marginTop: '10px' }} />
               </div>
             )}
           </div>

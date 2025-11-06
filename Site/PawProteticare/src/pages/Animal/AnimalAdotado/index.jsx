@@ -41,7 +41,7 @@ export default function Animadotado() {
   };
 
   const navVisualizar = (id) => {
-    navigate(`/VisualizarAnimalAdotado/${id}`);
+    navigate(`/VisualizarAdoacao/${id}`);
   };
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export default function Animadotado() {
     return (
       <>
         <Header />
-        <Voltar/>
+       <div className={style.voltar}><Voltar/></div>
         <div className={style.erro}>{error}</div>
       </>
     );
@@ -65,7 +65,7 @@ export default function Animadotado() {
   return (
     <>
       <Header />
-      <Voltar/>
+      <div className={style.voltar}><Voltar/></div>
       <div className={table.tabela}>
         {animadotado.length === 0 ? (
           <div className={style.semcadastro}>

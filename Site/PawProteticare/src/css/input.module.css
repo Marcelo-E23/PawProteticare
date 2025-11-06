@@ -19,7 +19,8 @@
   
   .input textarea{
   border: 0.25vh solid;
-  height: 10rem;
+  width: 97vh;
+  height: 17vh;
   font-size: 120%;
   padding: 0.75rem;
   transition: all 0.5s;
@@ -37,4 +38,10 @@
     transition: all 0.5s;
     display: block;
     margin: 3vh;
+  }
+
+  .imagem{
+    width: 20vh;
+    height: auto;
+    margin: 2vh;
   }

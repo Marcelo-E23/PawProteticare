@@ -16,14 +16,25 @@ export default function AdocoesRejeitadas() {
 
     const getAdocoesRejeitadas = async () => {
         try {
+            setLoading(true);
+            setErro(null);
+            
             const response = await endFetch.get("/solicitacao-adocao");
-            const apenasRejeitadas = response.data.filter(
-                item => item.status?.toUpperCase() === 'REPROVADO'
-            );
+            console.log('Dados completos da API:', response.data); // DEBUG
+            
+            const apenasRejeitadas = response.data.filter(item => {
+                // Verificação mais robusta do status
+                const status = item.status?.toString().trim().toUpperCase();
+                console.log(`Item ${item.id}: status = "${item.status}" -> "${status}"`); // DEBUG
+                return status === 'REPROVADO' || status === 'REJEITADO' || status === 'RECUSADO';
+            });
+            
+            console.log('Adoções rejeitadas filtradas:', apenasRejeitadas); // DEBUG
             setAdocoes(apenasRejeitadas);
+            
         } catch (error) {
             console.error("Erro ao carregar os dados:", error);
-            setErro('Erro ao carregar os dados');
+            setErro('Erro ao carregar os dados: ' + (error.response?.data?.message || error.message));
         } finally {
             setLoading(false);
         }
@@ -31,6 +42,20 @@ export default function AdocoesRejeitadas() {
 
     const navVisualizar = (id) => {
         navigate(`/VisualizarAdocao/${id}`);
+    };
+
+    // Função para debug - mostra a estrutura dos dados
+    const debugDataStructure = (data) => {
+        if (data.length > 0) {
+            console.log('Estrutura do primeiro item:', Object.keys(data[0]));
+            console.log('Dados do primeiro item:', data[0]);
+            if (data[0].proprietario) {
+                console.log('Estrutura do proprietario:', Object.keys(data[0].proprietario));
+            }
+            if (data[0].animachado) {
+                console.log('Estrutura do animachado:', Object.keys(data[0].animachado));
+            }
+        }
     };
 
     useEffect(() => {
@@ -41,14 +66,24 @@ export default function AdocoesRejeitadas() {
         return <div className={style.carregando}>Carregando...</div>;
     }
 
+    if (erro) {
+        return (
+            <>
+                <Header />
+                <Voltar />
+                <div className={style.erro}>{erro}</div>
+            </>
+        );
+    }
+
     return (
         <>
             <Header />
-            <Voltar/>
+            <Voltar />
             <div className={table.tabela}>
                 {adocoes.length === 0 ? (
                     <div className={style.semcadastro}>
-                        <p>Sem adoções rejeitadas</p>
+                        <p>Nenhuma adoção rejeitada encontrada</p>
                     </div>
                 ) : (
                     <table className="table table-danger table-striped-columns">
@@ -58,6 +93,7 @@ export default function AdocoesRejeitadas() {
                                 <th>Solicitante</th>
                                 <th>Data</th>
                                 <th>Animal</th>
+                                <th>Status</th>
                                 <th className={style.visualizar}>Visualizar</th>
                             </tr>
                         </thead>
@@ -65,9 +101,23 @@ export default function AdocoesRejeitadas() {
                             {adocoes.map((item) => (
                                 <tr key={item.id}>
                                     <td>{item.id}</td>
-                                    <td>{item.proprietario ? item.proprietario.nome : 'Não informado'}</td>
-                                    <td>{new Date(item.data_solicitacao).toLocaleDateString()}</td>
-                                    <td>{item.animal ? item.animal.nome : 'Não informado'}</td>
+                                    <td>
+                                        {item.proprietario?.nome || 
+                                         item.solicitante?.nome || 
+                                         'Não informado'}
+                                    </td>
+                                    <td>
+                                        {item.dataSolicitacao ? new Date(item.dataSolicitacao).toLocaleDateString() :
+                                         item.data_solicitacao ? new Date(item.data_solicitacao).toLocaleDateString() :
+                                         'Data não informada'}
+                                    </td>
+                                    <td>
+                                        {item.animachado?.nome ||
+                                         item.animal?.nome ||
+                                         item.nomeAnimal ||
+                                         'Não informado'}
+                                    </td>
+                                    <td>{item.status}</td>
                                     <td className={table.icon} onClick={() => navVisualizar(item.id)}>
                                         <FcBinoculars size="3rem" />
                                     </td>

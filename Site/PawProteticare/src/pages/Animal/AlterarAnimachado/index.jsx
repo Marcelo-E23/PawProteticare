@@ -217,14 +217,10 @@ export default function AlterarAnimachado() {
                             onChange={handleFileChange}
                         />
                         {animachado.imagem && (
-                            <div className={input.preview}>
-                                <img
+                                <img className={input.imagem}
                                     src={animachado.imagem}
                                     alt="Preview do animal"
-                                    style={{ maxWidth: '200px', marginTop: '10px' }}
-                                />
-                            </div>
-                        )}
+                                />                        )}
                     </div>
 
                     {error && <div className={style.erroalterar}>{error}</div>}

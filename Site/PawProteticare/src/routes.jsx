@@ -11,6 +11,7 @@
     import CadastroProtese from "./pages/Protese/Cadastro Protese";
     import VisualizarProtese from "./pages/Protese/VisualizarProtese";
     import Doador from "./pages/Doador/Doador";
+    import VisualizarDoacao from "./pages/Doador/Visualizar Doacao";
     import Adocao from "./pages/Adocao/Adocao";
     import TelaAdocao from "./pages/Adocao/TelaAdocao";
     import VisualizarAdocao from "./pages/Adocao/Visualizar Adocao";
@@ -29,6 +30,7 @@
                     <Route path="/VisualizarAnimalAchado/:id" element={<VisualizarAnimachado/>}/>
                     <Route path="/AnimalAdotado" element={<Animadotado/>}/>
                     <Route path="/Doador" element={<Doador/>}/>
+                    <Route path="/VisualizarDoacao/:id" element={<VisualizarDoacao/>}/>
                     <Route path="/Protese" element={<Protese/>}/>
                     <Route path="/AlterarProtese/:id" element={<AlterarProtese/>}/>
                     <Route path="/CadastroProtese" element={<CadastroProtese/>}/>

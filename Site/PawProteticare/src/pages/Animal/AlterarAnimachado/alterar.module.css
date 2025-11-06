@@ -19,6 +19,16 @@
     display: block;
   }
   
+  .input textarea{
+    width: 100%;
+    height: 15vh;
+    font-size: 3vh;
+    padding: 1vh;
+    border-radius: 0.5vh;
+    border: none;
+    margin-bottom: 2vh;
+  }
+
   .erroalterar{
     font-size: 5vh;
     padding: 3vh;

@@ -6,7 +6,7 @@
     justify-content: center;
     background-color: var(--DarkBlue);
     padding: 5%;
-    width: 100%;
+    width: 100vh;
     max-width: 1200px; /* Limita a largura da tela */
     margin: 3% auto;
     border-radius: 1rem;
@@ -21,8 +21,6 @@
 }
 
 .voltar {
-    font-size: 1.5rem;
-    margin-left: auto;
     color: var(--Green);
     transition: all 0.5s;
 }
