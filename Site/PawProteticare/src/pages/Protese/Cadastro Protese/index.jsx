@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import Header from "../../../components/Header";
 import Voltar from "../../../components/Voltar";
 import endFetch from "../../../axios";
 import { useNavigate, Link } from "react-router-dom";
 import style from "./cadastro.module.css";
-import input from "../../../css/input.module.css";
 import botao from "../../../css/botao.module.css";
 import Input from "../../../modelos/Inputcadastro";
 
@@ -12,17 +11,16 @@ export default function CadastroProtese() {
   const [nome, setNome] = useState("");
   const [fabricante, setFabricante] = useState("");
   const [custo, setCusto] = useState("");
+  const [codigo, setCodigo] = useState("");
   const [tipo, setTipo] = useState("");
   const [descricao, setDescricao] = useState("");
-  const [animalId, setAnimalId] = useState("");
-  const [animaisAchados, setAnimaisAchados] = useState([]);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const novaProtese = { nome, fabricante, custo, tipo, descricao};
+    const novaProtese = { nome, fabricante, custo, tipo, descricao, codigo};
 
     try {
       const response = await endFetch.post("/protese", novaProtese);
@@ -44,6 +42,7 @@ export default function CadastroProtese() {
           </Link>
 
           <Input id="Nome" dado="Nome" legenda="Digite o nome da prótese:" tipo="text" valor={nome} change={(e) => setNome(e.target.value)} />
+          <Input id="Codigo" dado="Codigo" legenda="Digite o Código da prótese:" tipo="text" valor={codigo} change={(e) => setCodigo(e.target.value)} />
           <Input id="Fabricante" dado="Fabricante" legenda="Digite o fabricante:" tipo="text" valor={fabricante} change={(e) => setFabricante(e.target.value)} />
           <Input id="Custo" dado="Custo" legenda="Digite o custo:" tipo="number" valor={custo} change={(e) => setCusto(e.target.value)} />
           <Input id="Tipo" dado="Tipo" legenda="Digite o tipo da prótese:" tipo="text" valor={tipo} change={(e) => setTipo(e.target.value)} />

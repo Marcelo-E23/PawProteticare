@@ -15,9 +15,11 @@ export default function AlterarAnimachado() {
         idade: '',
         status: '',
         historia: '',
-        imagem: '', // Base64 ou URL para preview
-        file: null, // Para envio do arquivo
+        imagem: '',
+        file: null,
+        protese: '', // guardará o ID da prótese
     });
+    const [proteses, setProteses] = useState([]); // lista de próteses para o select
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -27,15 +29,18 @@ export default function AlterarAnimachado() {
         try {
             const response = await endFetch.get(`/animachado/${id}`);
             const data = response.data;
+
             setAnimachado({
                 nome: data.nome,
                 especie: data.especie,
                 idade: data.idade,
                 status: data.status,
                 historia: data.historia,
+                protese: data.proteseEntity ? data.proteseEntity.id : '',
                 imagem: data.imagem ? `data:image/jpeg;base64,${data.imagem}` : '',
                 file: null,
             });
+
             setLoading(false);
         } catch (error) {
             setLoading(false);
@@ -44,8 +49,19 @@ export default function AlterarAnimachado() {
         }
     };
 
+    // Buscar todas as próteses para o select
+    const getProteses = async () => {
+        try {
+            const res = await endFetch.get('/protese');
+            setProteses(res.data);
+        } catch (error) {
+            console.error('Erro ao carregar próteses:', error);
+        }
+    };
+
     useEffect(() => {
         getAnimachado();
+        getProteses();
     }, [id]);
 
     // Atualiza campos do formulário
@@ -80,7 +96,15 @@ export default function AlterarAnimachado() {
         formData.append("idade", animachado.idade);
         formData.append("status", animachado.status);
         formData.append("historia", animachado.historia);
-        if (animachado.file) formData.append("imagem", animachado.file);
+
+        // Campo que o backend espera
+        if (animachado.protese) {
+            formData.append("proteseId", animachado.protese);
+        }
+
+        if (animachado.file) {
+            formData.append("imagem", animachado.file);
+        }
 
         try {
             await endFetch.put(`/animachado/${id}`, formData, {
@@ -154,6 +178,24 @@ export default function AlterarAnimachado() {
                             <option value="ADOTADO">Adotado</option>
                             <option value="ANALISE_SITUACAO">Analisando situação</option>
                             <option value="FALECIDO">Falecido</option>
+                        </select>
+                    </div>
+
+                    {/* Campo de prótese */}
+                    <div className={input.input}>
+                        <label htmlFor="protese">Prótese</label>
+                        <select
+                            id="protese"
+                            name="protese"
+                            value={animachado.protese}
+                            onChange={handleChange}
+                        >
+                            <option value="">Selecione...</option>
+                            {proteses.map((p) => (
+                                <option key={p.id} value={p.id}>
+                                    {p.nome} - {p.tipo}
+                                </option>
+                            ))}
                         </select>
                     </div>
 

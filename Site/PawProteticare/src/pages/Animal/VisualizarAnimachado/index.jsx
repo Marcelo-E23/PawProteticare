@@ -8,13 +8,14 @@ import Voltar from '../../../components/Voltar';
 export default function VisualizarAnimachado() {
     const { id } = useParams();
     const [animachado, setAnimachado] = useState({
+        id: '',
         nome: '',
         especie: '',
         idade: '',
         status: '',
         historia: '',
-        protese: '',
-        imagem: '',  // Este será o campo de imagem base64
+        imagem: '',
+        proteseEntity: null, // objeto da prótese
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -22,13 +23,29 @@ export default function VisualizarAnimachado() {
     const getAnimachado = async () => {
         try {
             const response = await endFetch.get(`/animachado/${id}`);
-            // A resposta do servidor contém a imagem em base64 e outros dados do animachado
-            setAnimachado(response.data);
+            const data = response.data;
+
+            // Ajustar imagem base64 e proteseEntity
+            const imagem = data.imagem
+                ? `data:image/jpeg;base64,${data.imagem}`
+                : '';
+
+            setAnimachado({
+                id: data.id,
+                nome: data.nome,
+                especie: data.especie,
+                idade: data.idade,
+                status: data.status,
+                historia: data.historia,
+                imagem,
+                proteseEntity: data.proteseEntity || null,
+            });
+
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            setError('Erro ao carregar os dados do animachado');
-            console.log(error);
+            setError('Erro ao carregar os dados do Animachado');
+            console.log(error.response ? error.response.data : error);
         }
     };
 
@@ -40,6 +57,10 @@ export default function VisualizarAnimachado() {
         return <div>Carregando...</div>;
     }
 
+    if (error) {
+        return <div className={styles.erro}>{error}</div>;
+    }
+
     return (
         <>
             <Header />
@@ -47,17 +68,25 @@ export default function VisualizarAnimachado() {
                 <Link to={'/AnimalAchado'}>
                     <Voltar />
                 </Link>
-                <h1 className={styles.titulo}>Ficha Animachado</h1>
+                <h1 className={styles.titulo}>Ficha do Animachado</h1>
 
                 <div className={styles.card}>
                     <div className={styles.imagem}>
-                        {/* Exibição da imagem base64 */}
-                        <img src={animachado.imagem} alt={animachado.nome} className={styles.imagemAchado} />
-                        <p>{animachado.nome}</p>
+                        {/* Exibe imagem do animal */}
+                        {animachado.imagem ? (
+                            <img
+                                src={animachado.imagem}
+                                alt={animachado.nome}
+                                className={styles.imagemAchado}
+                            />
+                        ) : (
+                            <p>Sem imagem</p>
+                        )}
+                        <p className={styles.nome}>{animachado.nome}</p>
                     </div>
 
                     <div className={styles.informacoes}>
-                        {/* Exibição dos dados do animachado */}
+                        {/* Dados principais */}
                         <div className={styles.dados}>
                             <p className={styles.caracteristica}>ID do Animachado</p>
                             <div className={styles.animachado}>
@@ -86,10 +115,18 @@ export default function VisualizarAnimachado() {
                             </div>
                         </div>
 
+                        {/* Informações da prótese */}
                         <div className={styles.dados}>
-                            <p className={styles.caracteristica}>Protése</p>
+                            <p className={styles.caracteristica}>Prótese</p>
                             <div className={styles.animachado}>
-                                <p>{animachado.protese}</p>
+                                {animachado.proteseEntity ? (
+                                    <>  
+                                        <p><strong>Nome:</strong> {animachado.proteseEntity.nome}</p>
+                                        <p><strong>Custo:</strong> R$ {animachado.proteseEntity.custo}</p>
+                                    </>
+                                ) : (
+                                    <p>Sem prótese associada</p>
+                                )}
                             </div>
                         </div>
 

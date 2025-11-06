@@ -35,7 +35,7 @@ const Login = () => {
       console.log('Response data:', response.data);
       const { access_token, refreshToken} = response.data;
 
-      localStorage.setItem('accessToken', access_token);
+      localStorage.setItem('access_Token', access_token);
       localStorage.setItem('refreshToken', refreshToken);
 
 
@@ -44,7 +44,7 @@ const Login = () => {
 
       if (payload.role !== 'ADMIN') {
       setError('Acesso negado: apenas administradores podem entrar.');
-      return; // Sai da função sem armazenar tokens ou navegar
+      return; 
     }
       navigate('/home');
     } catch (error) {
