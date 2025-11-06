@@ -34,15 +34,15 @@ class _PatrocinadorCardState extends State<PatrocinadorCard>
     super.dispose();
   }
 
-  // ✅ ÍCONES MAIS SIGNIFICATIVOS
+  // ÍCONES MAIS SIGNIFICATIVOS
   IconData _iconeParceiro(String nome) {
-    if (nome.contains('Caramelo')) return Icons.home; // abrigo físico
-    if (nome.contains('Ampara')) return Icons.school; // educação e advocacy
-    if (nome.contains('PremieRpet')) return Icons.volunteer_activism; // doações
+    if (nome.contains('Caramelo')) return Icons.home;
+    if (nome.contains('Ampara')) return Icons.school;
+    if (nome.contains('PremieRpet')) return Icons.volunteer_activism;
     return Icons.handshake;
   }
 
-  // ✅ DESCRIÇÕES HUMANIZADAS COM BASE NAS FONTES REAIS
+  // DESCRIÇÕES HUMANIZADAS
   String _descricaoReal(String nome) {
     if (nome.contains('Instituto Caramelo')) {
       return 'Abrigo com 300 animais em Ribeirão Pires (SP). Centro cirúrgico 24h, fisioterapia e equipe de 40 profissionais. Necessita de R\$300 mil/mês para operar.';
@@ -84,6 +84,10 @@ class _PatrocinadorCardState extends State<PatrocinadorCard>
     final isValidUrl = site != null && site.isNotEmpty;
     final nome = widget.patro['nome'] ?? '';
 
+    // ✅ Caminho da imagem local
+    final logoNome = widget.patro['logo'] ?? 'placeholder.png';
+    final caminhoLogo = 'assets/images/$logoNome';
+
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
@@ -121,21 +125,12 @@ class _PatrocinadorCardState extends State<PatrocinadorCard>
                           label: 'Logo da instituição $nome',
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8),
-                            child: Image.network(
-                              widget.patro['logo']?.trim() ?? '',
+                            child: Image.asset(
+                              caminhoLogo,
                               width: 60,
                               height: 60,
                               fit: BoxFit.cover,
-                              loadingBuilder: (context, child, loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return Container(
-                                  width: 60,
-                                  height: 60,
-                                  color: isDark ? const Color(0xFF2C2C2E) : const Color(0xFFF5F5F5),
-                                  child: const Center(child: CircularProgressIndicator()),
-                                );
-                              },
-                              errorBuilder: (context, error, _) => Container(
+                              errorBuilder: (context, error, stackTrace) => Container(
                                 width: 60,
                                 height: 60,
                                 decoration: BoxDecoration(
@@ -191,7 +186,6 @@ class _PatrocinadorCardState extends State<PatrocinadorCard>
                                   child: ElevatedButton.icon(
                                     onPressed: isValidUrl ? _abrirSite : null,
                                     icon: const Icon(Icons.open_in_new, size: 16),
-                                    // ✅ Texto sem caixa alta — solução compatível
                                     label: Text(
                                       "Visitar site",
                                       style: GoogleFonts.poppins(

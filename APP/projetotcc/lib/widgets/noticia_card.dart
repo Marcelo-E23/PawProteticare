@@ -34,7 +34,6 @@ class _NoticiaCardState extends State<NoticiaCard>
     super.dispose();
   }
 
-  // ✅ Ícones mais significativos
   IconData _categoriaIcon(String categoria) {
     switch (categoria.toLowerCase()) {
       case 'campanha':
@@ -48,7 +47,6 @@ class _NoticiaCardState extends State<NoticiaCard>
     }
   }
 
-  // ✅ Resumo humanizado com base nas notícias reais
   String _resumoNoticia(String titulo) {
     if (titulo.contains('Adoção como ato de justiça social')) {
       return 'Chiquinho, cão cego resgatado em Betim, esperou 16 meses por um lar até encontrar uma família que o ama incondicionalmente.';
@@ -60,7 +58,6 @@ class _NoticiaCardState extends State<NoticiaCard>
     return titulo;
   }
 
-  // ✅ Localização correta
   String _localizacao(String titulo) {
     if (titulo.contains('Adoção como ato de justiça social')) {
       return 'Betim, MG';
@@ -74,7 +71,9 @@ class _NoticiaCardState extends State<NoticiaCard>
 
   Future<void> _abrirLink() async {
     final url = widget.noticia['url']?.trim();
-    if (url != null && url.isNotEmpty && Uri.tryParse(url)?.hasAbsolutePath == true) {
+    if (url != null &&
+        url.isNotEmpty &&
+        Uri.tryParse(url)?.hasAbsolutePath == true) {
       final uri = Uri.parse(url);
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
@@ -86,6 +85,42 @@ class _NoticiaCardState extends State<NoticiaCard>
     }
   }
 
+  // ✅ Função para carregar imagem da web ou local automaticamente
+  Widget _buildImagem(String imagem, bool isDark) {
+    if (imagem.startsWith('http')) {
+      // Se for uma URL da internet
+      return Image.network(
+        imagem,
+        height: 160,
+        width: double.infinity,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) => Container(
+          height: 160,
+          color: isDark ? const Color(0xFF2C2C2E) : const Color(0xFFF5F5F5),
+          child: const Center(
+            child: Icon(Icons.image_not_supported,
+                size: 48, color: Colors.grey),
+          ),
+        ),
+      );
+    }
+
+    // Caso contrário, tenta carregar do assets
+    return Image.asset(
+      'assets/images/$imagem',
+      height: 160,
+      width: double.infinity,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) => Container(
+        height: 160,
+        color: isDark ? const Color(0xFF2C2C2E) : const Color(0xFFF5F5F5),
+        child: const Center(
+          child: Icon(Icons.image_not_supported, size: 48, color: Colors.grey),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -94,12 +129,15 @@ class _NoticiaCardState extends State<NoticiaCard>
     final cardColor = isDark ? const Color(0xFF1E1E1E) : Colors.white;
     const primaryColor = Color(0xFF0A2E5C);
     const accentColor = Color(0xFF0A84FF);
-    final secondaryColor = isDark ? const Color(0xFFB0B0B0) : const Color(0xFF4B5563);
-    final borderColor = isDark ? const Color(0xFF3A3A3C) : const Color(0xFFD1D5DB);
+    final secondaryColor =
+        isDark ? const Color(0xFFB0B0B0) : const Color(0xFF4B5563);
+    final borderColor =
+        isDark ? const Color(0xFF3A3A3C) : const Color(0xFFD1D5DB);
 
     final titulo = widget.noticia['titulo'] ?? '';
     final data = widget.noticia['data'] ?? '';
     final categoria = widget.noticia['categoria'] ?? '';
+    final imagem = widget.noticia['imagem']?.trim() ?? 'placeholder.png';
 
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
@@ -134,32 +172,13 @@ class _NoticiaCardState extends State<NoticiaCard>
                     label: 'Imagem da notícia',
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
-                      child: Image.network(
-                        widget.noticia['imagem']?.trim() ?? '',
-                        height: 160,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Container(
-                            height: 160,
-                            color: isDark ? const Color(0xFF2C2C2E) : const Color(0xFFF5F5F5),
-                            child: const Center(child: CircularProgressIndicator()),
-                          );
-                        },
-                        errorBuilder: (context, error, stackTrace) => Container(
-                          height: 160,
-                          color: isDark ? const Color(0xFF2C2C2E) : const Color(0xFFF5F5F5),
-                          child: const Center(
-                            child: Icon(Icons.image_not_supported, size: 48, color: Colors.grey),
-                          ),
-                        ),
-                      ),
+                      child: _buildImagem(imagem, isDark), // ✅ Aqui usamos a função
                     ),
                   ),
                   const SizedBox(height: 12),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: accentColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(8),
@@ -209,7 +228,6 @@ class _NoticiaCardState extends State<NoticiaCard>
                       child: ElevatedButton.icon(
                         onPressed: _abrirLink,
                         icon: const Icon(Icons.open_in_new, size: 16),
-                        // ✅ Texto sem caixa alta — solução compatível
                         label: Text(
                           "Acessar notícia",
                           style: GoogleFonts.poppins(
@@ -220,7 +238,8 @@ class _NoticiaCardState extends State<NoticiaCard>
                         ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF1A4D8F),
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),

@@ -1,4 +1,5 @@
 import 'package:projetotcc/models/usuario_model.dart';
+import 'package:projetotcc/service/usuario_service.dart' hide UsuarioModel;
 
 class DoacaoModel {
   final int? id; // id gerado pelo banco

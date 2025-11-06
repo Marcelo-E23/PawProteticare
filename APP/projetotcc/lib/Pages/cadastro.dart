@@ -19,36 +19,36 @@ class _CadastroState extends State<Cadastro> {
   final _nomeController = TextEditingController();
   final _emailController = TextEditingController();
   final _cpfController = TextEditingController();
-  final _senhaController = TextEditingController();
-  final _confirmarSenhaController = TextEditingController();
-
+  final _passwordController = TextEditingController();
+  final _confirmarpasswordController = TextEditingController();
+  
   final Map<String, FocusNode> _focusNodes = {
     'nome completo': FocusNode(),
     'e-mail': FocusNode(),
     'cpf': FocusNode(),
-    'senha': FocusNode(),
-    'confirmar senha': FocusNode(),
+    'password': FocusNode(),
+    'confirmar password': FocusNode(),
   };
-
-  bool _senhaVisivel = false;
-  bool _confirmarSenhaVisivel = false;
+  
+  bool _passwordVisivel = false;
+  bool _confirmarpasswordVisivel = false;
   bool _aceitaPolitica = false;
   bool _enviando = false;
 
   bool? nomeValidoVisual;
   bool? emailValidoVisual;
   bool? cpfValidoVisual;
-  bool? senhaValidaVisual;
-  bool? confirmarSenhaValida;
+  bool? passwordValidaVisual;
+  bool? confirmarpasswordValida;
 
   final Map<String, bool> _campoTocado = {
     'nome completo': false,
     'e-mail': false,
     'cpf': false,
-    'senha': false,
-    'confirmar senha': false,
+    'password': false,
+    'confirmar password': false,
   };
-
+  
   @override
   void initState() {
     super.initState();
@@ -82,9 +82,9 @@ class _CadastroState extends State<Cadastro> {
     return cpfRegex.hasMatch(value.trim());
   }
 
-  bool senhaForte(String senha) {
+  bool passwordForte(String password) {
     final regex = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}$');
-    return regex.hasMatch(senha);
+    return regex.hasMatch(password);
   }
 
   void atualizarNomeVisual(String valor) {
@@ -105,17 +105,17 @@ class _CadastroState extends State<Cadastro> {
     });
   }
 
-  void atualizarSenhaVisual(String valor) {
+  void atualizarpasswordVisual(String valor) {
     setState(() {
-      senhaValidaVisual = valor.trim().isEmpty ? null : senhaForte(valor);
-      confirmarSenhaValida = valor == _confirmarSenhaController.text;
+      passwordValidaVisual = valor.trim().isEmpty ? null : passwordForte(valor);
+      confirmarpasswordValida = valor == _confirmarpasswordController.text;
     });
   }
 
-  void atualizarConfirmarSenhaVisual(String valor) {
+  void atualizarConfirmarpasswordVisual(String valor) {
     setState(() {
-      confirmarSenhaValida =
-          valor.trim().isEmpty ? null : valor == _senhaController.text;
+      confirmarpasswordValida =
+          valor.trim().isEmpty ? null : valor == _passwordController.text;
     });
   }
 
@@ -124,8 +124,8 @@ class _CadastroState extends State<Cadastro> {
         nomeValidoVisual == true &&
         emailValidoVisual == true &&
         cpfValidoVisual == true &&
-        senhaValidaVisual == true &&
-        confirmarSenhaValida == true &&
+        passwordValidaVisual == true &&
+        confirmarpasswordValida == true &&
         _aceitaPolitica;
   }
 
@@ -138,7 +138,7 @@ class _CadastroState extends State<Cadastro> {
     final sucesso = await loginProvider.cadastrar(
       _nomeController.text.trim(),
       _emailController.text.trim(),
-      _senhaController.text,
+      _passwordController.text,
     );
 
     setState(() => _enviando = false);
@@ -373,21 +373,21 @@ class _CadastroState extends State<Cadastro> {
                           ),
                           const SizedBox(height: 16),
                           _buildTextField(
-                            "Senha",
-                            controller: _senhaController,
-                            obscureText: !_senhaVisivel,
+                            "password",
+                            controller: _passwordController,
+                            obscureText: !_passwordVisivel,
                             hintText: "Mínimo 8 caracteres, com letras, números e símbolos",
-                            valido: senhaValidaVisual,
-                            mensagemFeedbackValido: "✓ Senha forte",
+                            valido: passwordValidaVisual,
+                            mensagemFeedbackValido: "✓ password forte",
                             mensagemFeedbackInvalido: "Use maiúscula, minúscula, número e símbolo",
-                            onChanged: atualizarSenhaVisual,
+                            onChanged: atualizarpasswordVisual,
                             prefixIcon: Icon(Icons.lock_outline, color: iconColor),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                _senhaVisivel ? Icons.visibility : Icons.visibility_off,
+                                _passwordVisivel ? Icons.visibility : Icons.visibility_off,
                                 color: iconColor,
                               ),
-                              onPressed: () => setState(() => _senhaVisivel = !_senhaVisivel),
+                              onPressed: () => setState(() => _passwordVisivel = !_passwordVisivel),
                             ),
                             inputFill: inputFill,
                             textPrimary: textPrimary,
@@ -397,21 +397,21 @@ class _CadastroState extends State<Cadastro> {
                           ),
                           const SizedBox(height: 16),
                           _buildTextField(
-                            "Confirmar senha",
-                            controller: _confirmarSenhaController,
-                            obscureText: !_confirmarSenhaVisivel,
-                            hintText: "Repita a senha",
-                            valido: confirmarSenhaValida,
-                            mensagemFeedbackValido: "✓ Senhas coincidem",
-                            mensagemFeedbackInvalido: "As senhas não são iguais",
-                            onChanged: atualizarConfirmarSenhaVisual,
+                            "Confirmar password",
+                            controller: _confirmarpasswordController,
+                            obscureText: !_confirmarpasswordVisivel,
+                            hintText: "Repita a password",
+                            valido: confirmarpasswordValida,
+                            mensagemFeedbackValido: "✓ passwords coincidem",
+                            mensagemFeedbackInvalido: "As passwords não são iguais",
+                            onChanged: atualizarConfirmarpasswordVisual,
                             prefixIcon: Icon(Icons.lock_outline, color: iconColor),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                _confirmarSenhaVisivel ? Icons.visibility : Icons.visibility_off,
+                                _confirmarpasswordVisivel ? Icons.visibility : Icons.visibility_off,
                                 color: iconColor,
                               ),
-                              onPressed: () => setState(() => _confirmarSenhaVisivel = !_confirmarSenhaVisivel),
+                              onPressed: () => setState(() => _confirmarpasswordVisivel = !_confirmarpasswordVisivel),
                             ),
                             inputFill: inputFill,
                             textPrimary: textPrimary,

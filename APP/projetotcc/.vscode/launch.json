@@ -12,12 +12,12 @@
             "type": "dart"
         },
         {
-            "name": "Flutter Port 8000",
+            "name": "Flutter (Chrome) - Porta 8000",
             "program": "lib/main.dart",
             "deviceId": "chrome",
             "request": "launch",
             "type": "dart",
-            "args": ["--web-port", "8000"],
+            "args": ["--web-port", "8000"]
         }
     ]
 }

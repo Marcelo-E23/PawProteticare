@@ -3,13 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+import 'package:projetotcc/service/usuario_service.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../provider/doacao_provider.dart';
 import '../provider/login_provider.dart';
 import '../models/doacao_model.dart';
-import '../models/usuario_model.dart';
+import '../models/usuario_model.dart' hide UsuarioModel;
 
 class DoacaoPage extends StatefulWidget {
   const DoacaoPage({super.key});
