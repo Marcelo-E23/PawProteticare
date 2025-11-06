@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
-import 'package:projetotcc/Pages/fieb.dart';
+import 'package:projetotcc/Pages/tela_inicial.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:projetotcc/login_provider.dart';
 import 'package:provider/provider.dart';

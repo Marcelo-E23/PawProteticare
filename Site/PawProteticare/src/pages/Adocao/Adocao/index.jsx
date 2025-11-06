@@ -17,8 +17,11 @@ export default function Adocao() {
     // Busca as solicitações de adoção
     const getAdocao = async () => {
         try {
-            const response = await endFetch.get("/solicitacaoadocao");
-            setAdocao(response.data);
+            const response = await endFetch.get("/solicitacao-adocao");
+            const aguardando = response.data.filter(
+                item => item.status?.toUpperCase() === 'SOLICITACAO_EM_ANDAMENTO'
+            );
+          setAdocao(aguardando);
         } catch (error) {
             console.error("Erro ao carregar os dados:", error);
             setErro('Erro ao carregar os dados');
@@ -32,7 +35,7 @@ export default function Adocao() {
     }, []);
 
     const navTelaAdoacao = (id) => {
-        navigate(`/TelaAdoacao/${id}`);
+        navigate(`/TelaAdocao/${id}`);
     };
     
     const navRejeitado = () => {
@@ -59,6 +62,7 @@ export default function Adocao() {
                                 <th>Solicitante</th>
                                 <th>Data</th>
                                 <th>Animal</th>
+                                <th>Status</th>
                                 <th className={style.visualizar}>Visualizar</th>
                             </tr>
                         </thead>
@@ -67,17 +71,18 @@ export default function Adocao() {
                                 <tr key={item.id}>
                                     <td>{item.id}</td>
                                     <td>{item.proprietario ? item.proprietario.nome : 'Não informado'}</td>
-                                    <td>{new Date(item.data_solicitacao).toLocaleDateString()}</td>
-                                    <td>{item.animal ? `${item.animachado.nome}` : 'Não informado'}</td>
+                                    <td>{item.dataSolicitacao ? new Date(item.dataSolicitacao).toLocaleDateString() : 'Não informado'}</td>
+                                    <td>{item.animachado ? item.animachado.nome : 'Não informado'}</td>
+                                    <td>{item.status}</td>
                                     <td className={table.icon} onClick={() => navTelaAdoacao(item.id)}>
-                                        <FcBinoculars size="3rem" />
+                                        <FcBinoculars size="2rem" />
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 )}
-                 <button type="button" className={botao.bred} onClick={navRejeitado}>
+                <button type="button" className={botao.bred} onClick={navRejeitado}>
                     Rejeitados
                 </button>
             </div>

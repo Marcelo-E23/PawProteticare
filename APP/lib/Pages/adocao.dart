@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:projetotcc/Pages/interesse_adocao.dart';
+import 'package:projetotcc/Pages/solicitacao_adocao.dart';
 
 const Color primaryColor = Color(0xFF1A4D8F);
 const Color backgroundLight = Color(0xFFF9FAFB);

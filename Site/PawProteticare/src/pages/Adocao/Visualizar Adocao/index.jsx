@@ -22,7 +22,7 @@ export default function VisualizarAdocao() {
   // 1️⃣ Puxar a solicitação
   const getSolicitacao = async () => {
     try {
-      const res = await endFetch.get(`/solicitacaoadocao/${id}`);
+      const res = await endFetch.get(`/solicitacao-adocao/${id}`);
       setSolicitacao(res.data);
       return res.data;
     } catch (err) {
@@ -78,7 +78,7 @@ export default function VisualizarAdocao() {
     <>
       <Header />
       <div className={styles.visualizar}>
-        <Link to={'/Adocao'}><p className={styles.voltar}>Voltar</p></Link>
+        <Voltar/>
         <h1 className={styles.titulo}>Detalhes da Solicitação de Adoção</h1>
 
         <div className={styles.card}>

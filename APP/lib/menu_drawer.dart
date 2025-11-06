@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:projetotcc/Pages/fieb.dart';
-import 'package:projetotcc/Pages/sobrenos.dart';
+import 'package:projetotcc/Pages/tela_inicial.dart';
+import 'package:projetotcc/Pages/sobre_nos.dart';
 import 'package:projetotcc/theme_provider.dart';
 import 'package:projetotcc/login_provider.dart';
 import 'package:projetotcc/Pages/doacao.dart';

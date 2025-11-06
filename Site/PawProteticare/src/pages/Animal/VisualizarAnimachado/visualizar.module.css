@@ -32,7 +32,7 @@
 .voltar{
     font-size: 5vh;
     margin: 1%;
-    margin-left: 90vh;
+    margin-left: 70vh;
     color: var(--Green);
     transition: all 0.5s;
 }

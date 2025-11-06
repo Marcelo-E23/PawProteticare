@@ -65,9 +65,9 @@ export default function VisualizarAnimachado() {
         <>
             <Header />
             <div className={styles.vizualizar}>
-                <Link to={'/AnimalAchado'}>
-                    <Voltar />
-                </Link>
+                <div className={styles.voltar}>
+                        <Voltar />
+                </div>
                 <h1 className={styles.titulo}>Ficha do Animachado</h1>
 
                 <div className={styles.card}>

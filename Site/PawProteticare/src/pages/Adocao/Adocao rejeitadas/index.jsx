@@ -16,9 +16,9 @@ export default function AdocoesRejeitadas() {
 
     const getAdocoesRejeitadas = async () => {
         try {
-            const response = await endFetch.get("/solicitacaoadocao");
+            const response = await endFetch.get("/solicitacao-adocao");
             const apenasRejeitadas = response.data.filter(
-                item => item.status?.toUpperCase() === 'REJEITADO'
+                item => item.status?.toUpperCase() === 'REPROVADO'
             );
             setAdocoes(apenasRejeitadas);
         } catch (error) {
@@ -44,7 +44,7 @@ export default function AdocoesRejeitadas() {
     return (
         <>
             <Header />
-            <Link to={'/Adocao'}><Voltar/></Link>
+            <Voltar/>
             <div className={table.tabela}>
                 {adocoes.length === 0 ? (
                     <div className={style.semcadastro}>

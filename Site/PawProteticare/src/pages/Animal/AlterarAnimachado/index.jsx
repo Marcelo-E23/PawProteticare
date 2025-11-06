@@ -126,7 +126,7 @@ export default function AlterarAnimachado() {
             <Header />
             <div className={style.login}>
                 <form onSubmit={handleSubmit}>
-                    <Link to={'/AnimalAchado'}><Voltar /></Link>
+                <Voltar />
 
                     <div className={input.input}>
                         <label htmlFor="nome">Nome</label>
@@ -175,7 +175,6 @@ export default function AlterarAnimachado() {
                         >
                             <option value="APTO_PARA_ADOCAO">Apto para adoção</option>
                             <option value="AGUARDANDO_PROTESE">Aguardando prótese</option>
-                            <option value="ADOTADO">Adotado</option>
                             <option value="ANALISE_SITUACAO">Analisando situação</option>
                             <option value="FALECIDO">Falecido</option>
                         </select>

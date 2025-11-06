@@ -1,0 +1,157 @@
+/* Estilo para a página de visualização */
+.vizualizar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--DarkBlue);
+    padding: 5%;
+    width: 100%;
+    max-width: 1200px; /* Limita a largura da tela */
+    margin: 3% auto;
+    border-radius: 1rem;
+}
+
+.titulo {
+    margin-top: 5vh;
+    color: var(--White);
+    font-size: 3rem;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.voltar {
+    font-size: 1.5rem;
+    margin-left: auto;
+    color: var(--Green);
+    transition: all 0.5s;
+}
+
+.voltar:hover {
+    color: var(--White);
+}
+
+/* Estilo do card de informações */
+.card {
+    display: flex;
+    flex-direction: row; /* Coloca os blocos lado a lado */
+    gap: 2rem; /* Espaçamento entre colunas */
+    background-color: var(--Grey);
+    border-radius: 0.5vh;
+    padding: 2rem;
+    width: 100%;
+    max-width: 1000px; /* Largura máxima do card */
+    flex-wrap: wrap; /* Garante que em telas pequenas, os itens não se sobreponham */
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.informacoes {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    font-size: 1.5rem; /* Ajusta o tamanho da fonte */
+    min-width: 20rem; /* Largura mínima de cada coluna */
+    max-width: 45%; /* Controla a largura das colunas */
+}
+
+.informacoes p {
+    margin-bottom: 1rem;
+}
+
+/* Estilo do botão voltar */
+.voltar {
+    font-size: 1.5rem;
+    color: var(--Green);
+    transition: all 0.5s;
+}
+
+.voltar:hover {
+    color: var(--White);
+}
+
+/* Estilo para os botões de aceitar/rejeitar */
+.botoes {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.botoes button {
+    font-size: 1.5rem;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+/* Estilos do botão aceitar/rejeitar */
+.bgreen {
+    background-color: var(--Green);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+}
+
+.bred {
+    background-color: var(--Red);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+}
+
+.bgreen:hover {
+    background-color: darkgreen;
+}
+
+.bred:hover {
+    background-color: darkred;
+}
+
+/* Caixa de confirmação (modal) */
+.confirmacao {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999; /* Garante que fique acima de tudo */
+}
+
+.confirmacao > div {
+    background-color: var(--Grey);
+    padding: 2rem;
+    border-radius: 1rem;
+    text-align: center;
+    width: 80%;
+    max-width: 400px; /* Controla a largura do modal */
+}
+
+.confirmacao button {
+    margin-top: 1rem;
+    padding: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+}
+
+.confirmacao .bgreen {
+    background-color: var(--Green);
+    color: white;
+}
+
+.confirmacao .bred {
+    background-color: var(--Red);
+    color: white;
+}
+
+.confirmacao .bgreen:hover {
+    background-color: darkgreen;
+}
+
+.confirmacao .bred:hover {
+    background-color: darkred;
+}

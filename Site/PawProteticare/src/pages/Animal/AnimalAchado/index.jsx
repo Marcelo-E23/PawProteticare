@@ -13,21 +13,24 @@ export default function Animachado() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+   const getAnimachado = async () => {
+        try {
+            const response = await endFetch.get("/animachado");
+            const naoAdotados = response.data.filter(item => {
+                const status = item.status?.toString().trim().toUpperCase() || '';
+                return status !== 'ADOTADO';
+            });
+            setAnimachado(naoAdotados);
+        } catch (error) {
+            console.error("Erro ao carregar animais:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const getAnimachado = async () => {
-            try {
-                const response = await endFetch.get("/animachado");
-                setAnimachado(response.data)
-                console.log("dados recebidos:", response.data);
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoading(false); 
-            }
-        };
         getAnimachado();
     }, []);
-
     const navCadastro = () => navigate('/CadastroAnimalAchado');
     const navAlterar = (id) => navigate(`/AlterarAnimaLAchado/${id}`);
     const navVisualizar = (id) => navigate(`/VisualizarAnimalAchado/${id}`);

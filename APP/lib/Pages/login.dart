@@ -1,8 +1,12 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:projetotcc/Pages/fieb.dart';
 import 'package:projetotcc/Pages/cadastro.dart';
-import 'package:flutter/gestures.dart';
+import '../services/api_service.dart';
+import '../models/login_model.dart';
+import '../models/authentication_model.dart';
+import 'tela_inicial.dart'; // Troque pelo seu caminho correto
+
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -16,40 +20,80 @@ class _LoginState extends State<Login> {
   final _senhaController = TextEditingController();
 
   bool _obscurePassword = true;
-  bool _isFormValid = false;
   bool _isLoading = false;
+  bool _isFormValid = false;
+
+  final ApiService _apiService = ApiService();
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.addListener(_validateForm);
+    _senhaController.addListener(_validateForm);
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _senhaController.dispose();
+    super.dispose();
+  }
 
   void _validateForm() {
     setState(() {
-      _isFormValid = (_formKey.currentState?.validate() ?? false);
+      _isFormValid = _formKey.currentState?.validate() ?? false;
     });
   }
 
   Future<void> _submit() async {
-    if (!_isFormValid) return;
+    if (!_formKey.currentState!.validate()) return;
 
     setState(() {
       _isLoading = true;
     });
 
-    await Future.delayed(const Duration(milliseconds: 800)); // Simula API
+    try {
+      final request = LoginRequest(
+        email: _emailController.text.trim(),
+        password: _senhaController.text.trim(),
+      );
 
-    if (!mounted) return;
+      AuthenticationResponse authResponse = await _apiService.login(request);
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Login realizado com sucesso!')),
+      );
+
+      // Navegação para a tela principal com fade transition
+      Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+          transitionDuration: const Duration(milliseconds: 300),
+          pageBuilder: (_, __, ___) => const FiebScreen(), // Troque pelo seu widget
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao realizar login: $e')),
+      );
+    } finally {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  void _togglePassword() {
     setState(() {
-      _isLoading = false;
+      _obscurePassword = !_obscurePassword;
     });
-
-    // Transição suave
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        transitionDuration: const Duration(milliseconds: 300),
-        pageBuilder: (_, __, ___) => const FiebScreen(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return FadeTransition(opacity: animation, child: child);
-        },
-      ),
-    );
   }
 
   @override

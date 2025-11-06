@@ -12,46 +12,32 @@ import Voltar from '../../../components/Voltar';
 export default function Animadotado() {
   const [animadotado, setAnimadotado] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // Função que busca os registros e depois os dados completos do animal
+  // Função que busca os registros de animais adotados
   const getAnimadotado = async () => {
     const token = localStorage.getItem('access_token');
     try {
-      // 1️⃣ Pega todos os registros de animadotado
-      const response = await endFetch.get("/animadotado",{
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                             },
-                    });
-      const adotados = response.data;
-
-      // 2️⃣ Para cada registro, busca o animachado correspondente
-      const completos = await Promise.all(
-        adotados.map(async (item) => {
-          if (item.animachado_id) {
-            const animalRes = await endFetch.get(`/animachado/${item.animachado_id}`,{
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                             },
-                    });
-            return { ...item, animachado: animalRes.data };
-          }
-          return item;
-        })
-      );
-
-      // 3️⃣ Atualiza o estado
-      setAnimadotado(completos);
+      setLoading(true);
+      setError('');
+      
+      // Busca todos os animais adotados (o backend deve retornar os dados completos)
+      const response = await endFetch.get("/animadotado", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      console.log('Dados recebidos:', response.data);
+      setAnimadotado(response.data);
+      
     } catch (error) {
       console.error("Erro ao carregar os dados:", error);
+      setError('Erro ao carregar animais adotados');
     } finally {
       setLoading(false);
     }
-  };
-
-  const navAlterar = (id) => {
-    navigate(`/AlterarAnimalAdotado/${id}`);
   };
 
   const navVisualizar = (id) => {
@@ -66,14 +52,24 @@ export default function Animadotado() {
     return <div className={style.carregando}>Carregando...</div>;
   }
 
+  if (error) {
+    return (
+      <>
+        <Header />
+        <Voltar/>
+        <div className={style.erro}>{error}</div>
+      </>
+    );
+  }
+
   return (
     <>
       <Header />
-      <Link to={'/AnimalAchado'}><Voltar/></Link>
+      <Voltar/>
       <div className={table.tabela}>
         {animadotado.length === 0 ? (
           <div className={style.semcadastro}>
-            <p>Sem animais adotados.</p>
+            <p>Nenhum animal adotado encontrado.</p>
           </div>
         ) : (
           <table className="table table-success table-striped-columns">
@@ -84,8 +80,7 @@ export default function Animadotado() {
                 <th>Espécie</th>
                 <th>Idade</th>
                 <th>Status</th>
-                <th>Necessidade de Protése</th>
-                <th className={style.alterar}><p>Alterar</p></th>
+                <th>Necessidade de Prótese</th>
                 <th className={style.visualizar}><p>Visualizar</p></th>
               </tr>
             </thead>
@@ -93,14 +88,11 @@ export default function Animadotado() {
               {animadotado.map((item) => (
                 <tr key={item.id}>
                   <td>{item.id}</td>
-                  <td>{item.animachado?.nome || '-'}</td>
-                  <td>{item.animachado?.especie || '-'}</td>
-                  <td>{item.animachado?.idade || '-'} anos</td>
-                  <td>{item.animachado?.status || '-'}</td>
-                  <td>{item.animachado?.protese || '-'}</td>
-                  <td className={table.icon} onClick={() => navAlterar(item.id)}>
-                    <FcSynchronize size="3rem" />
-                  </td>
+                  <td>{item.animachado?.nome || item.nome || '-'}</td>
+                  <td>{item.animachado?.especie || item.especie || '-'}</td>
+                  <td>{item.animachado?.idade || item.idade || '-'} anos</td>
+                  <td>{item.animachado?.status || item.status || 'Adotado'}</td>
+                  <td>{item.animachado?.protese || item.protese || 'Não'}</td>
                   <td className={table.icon} onClick={() => navVisualizar(item.id)}>
                     <FcBinoculars size="3rem" />
                   </td>

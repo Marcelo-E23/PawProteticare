@@ -56,7 +56,7 @@ export default function AlterarProtese() {
             <Header />
             <div className={style.login}>
                 <form onSubmit={handleSubmit}>
-                    <Link to={'/Protese'}><Voltar /></Link>
+                    <Voltar />
 
                     <Input
                         dado="Nome"

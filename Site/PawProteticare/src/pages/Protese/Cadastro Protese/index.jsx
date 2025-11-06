@@ -37,10 +37,7 @@ export default function CadastroProtese() {
       <Header />
       <div className={style.cadastro}>
         <form onSubmit={handleSubmit}>
-          <Link to={"/Protese"}>
             <Voltar />
-          </Link>
-
           <Input id="Nome" dado="Nome" legenda="Digite o nome da prótese:" tipo="text" valor={nome} change={(e) => setNome(e.target.value)} />
           <Input id="Codigo" dado="Codigo" legenda="Digite o Código da prótese:" tipo="text" valor={codigo} change={(e) => setCodigo(e.target.value)} />
           <Input id="Fabricante" dado="Fabricante" legenda="Digite o fabricante:" tipo="text" valor={fabricante} change={(e) => setFabricante(e.target.value)} />

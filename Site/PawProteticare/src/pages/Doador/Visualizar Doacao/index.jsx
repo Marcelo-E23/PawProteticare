@@ -44,7 +44,7 @@ export default function VisualizarDoacao() {
         <>
             <Header />
             <div className={style.visualizar}>
-                <Link to="/Doacao"><Voltar /></Link>
+                <Voltar />
                 <h1 className={style.titulo}>Detalhes da Doação</h1>
 
                 <div className={style.card}>

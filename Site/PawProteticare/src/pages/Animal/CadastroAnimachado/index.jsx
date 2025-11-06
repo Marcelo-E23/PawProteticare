@@ -56,7 +56,7 @@ const CadastroAnimachado = () => {
       <Header />
       <div className={style.cadastro}>
         <form onSubmit={handleSubmit}>
-          <Link to={'/AnimalAchado'}><Voltar /></Link>
+          <Voltar />
 
           <Input 
             id={"Nome"} 
@@ -97,7 +97,6 @@ const CadastroAnimachado = () => {
               <option value="ANALISE_SITUACAO">Analisando situação</option>
               <option value="APTO_PARA_ADOCAO">Apto para adoção</option>
               <option value="AGUARDANDO_PROTESE">Aguardando prótese</option>
-              <option value="ADOTADO">Adotado</option>
               <option value="FALECIDO">Falecido</option>
             </select>
           </div>

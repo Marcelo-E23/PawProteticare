@@ -22,7 +22,7 @@ class _FiebScreenState extends State<FiebScreen> {
       'url':
           'https://www.otempobetim.com.br/cidades/2025/2/21/animais-deficientes-enfrentam-uma-longa-jornada-ate-a-adocao',
       'imagem':
-          'https://www.otempobetim.com.br/adobe/dynamicmedia/deliver/dm-aid--d9a51e1b-01c1-4e09-bacd-a1a27ec20d86/cidades---betim-betim-ado--o-animal-pets-1740091308.png?quality=90&width=1200&preferwebp=true',
+          'assets/images/jonasid11.png',
       'data': 'Publicado em 21/02/2025',
       'categoria': 'Campanha'
     },
@@ -32,7 +32,7 @@ class _FiebScreenState extends State<FiebScreen> {
       'url':
           'https://g1.globo.com/sp/sorocaba-jundiai/tem-mais-pet/noticia/2025/01/16/adocao-responsavel-garante-vida-digna-a-animais-vitimas-de-maus-tratos-e-abandono-no-interior-de-sp.ghtml',
       'imagem':
-          'https://s2-g1.glbimg.com/XLFWXNOGM2Mm8HxJ4yp06NXAw9E=/0x0:1200x800/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2025/8/f/d66tY4SdyiPM19S0cdbQ/design-sem-nome-3-.jpg',
+          'assets/images/jonasid11.png',
       'data': 'Publicado em 16/01/2025',
       'categoria': 'História'
     },
@@ -41,7 +41,7 @@ class _FiebScreenState extends State<FiebScreen> {
       'url':
           'https://www.cnnbrasil.com.br/nacional/sudeste/sp/80-dos-pets-nos-lares-brasileiros-foram-adotados-indica-pesquisa/',
       'imagem':
-          'https://admin.cnnbrasil.com.br/wp-content/uploads/sites/12/2025/04/CRISTO_ABRACO_FECHADO_01_HORIZONTAL.png?w=849&h=477&crop=0',
+          'assets/images/jonasid11.png',
       'data': 'Publicado em 23/06/2025',
       'categoria': 'Pesquisa'
     },
@@ -51,20 +51,20 @@ class _FiebScreenState extends State<FiebScreen> {
     {
       'nome': 'Instituto Caramelo',
       'descricao': 'Resgate e reabilitação de animais vítimas de maus-tratos.',
-      'logo': 'https://institutocaramelo.org/logo.png',
+      'logo': 'assets/images/jonasid11.png',
       'site': 'https://institutocaramelo.org'
     },
     {
       'nome': 'Ampara Animal',
       'descricao':
           'ONG que sustenta mais de 450 abrigos em meio à crise de abandono animal.',
-      'logo': 'https://amparanimal.org.br/logo.png',
+      'logo': 'assets/images/jonasid11.png',
       'site': 'https://amparanimal.org.br'
     },
     {
       'nome': 'PremieRpet',
       'descricao': 'Marca que promove eventos de adoção e doações para ONGs.',
-      'logo': 'https://www.premierpet.com.br/assets/img/logo.png',
+      'logo': 'assets/images/jonasid11.png',
       'site': 'https://www.premierpet.com.br'
     },
   ];

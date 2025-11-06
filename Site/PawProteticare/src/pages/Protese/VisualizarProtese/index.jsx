@@ -30,7 +30,7 @@ export default function VisualizarProtese() {
             <Header />
             <div className={styles.vizualizar}>
                 <div className={styles.voltar}>  
-                    <Link to={'/Protese'}><Voltar/></Link>
+                    <Voltar/>
                 </div>
                 <h1 className={styles.titulo}>Ficha da Prótese</h1>
                 <div className={styles.card}>

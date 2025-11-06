@@ -1,9 +1,13 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
+
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:brasil_fields/brasil_fields.dart';
-import 'package:projetotcc/Pages/login.dart';
+import '../services/api_service.dart';
+import '../models/cadastro_model.dart';
+import 'login.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({Key? key}) : super(key: key);
@@ -47,6 +51,8 @@ class _CadastroState extends State<Cadastro> {
     'confirmar senha': false,
   };
 
+  final ApiService apiService = ApiService();
+
   @override
   void initState() {
     super.initState();
@@ -61,6 +67,7 @@ class _CadastroState extends State<Cadastro> {
     });
   }
 
+  // ---------------- VALIDADORES ----------------
   bool nomeValido(String nome) {
     final partes = nome.trim().split(' ');
     return partes.length >= 2 &&
@@ -85,6 +92,7 @@ class _CadastroState extends State<Cadastro> {
     return regex.hasMatch(senha);
   }
 
+  // ---------------- ATUALIZAR VISUAL ----------------
   void atualizarNomeVisual(String valor) {
     setState(() {
       nomeValidoVisual = valor.trim().isEmpty ? null : nomeValido(valor);
@@ -117,6 +125,7 @@ class _CadastroState extends State<Cadastro> {
     });
   }
 
+  // ---------------- VALIDAÇÃO FINAL ----------------
   bool camposValidos() {
     return (_formKey.currentState?.validate() ?? false) &&
         nomeValidoVisual == true &&
@@ -127,14 +136,46 @@ class _CadastroState extends State<Cadastro> {
         _aceitaPolitica;
   }
 
+  // ---------------- FUNÇÃO DE CADASTRO ----------------
   void _cadastrar() async {
     if (!camposValidos()) return;
+
     setState(() => _enviando = true);
 
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      
+      final registerRequest = RegisterRequest(
+      nome: _nomeController.text.trim(),
+      cpf: _cpfController.text.trim(),
+      email: _emailController.text.trim(),
+      password: _senhaController.text,
+      role: 'DOADOR',  // certifique que esta string é aceita pelo backend
+      bairro: 'bairro',
+      numeroend: 0,
+      uf: 'uf',
+      complemento: 'complemento',
+      cep: 'cep',
+      logradouro: 'logradouro',
+      telefone: 'telefone',      
+);
+      print(jsonEncode(registerRequest.toJson()));
+      await apiService.register(registerRequest);
 
-    setState(() => _enviando = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Cadastro realizado!')),
+      );
 
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => Login()),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao cadastrar: $e')),
+      );
+    } finally {
+      setState(() => _enviando = false);
+    }
     // ✅ POP-UP DE SUCESSO COM TODAS AS MELHORIAS
     showGeneralDialog(
       context: context,
